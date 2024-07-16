@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import './wigets/indicator.dart';
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+final url = dotenv.env['BASE_URL'];
 class LineChart2 extends StatefulWidget {
   LineChart2({
     required this.tractorId,
@@ -112,7 +114,7 @@ class _LineChartState extends State<LineChart2>{
   };
 
   // Khởi tạo kết nối socket với headers
-   socket = IO.io('http://tractorserver.myddns.me:3001', <String, dynamic>{
+   socket = IO.io(url, <String, dynamic>{
     'transports': ['websocket'],
     'force new connection': true,
     'extraHeaders': extraHeaders,
@@ -154,7 +156,7 @@ class _LineChartState extends State<LineChart2>{
             ),
           ),
         ),
-       const SizedBox(height: 15),
+      
        const Column(
           mainAxisAlignment: MainAxisAlignment.start, // Align at the top of the Column
           crossAxisAlignment: CrossAxisAlignment.center, // Align at the center horizontally

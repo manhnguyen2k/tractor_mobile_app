@@ -1,0 +1,169 @@
+
+
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'Grid_Display.dart';
+import 'Therameter.dart';
+import 'Grid_item1.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'dart:convert';
+import 'dart:developer';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+final url = dotenv.env['BASE_URL'];
+class ListGrid extends StatefulWidget{
+  ListGrid({required this.tractorId, required this.token});
+  final String tractorId;
+  final String token;
+  @override
+  State<StatefulWidget> createState() => _ListGrid();
+}
+class _ListGrid extends State<ListGrid>{
+
+
+late IO.Socket socket;
+ double fuel = 0;
+ int nguon = 0;
+ int chuyen_mach = 0;
+ int den_truoc = 0;
+ int den_sau = 0;
+ int de = 0;
+ double nhiet_do_dong_co = 0;
+ double nhiet_do_binh_dau = 0;
+ double ap_suat = 0;
+ double do_am = 0;
+
+  void connect(IO.Socket socket) async {
+    if (socket.disconnected) {
+      print('before: ${socket.disconnected}');
+
+      socket.onConnect((_) {
+        print('connect11111');
+
+        //socket.emit('msg', 'test');
+      });
+      socket.connect();
+
+      // Wait until the completer is marked as complete
+
+      print('after: ${socket.disconnected}');
+      socket.on(widget.tractorId, (data) {
+        log('onnnnn');
+        // print('---------------------------mount Chart update');
+        //  print('tttttttttttttttt');
+        final Map<String, dynamic> b = jsonDecode(data['logs']);
+        final _nguon= b['ctr_oly'][0];
+        final _de =  b['ctr_oly'][1];
+        final _chuyenmach =  b['ctr_oly'][2];
+        final _den_truoc =  b['ctr_oly'][3];
+        final _den_sau =  b['ctr_oly'][4];
+        final _ap_suat =  b['sen'][9];
+        final _nhiet_do_dong_co =  b['sen'][7];
+         final _nhiet_do_nhien_lieu =  b['sen'][6];
+         setState(() {
+           nguon = _nguon.toInt();
+           chuyen_mach = _chuyenmach.toInt();
+           de = _de.toInt();
+           den_sau= _den_truoc.toInt();
+           den_sau = _den_sau.toInt();
+           ap_suat = _ap_suat.toDouble();
+           nhiet_do_binh_dau = _nhiet_do_nhien_lieu.toDouble();
+           nhiet_do_dong_co = _nhiet_do_dong_co.toDouble();
+         });
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    Map<String, String> extraHeaders = {'token': widget.token};
+
+    // Khởi tạo kết nối socket với headers
+    socket = IO.io(url, <String, dynamic>{
+      'transports': ['websocket'],
+      'force new connection': true,
+      'extraHeaders': extraHeaders,
+    });
+
+    connect(socket);
+  }
+
+  @override
+  void dispose() {
+    print('---------------------------UNmount CHarT');
+    // socket.off('64d9cdfac48bca2dd296ad1d'); // Dispose the socket connection
+
+    socket.onDisconnect((_) {
+      print('DisConnected to the socket server');
+    });
+    socket.disconnect();
+
+    socket.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return(
+      Container(
+        child: LayoutBuilder(
+            builder: (context, constraints) {
+              // Adjust the size of the Container based on the parent constraints
+              double width = constraints.maxWidth;
+              double height = constraints.maxHeight;
+              double item_width = width*0.3;
+              double item_height = height*0.3;
+              return Container(
+                width: width,
+                height: height,
+                child:  Padding(
+        padding: const EdgeInsets.all( 10),
+        child: Column(
+                  children: [
+                    Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                         GridItem(width: item_width, height: item_height,title: 'Nguồn', value: nguon,icon: Icons.settings_power_outlined,),  
+                        GridItem(width: item_width, height: item_height,title: 'Chuyển nguồn', value: chuyen_mach,icon:  Icons.cached_sharp,), 
+                        
+                        GridItem(width: item_width, height: item_height,title: 'Đề', value: de,icon: Icons.flash_on_sharp,), 
+                       
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                  Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GridItem(width: item_width, height: item_height,title: 'Đèn trước', value: den_truoc,icon: Icons.light,),
+                         GridItem(width: item_width, height: item_height,title: 'Đèn sau', value: den_sau,icon: Icons.light,),  
+                        GridItem1(title: 'Nhiệt độ động cơ', width: item_width, height: item_height, value: nhiet_do_dong_co, icon: Icons.thermostat_outlined)
+                        
+                       
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        
+                        GridItem1(title: 'Nhiệt độ bình dầu', width: item_width, height: item_height, value: nhiet_do_binh_dau, icon: Icons.thermostat_outlined),
+                        GridItem1(title: 'Áp suất', width: item_width, height: item_height, value: ap_suat, icon: Icons.thermostat_outlined),
+                        GridItem1(title: 'Độ ẩm', width: item_width, height: item_height, value: do_am, icon: Icons.water_drop_outlined)
+                        
+                       
+                      ],
+                    )
+                ],
+                ) ,)
+                
+              );
+            },
+          ),
+      )
+    );
+    throw UnimplementedError();
+  }
+}

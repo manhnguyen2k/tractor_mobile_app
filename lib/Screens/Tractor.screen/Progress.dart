@@ -11,7 +11,7 @@ class Progress extends StatefulWidget{
 class _ProgressState extends State<Progress>{
   @override
   Widget build(BuildContext context) {
-    log(widget.progress.toString());
+   // log(widget.progress.toString());
     // TODO: implement buildretu
     return Container(
    

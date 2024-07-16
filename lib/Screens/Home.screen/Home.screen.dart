@@ -2,7 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:tractorapp/values/app_colors.dart';
+import 'package:tractorapp/values/app_strings.dart';
 import '../Tractor.screen/List_tractor.dart';
+import '../Map.screen/Map.dart';
+import 'Home.dart';
+import '../Profile.screen/Profile.dart';
+import 'dart:developer';
 class AnimatedBarExample extends StatefulWidget {
   const AnimatedBarExample({super.key});
 
@@ -12,114 +17,102 @@ class AnimatedBarExample extends StatefulWidget {
 
 class _AnimatedBarExampleState extends State<AnimatedBarExample> {
   int selected = 0;
-  bool heart = false;
-  final controller = PageController();
+  bool isSetcenterMap = false;
+  String _selected_center = 'None';
+  void _changeCenterMapTab(String selected_center) {
+log(selected_center);
+    setState(() {
+       isSetcenterMap = true;
+    _selected_center = selected_center;
+      selected = 2;
+     
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+    });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true, //to make floating action button notch transparent
-
-      //to avoid the floating action button overlapping behavior,
-      // when a soft keyboard is displayed
-      // resizeToAvoidBottomInset: false,
+      extendBody: true,
 
       bottomNavigationBar: StylishBottomBar(
-        // option: AnimatedBarOptions(
-        //   // iconSize: 32,
-        //   barAnimation: BarAnimation.blink,
-        //   iconStyle: IconStyle.animated,
-
-        //   // opacity: 0.3,
-        // ),\
-        backgroundColor:AppColors.darkBlue,
-       
+        backgroundColor: AppColors.darkBlue,
         option: DotBarOptions(
-          
           dotStyle: DotStyle.tile,
-          gradient: const LinearGradient(
-            colors: [
-              Colors.deepPurple,
-              Colors.pink,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          inkColor: AppColors.primaryColor
         ),
         items: [
           BottomBarItem(
             icon: const Icon(
-              Icons.house_outlined,
+              Icons.home_outlined,
             ),
             selectedIcon: const Icon(Icons.house_rounded),
             selectedColor: AppColors.primaryColor,
             unSelectedColor: Colors.grey,
-            title: const Text('Home'),
-           // badge: const Text('9+'),
-           // showBadge: true,
-           // badgeColor: Colors.purple,
-           // badgePadding: const EdgeInsets.only(left: 4, right: 4),
+            title: const Text(AppStrings.BottombarHome),
           ),
           BottomBarItem(
-            icon: const Icon(Icons.star_border_rounded),
-            selectedIcon: const Icon(Icons.star_rounded),
-            selectedColor:AppColors.primaryColor,
-            // unSelectedColor: Colors.purple,
-            // backgroundColor: Colors.orange,
-            title: const Text('Star'),
+            icon: const ImageIcon(
+              AssetImage('assets/image/tractor-icon.png'),
+            ),
+            selectedIcon: const ImageIcon(
+              AssetImage('assets/image/tractor-icon.png'),
+            ),
+            selectedColor: AppColors.primaryColor,
+            title: const Text(AppStrings.BottombarTractor),
           ),
           BottomBarItem(
-              icon: const Icon(
-                Icons.style_outlined,
-              ),
-              selectedIcon: const Icon(
-                Icons.style,
-              ),
-              selectedColor: AppColors.primaryColor,
-              title: const Text('Style')),
+            icon: const Icon(
+              Icons.map_outlined,
+            ),
+            selectedIcon: const Icon(
+              Icons.map,
+            ),
+            selectedColor: AppColors.primaryColor,
+            title: const Text(AppStrings.BottombarMap),
+          ),
           BottomBarItem(
-              icon: const Icon(
-                Icons.person_outline,
-              ),
-              selectedIcon: const Icon(
-                Icons.person,
-              ),
-              selectedColor:AppColors.primaryColor,
-              title: const Text('Profile')),
+            icon: const Icon(
+              Icons.person_outline,
+            ),
+            selectedIcon: const Icon(
+              Icons.person,
+            ),
+            selectedColor: AppColors.primaryColor,
+            title: const Text(AppStrings.BottombarProfile),
+          ),
         ],
         hasNotch: true,
-       // fabLocation: StylishBarFabLocation.end,
         currentIndex: selected,
         notchStyle: NotchStyle.square,
         onTap: (index) {
-          if (index == selected) return;
-          controller.jumpToPage(index);
           setState(() {
             selected = index;
           });
         },
       ),
-     
+
       body: SafeArea(
-        child: PageView(
-          controller: controller,
-          children:  [
-          ListTractor(),
-            Center(child: Text('Star')),
-            Center(child: Text('Style')),
-            Center(child: Text('Profile')),
+        child: Stack(
+          children: [
+            Offstage(
+              offstage: selected != 0,
+              child: Home(),
+            ),
+            Offstage(
+              offstage: selected != 1,
+              child: ListTractor(onTabChange: _changeCenterMapTab,),
+            ),
+            Offstage(
+              offstage: selected != 2,
+              child:  MapScreen(center:  _selected_center, onTabChange: _changeCenterMapTab, ),
+            ),
+            Offstage(
+              offstage: selected != 3,
+              child:  ProfileScreen(),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-//
-//Example to setup Bubble Bottom Bar with PageView

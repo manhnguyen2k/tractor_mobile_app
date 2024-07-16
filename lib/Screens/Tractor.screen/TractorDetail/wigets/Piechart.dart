@@ -5,6 +5,8 @@ import './indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+final url = dotenv.env['BASE_URL'];
 class PieChartSample2 extends StatefulWidget {
  // const PieChartSample2({super.key});
   PieChartSample2({
@@ -81,7 +83,7 @@ class PieChart2State extends State<PieChartSample2> {
   };
 
   // Khởi tạo kết nối socket với headers
-   socket = IO.io('http://tractorserver.myddns.me:3001', <String, dynamic>{
+   socket = IO.io(url, <String, dynamic>{
     'transports': ['websocket'],
     'force new connection': true,
     'extraHeaders': extraHeaders,
@@ -145,7 +147,7 @@ class PieChart2State extends State<PieChartSample2> {
                 color: widget.item1_color?? Colors.blue,
                 text: widget.item1_name ??'Quãng đường đã đi',
                 isSquare: true,
-                width: 150,
+                width: 137,
                 fontsize: 12,
               ),
           const   SizedBox(
@@ -156,7 +158,7 @@ class PieChart2State extends State<PieChartSample2> {
                 color: widget.item2_color??Colors.green,
                 text: widget.item2_name ??'Quãng đường còn lại',
                 isSquare: true,
-                width: 150,
+                width: 137,
                 fontsize: 12,
               ),
             

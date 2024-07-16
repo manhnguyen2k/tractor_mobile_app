@@ -6,7 +6,9 @@ import 'Screens/Home.screen/Home.screen.dart';
 import 'utils/common_widgets/invalid_route.dart';
 import 'values/app_routes.dart';
 import 'Screens/Tractor.screen/TractorDetail/index.dart';
-
+import 'Screens/Profile.screen/Setting.screen.dart';
+import 'Screens/Profile.screen/ManageAccount.dart';
+import 'Screens/Profile.screen/InfomationScreen.dart';
 class Routes {
   const Routes._();
 
@@ -31,7 +33,13 @@ class Routes {
 
         case AppRoutes.home:
         return getRoute(widget: const AnimatedBarExample());
-       
+
+        case AppRoutes.setting:
+        return getRoute(widget:  SettingScreen());
+          case AppRoutes.manageaccount:
+        return getRoute(widget:  ManageAccount());
+       case AppRoutes.info:
+        return getRoute(widget:  Infomation());
       /// An invalid route. User shouldn't see this,
       /// it's for debugging purpose only.
       default:

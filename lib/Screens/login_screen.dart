@@ -14,6 +14,7 @@ import '../values/app_theme.dart';
 import '../service/Auth.service/Auth.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'dart:developer';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -60,6 +61,8 @@ _sprefs.then((prefs) {
   // ...
   prefs.setString('accesstoken', userData['accessToken']);
   prefs.setString('uid', userData['_id']);
+  prefs.setBool('isLogin',true);
+  log('done');
     NavigationHelper.pushReplacementNamed(
                                 AppRoutes.home,
                               );
@@ -240,9 +243,11 @@ onError: (error) {
               ),
               const SizedBox(width: 4),
               TextButton(
-               onPressed: null,
-                child: const Text(AppStrings.register),
-              ),
+                    onPressed: () { NavigationHelper.pushReplacementNamed(
+                                AppRoutes.register,
+                              );},
+                    child: const Text(AppStrings.register),
+                  ),
             ],
           ),
         ],

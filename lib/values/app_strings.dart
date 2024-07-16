@@ -3,38 +3,58 @@ class AppStrings {
 
   static const String loginAndRegister = 'Login and Register UI';
   static const String uhOhPageNotFound = 'uh-oh!\nPage not found';
-  static const String register = 'Register';
-  static const String login = 'Login';
-  static const String createYourAccount = 'Create your account';
-  static const String doNotHaveAnAccount = "Don't have an account?";
+  static const String register = 'Đăng kí';
+  static const String login = 'Đăng nhập';
+  static const String logout = 'Đăng xuất';
+  static const String createYourAccount = 'Tạo tài khoản';
+  static const String doNotHaveAnAccount = "Bạn chưa có tài khoản?";
   static const String facebook = 'Facebook';
   static const String google = 'Google';
-  static const String signInToYourNAccount = 'Sign in to your\nAccount';
-  static const String signInToYourAccount = 'Sign in to your Account';
-  static const String iHaveAnAccount = 'I have an account?';
-  static const String forgotPassword = 'Forgot Password?';
-  static const String orLoginWith = 'or Login with';
+  static const String signInToYourNAccount = 'Đăng nhập vào tài khoản của bạn';
+  static const String signInToYourAccount = 'Đăng nhập';
+  static const String iHaveAnAccount = 'Tôi đã có tài khoản?';
+  static const String forgotPassword = 'Quên mật khẩu?';
+  static const String orLoginWith = 'Đăng nhập với';
 
-  static const String loggedIn = 'Logged In!';
-  static const String registrationComplete = 'Registration Complete!';
+  static const String loggedIn = 'Đăng nhập thành công!';
+  static const String registrationComplete = 'Đăng kí thành công!';
 
-  static const String name = 'Name';
-  static const String pleaseEnterName = 'Please, Enter Name';
-  static const String invalidName = 'Invalid Name';
+  static const String name = 'Tên';
+  static const String pleaseEnterName = 'Vui lòng nhập tên!';
+  static const String invalidName = 'Tên không hợp lệ';
 
-static const String username = 'Username';
-  static const String pleaseEnterUsername = 'Please, Enter Username';
-  static const String invalidUsername = 'Invalid Username';
+  static const String username = 'Tên đăng nhập';
+  static const String pleaseEnterUsername = 'Vui lòng nhập tên đăng nhập!';
+  static const String invalidUsername = 'Tên đăng nhập không hợp lệ!';
 
   static const String email = 'Email';
-  static const String pleaseEnterEmailAddress = 'Please, Enter Email Address';
-  static const String invalidEmailAddress = 'Invalid Email Address';
+  static const String pleaseEnterEmailAddress = 'Vui lòng nhập email!';
+  static const String invalidEmailAddress = 'Email không hợp lệ!';
 
-  static const String password = 'Password';
-  static const String pleaseEnterPassword = 'Please, Enter Password';
-  static const String invalidPassword = 'Invalid Password';
+  static const String password = 'Mật khẩu';
+  static const String pleaseEnterPassword = 'Vui lòng nhập mật khẩu';
+  static const String invalidPassword = 'Mật khẩu không hợp lệ!';
 
-  static const String confirmPassword = 'Confirm Password';
-  static const String pleaseReEnterPassword = 'Please, Re-Enter Password';
-  static const String passwordNotMatched = 'Password not matched!';
+  static const String confirmPassword = 'Xác nhận mật khẩu';
+  static const String pleaseReEnterPassword = 'Xin nhập lại mật khẩu!';
+  static const String passwordNotMatched = 'Mật khẩu không giống nhau!';
+
+  static const String homeTitleAppbarr = 'Trang chủ';
+  static const String tractorTitleAppbarr = 'Máy cày đang online';
+  static const String mapTitleAppbarr = 'Bản đồ';
+
+  static const String ProfileTitle = 'Tài khoản';
+  static const String ProfileSetting = 'Cài đặt';
+  static const String ProfileUser = 'Quản lí tài khoản';
+  static const String ProfileInfomation = 'Thông tin';
+
+  static const String BottombarHome = 'Trang chủ';
+  static const String BottombarTractor = 'Máy cày';
+  static const String BottombarMap = 'Bản đồ';
+  static const String BottombarProfile = 'Tài khoản';
+
+   static const String SettingTitle = 'Cài đặt';
+   static const String AccountManageTitle = 'Quản lí tài khoản';
+    static const String InfomationTitle = 'Thông tin';
+   
 }

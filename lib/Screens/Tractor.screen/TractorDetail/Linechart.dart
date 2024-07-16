@@ -4,7 +4,9 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import './wigets/indicator.dart';
 import 'dart:convert';
 import 'dart:async';
-
+import 'dart:developer';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+final url = dotenv.env['BASE_URL'];
 final int maxLength = 30;
 
 class LineChart1 extends StatefulWidget {
@@ -108,7 +110,7 @@ class _LineChartSample2State extends State<LineChart1> {
   };
 
   // Khởi tạo kết nối socket với headers
-   socket = IO.io('http://tractorserver.myddns.me:3001', <String, dynamic>{
+   socket = IO.io(url, <String, dynamic>{
     'transports': ['websocket'],
     'force new connection': true,
     'extraHeaders': extraHeaders,
@@ -134,7 +136,7 @@ class _LineChartSample2State extends State<LineChart1> {
 */
   @override
   void dispose() {
-    print('---------------------------UNmount CHarT');
+    log('---------------------------UNmount CHarT');
     // socket.off('64d9cdfac48bca2dd296ad1d'); // Dispose the socket connection
    
    socket.onDisconnect( (_) {

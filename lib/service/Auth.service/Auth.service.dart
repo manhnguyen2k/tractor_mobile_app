@@ -2,9 +2,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart';
+ final String baseUrl = dotenv.env['BASE_URL'] ??''; // Thay thế bằng base URL của bạn
+  
 class AuthService {
-  static final String baseUrl = dotenv.env['BASE_URL'] ??''; // Thay thế bằng base URL của bạn
-
+  
   static Future<http.Response> logIn(String username, String password) async {
     // Dữ liệu gửi đi
     Map<String, String> data = {
@@ -19,6 +20,7 @@ class AuthService {
 
     // Gửi yêu cầu HTTP POST
     try {
+      print(baseUrl);
       final response = await http.post(
         Uri.parse('$baseUrl/api/v1/auth/login'),
         headers: headers,

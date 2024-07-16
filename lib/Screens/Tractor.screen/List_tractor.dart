@@ -7,28 +7,19 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../values/app_strings.dart';
 
-final list = [
-  'tractor1',
-  'tractor2',
-  'tractor3',
-  'tractor4',
-  'tractor5',
-  'tractor6',
-  'tractor7',
-  'tractor8',
-  'tractor9',
-  'tractor10',
-  'tractor11'
-];
 final url = dotenv.env['BASE_URL'];
 
 class ListTractor extends StatefulWidget {
+   final Function(String) onTabChange;
+
+  const ListTractor({Key? key, required this.onTabChange}) : super(key: key);
   @override
   State<ListTractor> createState() => _ListTractorState();
 }
 
-class _ListTractorState extends State<ListTractor> {
+class _ListTractorState extends State<ListTractor>  {
   //final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   String _token = '';
 
@@ -38,9 +29,9 @@ class _ListTractorState extends State<ListTractor> {
      Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
       _sprefs.then((prefs) {
         // ...
-        log('wwwwwwww');
+       // log('wwwwwwww');
        token = prefs.getString('accesstoken') ?? '';
-        log('token:$token');
+       // log('token:$token');
       
       }, );
   } catch (error) {
@@ -57,7 +48,7 @@ class _ListTractorState extends State<ListTractor> {
     print('eeeeeeeeeeeeee');
     if (socket.disconnected) {
       socket.connect();
-      log('onnnnn');
+     // log('onnnnn');
       // Wait until the completer is marked as complete
 
       socket.on('online-tractor', (data) {
@@ -85,17 +76,17 @@ class _ListTractorState extends State<ListTractor> {
     Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
       _sprefs.then((prefs) {
         // ...
-        log('wwwwwwww');
+       // log('wwwwwwww');
       String token = prefs.getString('accesstoken') ?? '';
       setState(() {
         _token = token;
       });
-        log('token:$token');
+     //   log('token:$token');
        Map<String, String> extraHeaders = {
       'token': token,
       
     };
-     socket = IO.io('http://tractorserver.myddns.me:3001', <String, dynamic>{
+     socket = IO.io(url, <String, dynamic>{
       'transports': ['websocket'],
       'force new connection': true,
       'extraHeaders': extraHeaders,
@@ -103,8 +94,6 @@ class _ListTractorState extends State<ListTractor> {
 
     connect(socket);
       }, );
-   
-  //  log('hello${extraHeaders['token'] ?? 'null'}');
 
    
   }
@@ -124,16 +113,18 @@ class _ListTractorState extends State<ListTractor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: AppColors.darkBlue,
-        title: Text(
-          'Máy cày đang online:',
+        title: const Text(
+         AppStrings.tractorTitleAppbarr,
           style: TextStyle(
               color: Colors.grey, // Set the text color here
               fontSize: 24.0, // Set the font size here
               fontWeight: FontWeight.normal),
         ),
       ),
+      backgroundColor: AppColors.bodyColor,
       body: ListView.builder(
         itemCount: online_tractor.length,
         itemBuilder: (context, index) {
@@ -141,18 +132,32 @@ class _ListTractorState extends State<ListTractor> {
             padding: const EdgeInsets.all(
                 5.0), // Increase vertical padding for more spacing
             child: Container(
-              height: 100,
+               constraints: const BoxConstraints(
+                minHeight: 100.0, // Chiều cao tối thiểu là 100 đơn vị
+     // Chiều rộng tối thiểu là 200 đơn vị
+  ),
+             // height: 100,
               decoration: BoxDecoration(
+                color: Colors.white,
                 border: Border.all(
-                  color: Colors.grey, // Border color
-                  width: 1.0, // Border width
+                  color: Colors.white, // Border color
+                  width: 0.0, // Border width
                 ),
                 borderRadius: BorderRadius.circular(
-                    8.0), // Optional: to give rounded corners
+                    15.0),
+                     boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3), // Màu của bóng đổ
+            spreadRadius: 1, // Độ rộng bóng đổ
+            blurRadius: 5, // Độ mờ của bóng đổ
+            offset: Offset(0, 3), // Vị trí bóng đổ (x, y)
+          ),
+        ], // Optional: to give rounded corners
               ),
               child: Tractor_line(
                 tractorId: online_tractor[index],
                 token: _token,
+                onTabChange: widget.onTabChange,
               ),
             ),
           );

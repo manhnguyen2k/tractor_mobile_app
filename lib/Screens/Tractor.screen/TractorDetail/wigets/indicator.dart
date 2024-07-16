@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../../../values/app_colors.dart';
 class Indicator extends StatelessWidget {
   const Indicator({
     super.key,
@@ -8,7 +8,7 @@ class Indicator extends StatelessWidget {
     required this.isSquare,
     required this.width,
     this.size = 16,
-    this.textColor = Colors.black,
+    this.textColor = AppColors.textColor,
     this.fontsize,
   });
   final Color color;
