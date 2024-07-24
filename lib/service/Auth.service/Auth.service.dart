@@ -26,7 +26,7 @@ class AuthService {
         headers: headers,
         body: jsonEncode(data),
       );
-  debugPrint('1111111111111111111');
+
       return response;
     } catch (e) {
       throw Exception('Failed to login: $e');

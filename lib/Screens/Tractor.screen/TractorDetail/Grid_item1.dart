@@ -32,11 +32,11 @@ class GridItem1 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center, // Center vertically
       crossAxisAlignment: CrossAxisAlignment.center, // Center horizontally
           children: [
-          Text(title, style: TextStyle( color:Colors.white, fontWeight: FontWeight.bold  ),),
-          SizedBox(height: 10,),
+          Text(title, style:const  TextStyle( color:Colors.white, fontWeight: FontWeight.bold  ),),
+        const   SizedBox(height: 10,),
           Icon(icon, color: Colors.white,size: 30,),
-          SizedBox(height: 10,),
-          Text(value.toString(),style:  TextStyle( color:Colors.white, fontWeight: FontWeight.bold))
+        const   SizedBox(height: 10,),
+          Text(value.toString(),style: const  TextStyle( color:Colors.white, fontWeight: FontWeight.bold))
          ],) ,) 
         );
       

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:developer';
-import 'package:mqtt_client/mqtt_client.dart';
 import '../../service/MQTT.service/mqtt.service.dart';
 import 'TractorDetail/index.dart';
-import '../../values/app_theme.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 final topic = dotenv.env['MQTT_CHANNEL']??'';
 enum Trang_thai_may_cay {
@@ -63,7 +61,7 @@ class ControlTractor extends StatefulWidget {
   final String tractorId;
   final String? tractorName;
   final String token;
-  final Function(String) onTabChange;
+  final Function(String, int) onTabChange;
   @override
   State<ControlTractor> createState() => _StateControlTractor();
 }
@@ -118,47 +116,38 @@ void initState(){
 }
   void Xu_ly_input(int loai_input, value) {
     if (loai_input == input_trangthaimay) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         trang_thai_may_cay = value;
       });
     } else if (loai_input == input_maxrpm) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         trang_thai_max_rpm = value;
       });
     } else if (loai_input == input_minrpm) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         trang_thai_min_rpm = value;
       });
     } else if (loai_input == input_socang) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         trang_thai_so_cang = value;
       });
     } else if (loai_input == input_tamde) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         trang_thai_tam_de = value;
       });
     } else if (loai_input == input_trangthaiden) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         trang_thai_den = value;
       });
     } else if (loai_input == input_trangthaisophu) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         trang_thai_so_phu = value;
       });
     } else if (loai_input == input_reseterr) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         reset_err = value;
       });
     } else if (loai_input == input_donghieng) {
-      log('aaaaaaaaaaaaaaaaaaaaaaaaaaa$value');
       setState(() {
         do_nghieng = value;
       });
@@ -191,10 +180,6 @@ void initState(){
               width: 120,
               initialSelection: Trang_thai_may_cay._pause,
               controller: trang_thai_may_cay_controller,
-              // requestFocusOnTap is enabled/disabled by platforms when it is null.
-              // On mobile platforms, this is false by default. Setting this to true will
-              // trigger focus request on the text field and virtual keyboard will appear
-              // afterward. On desktop platforms however, this defaults to true.
               requestFocusOnTap: true,
               label: const Text('Trạng thái'),
               onSelected: (Trang_thai_may_cay? trangthai) {
@@ -208,7 +193,6 @@ void initState(){
                 return DropdownMenuEntry<Trang_thai_may_cay>(
                   value: trangthai,
                   label: trangthai.label,
-                  //enabled: trangthai.label != 'Grey',
                 );
               }).toList(),
             ),
@@ -339,10 +323,6 @@ void initState(){
               width: 120,
               initialSelection: Trang_thai_den._off,
               controller: trang_thai_den_controller,
-              // requestFocusOnTap is enabled/disabled by platforms when it is null.
-              // On mobile platforms, this is false by default. Setting this to true will
-              // trigger focus request on the text field and virtual keyboard will appear
-              // afterward. On desktop platforms however, this defaults to true.
               requestFocusOnTap: true,
               label: const Text('Đèn'),
               onSelected: (Trang_thai_den? trangthai) {
@@ -354,7 +334,6 @@ void initState(){
                 return DropdownMenuEntry<Trang_thai_den>(
                   value: trangthai,
                   label: trangthai.label,
-                  //enabled: trangthai.label != 'Grey',
                 );
               }).toList(),
             ),
@@ -370,10 +349,6 @@ void initState(){
               width: 120,
               initialSelection: Trang_thai_so_phu._no,
               controller: trang_thai_so_phu_controller,
-              // requestFocusOnTap is enabled/disabled by platforms when it is null.
-              // On mobile platforms, this is false by default. Setting this to true will
-              // trigger focus request on the text field and virtual keyboard will appear
-              // afterward. On desktop platforms however, this defaults to true.
               requestFocusOnTap: true,
               label: const Text('Số phụ'),
               onSelected: (Trang_thai_so_phu? trangthai) {
@@ -393,10 +368,6 @@ void initState(){
               width: 120,
               initialSelection: Reset_err._no,
               controller: reset_err_controller,
-              // requestFocusOnTap is enabled/disabled by platforms when it is null.
-              // On mobile platforms, this is false by default. Setting this to true will
-              // trigger focus request on the text field and virtual keyboard will appear
-              // afterward. On desktop platforms however, this defaults to true.
               requestFocusOnTap: true,
               label: const Text('Reset Error'),
               onSelected: (Reset_err? trangthai) {
@@ -407,7 +378,6 @@ void initState(){
                 return DropdownMenuEntry<Reset_err>(
                   value: trangthai,
                   label: trangthai.label,
-                  //enabled: trangthai.label != 'Grey',
                 );
               }).toList(),
             ),
@@ -415,10 +385,6 @@ void initState(){
               width: 120,
               initialSelection: Do_nghieng._no,
               controller: do_nghieng_controller,
-              // requestFocusOnTap is enabled/disabled by platforms when it is null.
-              // On mobile platforms, this is false by default. Setting this to true will
-              // trigger focus request on the text field and virtual keyboard will appear
-              // afterward. On desktop platforms however, this defaults to true.
               requestFocusOnTap: true,
               label: const Text('Độ nghiêng'),
               onSelected: (Do_nghieng? trangthai) {
@@ -443,9 +409,7 @@ void initState(){
           children: [
               SizedBox(width: 160,
               child: FilledButton(
-                    
-                    onPressed: () { 
-
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -458,16 +422,14 @@ void initState(){
                     },
                     child: const Text('Xem chi tiết', style: TextStyle(fontSize: 14),),
                   ), ),
-                  SizedBox(width: 20,),
+                  const SizedBox(width: 20,),
                   SizedBox(width: 160,
                   child:  FilledButton(
                     onPressed: () { 
-                          widget.onTabChange(widget.tractorName ?? 'None');
+                          widget.onTabChange(widget.tractorName ?? 'None', 1);
                     },
                     child: const Text('Xem trên bản đồ',style: TextStyle(fontSize: 14)),
                   ) ,)
-                
-
           ],
         )
       ],

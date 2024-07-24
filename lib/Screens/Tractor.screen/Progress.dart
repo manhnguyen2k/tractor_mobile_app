@@ -20,7 +20,7 @@ class _ProgressState extends State<Progress>{
               //  width: 140.0,
                 lineHeight: 14.0,
                 barRadius: Radius.circular(3),
-                percent: 0.5,
+                percent: widget.progress/100,
                 backgroundColor: Colors.grey,
                 progressColor: AppColors.primaryColor,
               ),

@@ -9,7 +9,7 @@ import './TractorDetail/index.dart';
 import 'Control_tractor.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import 'dart:ui';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/services.dart';
@@ -20,11 +20,12 @@ class Tractor_line extends StatefulWidget {
   Tractor_line(
       {required this.tractorId,
       required this.token,
-      required this.onTabChange});
+      required this.onTabChange,
+      required this.isOnline});
   final String tractorId;
   final String token;
-  final Function(String) onTabChange;
-
+  final Function(String, int) onTabChange;
+  final bool isOnline;
   @override
   State<Tractor_line> createState() => _Tractor_lineState();
 }
@@ -139,110 +140,148 @@ class _Tractor_lineState extends State<Tractor_line> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(
-          10.0,
-        ), // Add vertical padding for spacing
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
+    return Stack(
+      children: [
+        Padding(
+            padding: const EdgeInsets.all(
+              10.0,
+            ), // Add vertical padding for spacing
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: 70,
-                  width: 60,
-                  child: Column(
-                    children: [Icontractor(), Text(tractorname ?? 'Tractor')],
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Container(
-                    width: 70,
-                    height: 70,
-                    child: Column(
-                      children: [
-                        Progress(
-                          progress: progress,
-                        ),
-                        Text('Tiến độ')
-                      ],
-                    )),
-                const SizedBox(
-                  width: 13,
-                ),
-                Container(
-                    width: 70,
-                    height: 70,
-                    child: Column(
-                      children: [
-                        Fueldisplay(
-                          fuelvalue: feulpercent,
-                        ),
-                        Text('Nhiên liệu')
-                      ],
-                    )),
-                const SizedBox(width: 10),
-                Container(
-                  width: 50,
-                  height: 70,
-                  child: Column(
-                    //  crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Battery(
-                        percent: percent,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 70,
+                      width: 60,
+                      child: Column(
+                        children: [
+                          Icontractor(),
+                          Text(tractorname ?? 'Tractor')
+                        ],
                       ),
-                      SizedBox(
-                        height: 10,
+                    ),
+                    const SizedBox(width: 10),
+                    Container(
+                        width: 70,
+                        height: 70,
+                        child: Column(
+                          children: [
+                            Progress(
+                              progress: progress,
+                            ),
+                            Text('Tiến độ')
+                          ],
+                        )),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    Container(
+                        width: 70,
+                        height: 70,
+                        child: Column(
+                          children: [
+                            Fueldisplay(
+                              fuelvalue: feulpercent,
+                            ),
+                            Text('Nhiên liệu')
+                          ],
+                        )),
+                    const SizedBox(width: 10),
+                    Container(
+                      width: 50,
+                      height: 70,
+                      child: Column(
+                        //  crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Battery(
+                            percent: percent,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text('Pin')
+                        ],
                       ),
-                      Text('Pin')
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      width: 50,
+                      height: 70,
+                      child: Column(
+                        children: [
+                          Speedometer(
+                            speed: speed,
+                          ),
+                          Text('Tốc độ')
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    InkWell(
+                      onTap: () => setState(() {
+                        isExpand = !isExpand;
+                      }),
+                      child: Image.asset(
+                        'assets/image/menu.png',
+                        width: 30,
+                        height: 50,
+                      ),
+                    )
+                  ],
                 ),
                 const SizedBox(
-                  width: 10,
+                  height: 10,
                 ),
-                Container(
-                  width: 50,
-                  height: 70,
-                  child: Column(
-                    children: [
-                      Speedometer(
-                        speed: speed,
-                      ),
-                      Text('Tốc độ')
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                InkWell(
-                  onTap: () => setState(() {
-                    isExpand = !isExpand;
-                  }),
-                  child: Image.asset(
-                    'assets/image/menu.png',
-                    width: 30,
-                    height: 50,
+                Offstage(
+                  offstage: !isExpand,
+                  child: ControlTractor(
+                    tractorId: widget.tractorId,
+                    tractorName: tractorname,
+                    token: widget.token,
+                    onTabChange: widget.onTabChange,
                   ),
                 )
               ],
-            ),
-           const SizedBox(
-              height: 10,
-            ),
-            Offstage(
-              offstage: !isExpand,
-              child: ControlTractor(
-                tractorId: widget.tractorId,
-                tractorName: tractorname,
-                token: widget.token,
-                onTabChange: widget.onTabChange,
+            )),
+        if (!widget.isOnline)
+          Positioned.fill(
+            child: Center(
+              child: ClipRect(
+                // Clip widget to contain the blur to one widget
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // The filter
+
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 0.0,
+                      ),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Center(
+                        child: Text(
+                      'Offline',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 225, 74, 74),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ) // Example of an overlay content
+                        ),
+                  ),
+                ),
               ),
-            )
-          ],
-        ));
+            ),
+          )
+      ],
+    );
   }
 }

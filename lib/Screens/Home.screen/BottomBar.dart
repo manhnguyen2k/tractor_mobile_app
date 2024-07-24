@@ -8,6 +8,7 @@ import '../Map.screen/Map.dart';
 import 'Home.dart';
 import '../Profile.screen/Profile.dart';
 import 'dart:developer';
+import '../Field.screen/Field.screen.dart';
 class AnimatedBarExample extends StatefulWidget {
   const AnimatedBarExample({super.key});
 
@@ -17,16 +18,16 @@ class AnimatedBarExample extends StatefulWidget {
 
 class _AnimatedBarExampleState extends State<AnimatedBarExample> {
   int selected = 0;
+  int type = 0;
   bool isSetcenterMap = false;
   String _selected_center = 'None';
-  void _changeCenterMapTab(String selected_center) {
-log(selected_center);
+  void _changeCenterMapTab(String selected_center, int _type) {
+log("aaaa$_type");
     setState(() {
        isSetcenterMap = true;
     _selected_center = selected_center;
-      selected = 2;
-     
-
+      selected = 3;
+      type = _type;
     });
   }
   @override
@@ -50,6 +51,7 @@ log(selected_center);
             unSelectedColor: Colors.grey,
             title: const Text(AppStrings.BottombarHome),
           ),
+                  
           BottomBarItem(
             icon: const ImageIcon(
               AssetImage('assets/image/tractor-icon.png'),
@@ -59,6 +61,17 @@ log(selected_center);
             ),
             selectedColor: AppColors.primaryColor,
             title: const Text(AppStrings.BottombarTractor),
+          ),
+          BottomBarItem(
+            icon: const ImageIcon(
+              AssetImage('assets/image/field.png'),
+            ),
+            selectedIcon:  const ImageIcon(
+              AssetImage('assets/image/field.png'),
+            ),
+            selectedColor: AppColors.primaryColor,
+            unSelectedColor: Colors.grey,
+            title: const Text(AppStrings.FieldBottomTitle),
           ),
           BottomBarItem(
             icon: const Icon(
@@ -80,6 +93,7 @@ log(selected_center);
             selectedColor: AppColors.primaryColor,
             title: const Text(AppStrings.BottombarProfile),
           ),
+            
         ],
         hasNotch: true,
         currentIndex: selected,
@@ -102,14 +116,19 @@ log(selected_center);
               offstage: selected != 1,
               child: ListTractor(onTabChange: _changeCenterMapTab,),
             ),
-            Offstage(
+             Offstage(
               offstage: selected != 2,
-              child:  MapScreen(center:  _selected_center, onTabChange: _changeCenterMapTab, ),
+              child:   Fields( onTabChange: _changeCenterMapTab),
             ),
             Offstage(
               offstage: selected != 3,
-              child:  ProfileScreen(),
+              child:  MapScreen(center:  _selected_center,type: type, onTabChange: _changeCenterMapTab, ),
             ),
+            Offstage(
+              offstage: selected != 4,
+              child: const ProfileScreen(),
+            ),
+            
           ],
         ),
       ),

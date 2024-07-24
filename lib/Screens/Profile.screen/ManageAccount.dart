@@ -8,12 +8,12 @@ class ManageAccount extends StatelessWidget{
        appBar: AppBar(
           backgroundColor: AppColors.darkBlue,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: AppColors.textColor),
+            icon: const Icon(Icons.arrow_back, color: AppColors.textColor),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          title: Text(
+          title: const Text(
             AppStrings.AccountManageTitle,
             style: TextStyle(
                 color: AppColors.textColor, // Set the text color here
@@ -21,7 +21,7 @@ class ManageAccount extends StatelessWidget{
                 fontWeight: FontWeight.normal),
           ),
         ),
-      body: Center(child: Text(AppStrings.AccountManageTitle)),
+      body: const Center(child: Text(AppStrings.AccountManageTitle)),
     );
     // TODO: implement build
     throw UnimplementedError();

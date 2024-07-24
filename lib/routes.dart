@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
-import 'Screens/Home.screen/Home.screen.dart';
+import 'Screens/Home.screen/BottomBar.dart';
 import 'utils/common_widgets/invalid_route.dart';
 import 'values/app_routes.dart';
 import 'Screens/Tractor.screen/TractorDetail/index.dart';
 import 'Screens/Profile.screen/Setting.screen.dart';
 import 'Screens/Profile.screen/ManageAccount.dart';
 import 'Screens/Profile.screen/InfomationScreen.dart';
+import './Screens/Field.screen/AddField.screens.dart';
+import './Screens/Field.screen/Color.dart';
 class Routes {
   const Routes._();
 
@@ -40,6 +42,8 @@ class Routes {
         return getRoute(widget:  ManageAccount());
        case AppRoutes.info:
         return getRoute(widget:  Infomation());
+         case AppRoutes.add_field:
+        return getRoute(widget: const AddField());
       /// An invalid route. User shouldn't see this,
       /// it's for debugging purpose only.
       default:

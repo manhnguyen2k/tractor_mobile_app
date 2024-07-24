@@ -75,10 +75,10 @@ late IO.Socket socket;
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      child: 
-        SfRadialGauge(
+    return SizedBox(
+     // height: 300,
+      child: Center(
+        child: SfRadialGauge(
     
       
           axes: <RadialAxis>[
@@ -181,7 +181,9 @@ late IO.Socket socket;
                 ],
                )
           ],
-        )
+        ) ,
+      )
+       
 
       );  
   }

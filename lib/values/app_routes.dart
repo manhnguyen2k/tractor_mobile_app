@@ -8,4 +8,5 @@ class AppRoutes {
    static const String setting = 'setting';
      static const String manageaccount = 'manage';
      static const String info = 'info';
+     static const String add_field = 'addfield';
 }

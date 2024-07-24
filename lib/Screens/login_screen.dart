@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tractorapp/utils/helpers/snackbar_helper.dart';
 import 'package:tractorapp/values/app_regex.dart';
 import 'dart:developer';
@@ -32,48 +31,43 @@ class _LoginPageState extends State<LoginPage> {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
 
- Future<void> _login() async {
+  Future<void> _login() async {
     print('logggggggggg');
-    final String username =emailController.text;
+    final String username = emailController.text;
     final String password = passwordController.text;
 
     // Replace with your API endpoint
-   // final String url = 'https://example.com/api/login';
+    // final String url = 'https://example.com/api/login';
 
     try {
-    
       final response = await AuthService.logIn(username, password);
-      
+
       if (response.statusCode == 200) {
         // If the server returns a 200 OK response, parse the JSON
         final Map<String, dynamic> responseData = json.decode(response.body);
         final Map<String, dynamic> userData = (responseData['data']);
-        
+
         print(userData);
         // Check if login was successful
-        if (responseData['code']==200) {
-         
+        if (responseData['code'] == 200) {
           log(userData['accessToken']);
-          
-         
-         Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
-_sprefs.then((prefs) {
-  // ...
-  prefs.setString('accesstoken', userData['accessToken']);
-  prefs.setString('uid', userData['_id']);
-  prefs.setBool('isLogin',true);
-  log('done');
-    NavigationHelper.pushReplacementNamed(
-                                AppRoutes.home,
-                              );
-                              emailController.clear();
-                                passwordController.clear();
-}, 
-onError: (error) {
-  print("SharedPreferences ERROR = $error");   
-});
+
+          Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
+          _sprefs.then((prefs) {
+            // ...
+            prefs.setString('accesstoken', userData['accessToken']);
+            prefs.setString('uid', userData['_id']);
+            prefs.setBool('isLogin', true);
+            log('done');
+            NavigationHelper.pushReplacementNamed(
+              AppRoutes.home,
+            );
+            emailController.clear();
+            passwordController.clear();
+          }, onError: (error) {
+            print("SharedPreferences ERROR = $error");
+          });
           log('done');
- 
         } else {
           // Show error message
           _showError(responseData['message']);
@@ -89,7 +83,7 @@ onError: (error) {
     }
   }
 
- void _showError(String message) {
+  void _showError(String message) {
     showDialog(
       context: context,
       builder: (context) {
@@ -108,6 +102,7 @@ onError: (error) {
       },
     );
   }
+
   void initializeControllers() {
     emailController = TextEditingController()..addListener(controllerListener);
     passwordController = TextEditingController()
@@ -124,9 +119,10 @@ onError: (error) {
     final password = passwordController.text;
 
     if (email.isEmpty && password.isEmpty) return;
-    if(!email.isEmpty && !password.isEmpty){
-        fieldValidNotifier.value = true;
-    };
+    if (!email.isEmpty && !password.isEmpty) {
+      fieldValidNotifier.value = true;
+    }
+    ;
   }
 
   @override
@@ -172,9 +168,9 @@ onError: (error) {
                     textInputAction: TextInputAction.next,
                     onChanged: (_) => _formKey.currentState?.validate(),
                     validator: (value) {
-                      return value!.isEmpty? AppStrings.pleaseEnterUsername: null;
-                          
-                          
+                      return value!.isEmpty
+                          ? AppStrings.pleaseEnterUsername
+                          : null;
                     },
                   ),
                   ValueListenableBuilder(
@@ -191,7 +187,6 @@ onError: (error) {
                           return value!.isEmpty
                               ? AppStrings.pleaseEnterPassword
                               : null;
-                                 
                         },
                         suffixIcon: IconButton(
                           onPressed: () =>
@@ -219,17 +214,12 @@ onError: (error) {
                     valueListenable: fieldValidNotifier,
                     builder: (_, isValid, __) {
                       return FilledButton(
-                        onPressed: isValid
-                            ? _login
-                            : null,
+                        onPressed: isValid ? _login : null,
                         child: const Text(AppStrings.login),
                       );
                     },
                   ),
-                
-                 
                   const SizedBox(height: 20),
-                 
                 ],
               ),
             ),
@@ -243,11 +233,13 @@ onError: (error) {
               ),
               const SizedBox(width: 4),
               TextButton(
-                    onPressed: () { NavigationHelper.pushReplacementNamed(
-                                AppRoutes.register,
-                              );},
-                    child: const Text(AppStrings.register),
-                  ),
+                onPressed: () {
+                  NavigationHelper.pushReplacementNamed(
+                    AppRoutes.register,
+                  );
+                },
+                child: const Text(AppStrings.register),
+              ),
             ],
           ),
         ],

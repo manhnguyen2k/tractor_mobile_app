@@ -40,7 +40,7 @@ class AppStrings {
   static const String passwordNotMatched = 'Mật khẩu không giống nhau!';
 
   static const String homeTitleAppbarr = 'Trang chủ';
-  static const String tractorTitleAppbarr = 'Máy cày đang online';
+  static const String tractorTitleAppbarr = 'Máy cày của bạn:';
   static const String mapTitleAppbarr = 'Bản đồ';
 
   static const String ProfileTitle = 'Tài khoản';
@@ -56,5 +56,9 @@ class AppStrings {
    static const String SettingTitle = 'Cài đặt';
    static const String AccountManageTitle = 'Quản lí tài khoản';
     static const String InfomationTitle = 'Thông tin';
-   
+
+    static const String FieldTitle = 'Ruộng của bạn:';
+     static const String FieldBottomTitle = 'Ruộng';
+  
+   static const String addFieldTitle = 'Thêm ruộng';
 }
