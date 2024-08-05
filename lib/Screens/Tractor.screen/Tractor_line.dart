@@ -5,14 +5,11 @@ import 'Progress.dart';
 import 'Speedometer.dart';
 import 'Icontractor.dart';
 import 'Battery.dart';
-import './TractorDetail/index.dart';
 import 'Control_tractor.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui';
 import 'dart:convert';
-import 'dart:developer';
-import 'package:flutter/services.dart';
 
 final url = dotenv.env['BASE_URL'];
 
@@ -43,16 +40,9 @@ class _Tractor_lineState extends State<Tractor_line> {
   late Map<String, dynamic> Log = {};
 
   void connect(IO.Socket socket) async {
-    print('eeeeeeeeeeeeee');
     if (socket.disconnected) {
       socket.connect();
-
-      // Wait until the completer is marked as complete
-
       socket.on(widget.tractorId, (data) {
-        // print('---------------------------mount Chart update');
-        //  print('tttttttttttttttt');
-
         final Map<String, dynamic> b = jsonDecode(data['logs']);
         final power = b['sen'][0];
         final fuel = b['sen'][1];
@@ -105,8 +95,6 @@ class _Tractor_lineState extends State<Tractor_line> {
             progress = percent1;
           });
         }
-
-        // print(dataPoints);
       });
     }
   }
@@ -114,9 +102,7 @@ class _Tractor_lineState extends State<Tractor_line> {
   @override
   void initState() {
     super.initState();
-    log(widget.tractorId);
     Map<String, String> extraHeaders = {'token': widget.token};
-
     socket3 = IO.io(url, <String, dynamic>{
       'transports': ['websocket'],
       'force new connection': true,
@@ -128,13 +114,8 @@ class _Tractor_lineState extends State<Tractor_line> {
 
   @override
   void dispose() {
-    socket3.onDisconnect((_) {
-      print('DisConnected to the socket server');
-    });
     socket3.disconnect();
-
     socket3.dispose();
-
     super.dispose();
   }
 
@@ -153,7 +134,7 @@ class _Tractor_lineState extends State<Tractor_line> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: 70,
                       width: 60,
                       child: Column(
@@ -163,8 +144,10 @@ class _Tractor_lineState extends State<Tractor_line> {
                         ],
                       ),
                     ),
+
                     const SizedBox(width: 10),
-                    Container(
+
+                    SizedBox(
                         width: 70,
                         height: 70,
                         child: Column(
@@ -172,13 +155,15 @@ class _Tractor_lineState extends State<Tractor_line> {
                             Progress(
                               progress: progress,
                             ),
-                            Text('Tiến độ')
+                            const Text('Tiến độ')
                           ],
                         )),
+
                     const SizedBox(
-                      width: 13,
+                      width: 10,
                     ),
-                    Container(
+
+                    SizedBox(
                         width: 70,
                         height: 70,
                         child: Column(
@@ -186,11 +171,13 @@ class _Tractor_lineState extends State<Tractor_line> {
                             Fueldisplay(
                               fuelvalue: feulpercent,
                             ),
-                            Text('Nhiên liệu')
+                            const Text('Nhiên liệu')
                           ],
                         )),
+
                     const SizedBox(width: 10),
-                    Container(
+
+                    SizedBox(
                       width: 50,
                       height: 70,
                       child: Column(
@@ -199,17 +186,17 @@ class _Tractor_lineState extends State<Tractor_line> {
                           Battery(
                             percent: percent,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
-                          Text('Pin')
+                          const Text('Pin')
                         ],
                       ),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    Container(
+                    SizedBox(
                       width: 50,
                       height: 70,
                       child: Column(
@@ -217,7 +204,7 @@ class _Tractor_lineState extends State<Tractor_line> {
                           Speedometer(
                             speed: speed,
                           ),
-                          Text('Tốc độ')
+                          const Text('Tốc độ')
                         ],
                       ),
                     ),
@@ -257,7 +244,6 @@ class _Tractor_lineState extends State<Tractor_line> {
                 // Clip widget to contain the blur to one widget
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // The filter
-
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.3),
@@ -267,12 +253,12 @@ class _Tractor_lineState extends State<Tractor_line> {
                       ),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: Center(
+                    child: const Center(
                         child: Text(
                       'Offline',
                       style: TextStyle(
-                          color: Color.fromARGB(255, 225, 74, 74),
-                          fontSize: 16,
+                          color: Colors.red,
+                          fontSize: 30,
                           fontWeight: FontWeight.bold),
                     ) // Example of an overlay content
                         ),

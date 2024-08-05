@@ -7,7 +7,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:tractorapp/values/app_colors.dart';
 import '../../service/Filed.service/Field.service.dart';
+
 final url = dotenv.env['BASE_URL'];
+
 class MapScreen extends StatefulWidget {
   MapScreen(
       {Key? key,
@@ -37,6 +39,8 @@ class _MapScreenState extends State<MapScreen> {
   String _value = 'None';
   String _polyvalue = 'None';
   String? selectedTractorId;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   List<dynamic> _data = [];
   Future<void> _loadData() async {
@@ -44,12 +48,9 @@ class _MapScreenState extends State<MapScreen> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       final List<dynamic> fields = responseData['data'];
-      log('Response data: ${fields.length}');
       setState(() {
         _data = fields;
-        
       });
-      log('legth ${_data.length}');
       _createPolygons();
     } else {
       log('Failed to load data: ${response.statusCode}');
@@ -69,14 +70,14 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _createPolygons() {
+    _polygons.clear();
     Set<Polygon> polygons = {};
     for (var item in _data) {
-      log('name1: ${item['name']}');
       List<LatLng> points = [];
       for (var coord in item['coordinate']) {
         points.add(LatLng(coord['lat'], coord['lng']));
       }
-      log('ssssssssss:${points.length}');
+
       setState(() {
         _polygons.add(
           Polygon(
@@ -95,7 +96,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void connect(IO.Socket socket) async {
-   
     try {
       BitmapDescriptor.asset(const ImageConfiguration(size: Size(25, 25)),
               'assets/image/tractor-topview.png')
@@ -104,11 +104,9 @@ class _MapScreenState extends State<MapScreen> {
       });
 
       if (socket.disconnected) {
-     
         socket.connect();
 
         socket.on('logs', (data) {
-          log('onnnn');
           data.forEach((tractor) {
             final Map<String, dynamic> b = tractor['data'];
             final lat = b['llh'][0];
@@ -121,7 +119,6 @@ class _MapScreenState extends State<MapScreen> {
             if (mounted) {
               _markers.removeWhere(
                   (marker) => marker.markerId.value == tractor['tractorName']);
-// Xóa các Polyline có polylineId bằng một giá trị cụ thể
               _polyline.removeWhere((polyline) =>
                   polyline.polylineId.value == 'poly_${tractor['tractorId']}');
               _polyline.removeWhere((polyline) =>
@@ -172,11 +169,10 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
-    log('rerender');
     Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
     _sprefs.then((prefs) {
       String token = prefs.getString('accesstoken') ?? '';
-  //log('token: $token');
+      //log('token: $token');
       Map<String, String> extraHeaders = {
         'token': token,
       };
@@ -188,15 +184,11 @@ class _MapScreenState extends State<MapScreen> {
 
       connect(socket);
       _loadData();
-      
     });
   }
 
   @override
   void dispose() {
-    socket.onDisconnect((_) {
-      log('Disconnected from the socket server');
-    });
     socket.disconnect();
     socket.dispose();
     super.dispose();
@@ -204,7 +196,6 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onDropdownChanged(String? value) {
     if (value != null) {
-      // Tìm marker theo value (ví dụ: 'tractorId_1')
       _polyvalue = 'None';
       widget.onTabChange(value, 1);
     }
@@ -212,36 +203,39 @@ class _MapScreenState extends State<MapScreen> {
 
   void _onPolyDropdownChanged(String? value) {
     if (value != null) {
-    //  _polyvalue = value;
       _value = 'None';
-      log('poly: ${_polyvalue}');
       widget.onTabChange(value, 2);
-      // Tìm marker theo value (ví dụ: 'tractorId_1')
-     
-      // widget.onTabChange(value);
     }
+  }
+
+  Future<void> _refresh() async {
+    _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    log('rerender');
     if (widget.center != 'None') {
       if (widget.type == 1) {
-        log('bbbbbbbb');
         _value = widget.center;
-          _polyvalue = 'None';
+        _polyvalue = 'None';
       } else if (widget.type == 2) {
-        log('ccccccc');
-         _value = 'None';
+        _value = 'None';
         _polyvalue = widget.center;
-         Polygon? polygon = _polygons.firstWhere(
+        log('valueeee: $_polyvalue');
+        Polygon? polygon = _polygons.firstWhere(
           (poly) => poly.polygonId.value == _polyvalue,
-          // orElse: () => null, // Trả về null nếu không tìm thấy
+          orElse: () => Polygon(
+              polygonId:
+                  PolygonId('default')), // Trả về null nếu không tìm thấy
         );
-        _center = polygon.points[0];
-        mapController.animateCamera(
-          CameraUpdate.newLatLngZoom(_center, 17),
-        );
+        if (polygon.polygonId.value == 'default') {
+          _polyvalue = 'None';
+        } else {
+          _center = polygon.points[0];
+          mapController.animateCamera(
+            CameraUpdate.newLatLngZoom(_center, 17),
+          );
+        }
       }
 
       if (_polyvalue != 'None') {
@@ -251,7 +245,6 @@ class _MapScreenState extends State<MapScreen> {
         _polyvalue = 'None';
       }
     } else {
-      log('ddddd');
       _value = 'None';
       _polyvalue = 'None';
     }
@@ -265,13 +258,15 @@ class _MapScreenState extends State<MapScreen> {
         CameraUpdate.newLatLngZoom(_center, 25),
       );
     }
-    return Scaffold(
-      body: Stack(
+    return RefreshIndicator(
+      key: _refreshIndicatorKey,
+      onRefresh: _refresh,
+      child: Stack(
         children: [
           GoogleMap(
             mapType: MapType.hybrid,
             onMapCreated: _onMapCreated,
-            zoomControlsEnabled: true,
+            zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(
               target: _center,
               zoom: 5.0,
@@ -310,7 +305,7 @@ class _MapScreenState extends State<MapScreen> {
               style: const TextStyle(color: Color.fromARGB(255, 10, 9, 10)),
               items: [
                 ..._polygons.map((Polygon poly) {
-                  // log('ida: ${poly.polygonId.value.toString()}');
+                  log('poly: ${poly.polygonId.value}');
                   return DropdownMenuItem<String>(
                     value: poly.polygonId.value.toString(),
                     child: Text(poly.polygonId.value.toString()),
@@ -325,13 +320,25 @@ class _MapScreenState extends State<MapScreen> {
               hint: const Text('Select a field'),
             ),
           ),
-        ],
+        Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: FloatingActionButton.extended(
+                     heroTag: "btn1",
+                    onPressed: () {
+                      // Show refresh indicator programmatically on button tap.
+                       _refreshIndicatorKey.currentState?.show();
+                    },
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Tải lại'),
+                  ),
+                ), ],
       ),
     );
+    /*
+     onPressed: () {
+        
+        },
+     */
   }
 }
-
-
-
-
- 

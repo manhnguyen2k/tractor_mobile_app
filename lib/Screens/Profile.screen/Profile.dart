@@ -6,31 +6,17 @@ import '../../values/app_strings.dart';
 import '../../values/app_routes.dart';
 import '../../utils/helpers/navigation_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../../service/Auth.service/Auth.service.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // leading: IconButton(onPressed: () => Get.back(), icon: const Icon(LineAwesomeIcons.angle_left)),
-        title:const Text(
-          AppStrings.ProfileTitle,
-          style: TextStyle(
-              color: Colors.grey, fontSize: 22, fontWeight: FontWeight.normal),
-        ),
-        backgroundColor: AppColors.darkBlue,
-      ),
-      backgroundColor: AppColors.bodyColor,
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              /// -- IMAGE
-
-              /// -- MENU
               ProfileMenuWidget(
                   title: AppStrings.ProfileSetting,
                   icon: LineAwesomeIcons.cog_solid,
@@ -71,20 +57,15 @@ class ProfileScreen extends StatelessWidget {
                   icon: LineAwesomeIcons.arrow_alt_circle_down_solid,
                   textColor: Colors.red,
                   endIcon: false,
-                  onPress: () {
-                    Future<SharedPreferences> _sprefs =
-                        SharedPreferences.getInstance();
-                    _sprefs.then((prefs) {
-                      prefs.clear();
-                      NavigationHelper.pushReplacementNamed(
+                  onPress: ()async {
+                   await AuthService.logOut();
+                     NavigationHelper.pushReplacementNamed(
                         AppRoutes.login,
                       );
-                    });
                   }),
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

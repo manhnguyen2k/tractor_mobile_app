@@ -41,18 +41,7 @@ class PieChart2State extends State<PieChartSample2> {
   late IO.Socket socket;
    void connect( IO.Socket socket) async {
    if(socket.disconnected){
-  print('before: ${socket.disconnected}');
-
-    socket.onConnect((_) {
-      print('connect11111');
-     
-      //socket.emit('msg', 'test');
-    });
     socket.connect();
-
-   // Wait until the completer is marked as complete
-
-    print('after: ${socket.disconnected}');
     socket.on(widget.tractorId, (data) {
       final Map<String, dynamic> b = jsonDecode(data['logs']);
     
@@ -93,27 +82,19 @@ class PieChart2State extends State<PieChartSample2> {
   }
   @override
   void dispose(){
-    socket.onDisconnect( (_) {
-    print('DisConnected to the socket server');
-  });
       socket.disconnect();
-
       socket.dispose();
-    
-    
-    
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
  
-    return  AspectRatio(
-      aspectRatio: 1.4,
-      child: Column(
+    return  
+       Column(
          crossAxisAlignment: CrossAxisAlignment.center,
         children: [
          
-          Expanded(
+          SizedBox(
             child: AspectRatio(
               aspectRatio: 1,
               child: PieChart(
@@ -137,7 +118,7 @@ class PieChart2State extends State<PieChartSample2> {
                     show: true,
                   ),
                   sectionsSpace: 0,
-                  centerSpaceRadius: 20,
+                  centerSpaceRadius: 40,
                   sections: showingSections(),
                 ),
               ),
@@ -167,8 +148,8 @@ class PieChart2State extends State<PieChartSample2> {
           
           
         ],
-      ),
-    );
+      );
+    
     
   }
 

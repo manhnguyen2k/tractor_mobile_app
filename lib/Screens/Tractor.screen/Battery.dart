@@ -5,9 +5,7 @@ class Battery extends StatelessWidget{
   final int percent;
   @override
    Widget build(BuildContext context) {
-    // Xác định ảnh sẽ được hiển thị dựa trên giá trị của percent
     String imagePath;
-
     if (percent >=0 && percent <= 20) {
       imagePath = 'assets/image/battery_1.png';
     } else if (percent >20 && percent <= 40) {

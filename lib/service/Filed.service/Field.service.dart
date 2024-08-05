@@ -8,12 +8,6 @@ import 'dart:developer';
 class FieldService {
   
   static Future<http.Response> getAllField() async {
-    // Dữ liệu gửi đi
-    
-    // Cấu hình header
-   
-
-    // Gửi yêu cầu HTTP POST
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/api/v1/fields/get_all_fields'),
@@ -25,14 +19,9 @@ class FieldService {
     }
   }
   static Future<http.Response> addField(Map<String, dynamic> payload) async {
-    // Dữ liệu gửi đi
-    
-    // Cấu hình header
     Map<String, String> headers = {
       'Content-Type': 'application/json',
     };
-
-    // Gửi yêu cầu HTTP POST
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/api/v1/fields/createfield'), 

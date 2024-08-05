@@ -11,23 +11,22 @@ class Speedometer extends StatefulWidget {
 class _SpeedometerState extends State<Speedometer> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
+    return SizedBox(
       height: 50,
-      child: SfRadialGauge(axes: <RadialAxis>[
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
       RadialAxis(
-        
         minimum: 0,
         maximum: 200,
         labelOffset: 30,
         axisLineStyle:
-            AxisLineStyle(thicknessUnit: GaugeSizeUnit.factor, thickness: 0.03),
+          const  AxisLineStyle(thicknessUnit: GaugeSizeUnit.factor, thickness: 0.03),
         majorTickStyle:
-            MajorTickStyle(length: 4, thickness: 1, color: Colors.black),
+          const  MajorTickStyle(length: 4, thickness: 1, color: Colors.black),
         minorTickStyle:
-            MinorTickStyle(length: 3, thickness: 1, color: Colors.black),
+          const  MinorTickStyle(length: 3, thickness: 1, color: Colors.black),
             showLabels:false,
-        axisLabelStyle: GaugeTextStyle(
+        axisLabelStyle:const GaugeTextStyle(
             color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14,),
         ranges: <GaugeRange>[
           GaugeRange(
@@ -36,11 +35,11 @@ class _SpeedometerState extends State<Speedometer> {
               sizeUnit: GaugeSizeUnit.factor,
               startWidth: 0.1,
               endWidth: 0.1,
-              gradient: SweepGradient(colors: const <Color>[
+              gradient:const SweepGradient(colors:  <Color>[
                 Colors.green,
                 Colors.yellow,
                 Colors.red
-              ], stops: const <double>[
+              ], stops: <double>[
                 0.0,
                 0.5,
                 1
@@ -55,11 +54,10 @@ class _SpeedometerState extends State<Speedometer> {
               needleStartWidth: 1,
               needleEndWidth: 2,
               needleColor: Colors.red,
-              knobStyle: KnobStyle(knobRadius: 0.09))
+              knobStyle:const KnobStyle(knobRadius: 0.09))
         ],
       ),
     ]),
     ) ;
-    throw UnimplementedError();
   }
 }

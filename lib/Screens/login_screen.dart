@@ -14,6 +14,8 @@ import '../service/Auth.service/Auth.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,42 +34,30 @@ class _LoginPageState extends State<LoginPage> {
   late final TextEditingController passwordController;
 
   Future<void> _login() async {
-    print('logggggggggg');
     final String username = emailController.text;
     final String password = passwordController.text;
-
-    // Replace with your API endpoint
-    // final String url = 'https://example.com/api/login';
-
     try {
       final response = await AuthService.logIn(username, password);
 
       if (response.statusCode == 200) {
-        // If the server returns a 200 OK response, parse the JSON
         final Map<String, dynamic> responseData = json.decode(response.body);
         final Map<String, dynamic> userData = (responseData['data']);
-
-        print(userData);
-        // Check if login was successful
         if (responseData['code'] == 200) {
-          log(userData['accessToken']);
-
           Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
           _sprefs.then((prefs) {
-            // ...
             prefs.setString('accesstoken', userData['accessToken']);
             prefs.setString('uid', userData['_id']);
             prefs.setBool('isLogin', true);
-            log('done');
+             prefs.setBool('isNoti', false);
+          //  Firebase.initializeApp();
             NavigationHelper.pushReplacementNamed(
               AppRoutes.home,
             );
             emailController.clear();
             passwordController.clear();
           }, onError: (error) {
-            print("SharedPreferences ERROR = $error");
+            log("SharedPreferences ERROR = $error");
           });
-          log('done');
         } else {
           // Show error message
           _showError(responseData['message']);
@@ -77,7 +67,6 @@ class _LoginPageState extends State<LoginPage> {
         _showError('Server error: ${response.statusCode}');
       }
     } catch (e) {
-      print(e);
       // Handle any errors that occur during the HTTP request
       _showError('Error: $e');
     }
@@ -88,14 +77,14 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Error'),
+          title:const Text('Error'),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child:const Text('OK'),
             ),
           ],
         );

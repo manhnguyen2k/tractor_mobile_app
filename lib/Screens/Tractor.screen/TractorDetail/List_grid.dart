@@ -1,14 +1,12 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'Grid_Display.dart';
-import 'Therameter.dart';
 import 'Grid_item1.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../../values/app_colors.dart';
 final url = dotenv.env['BASE_URL'];
 class ListGrid extends StatefulWidget{
   ListGrid({required this.tractorId, required this.token});
@@ -34,22 +32,8 @@ late IO.Socket socket;
 
   void connect(IO.Socket socket) async {
     if (socket.disconnected) {
-      print('before: ${socket.disconnected}');
-
-      socket.onConnect((_) {
-        print('connect11111');
-
-        //socket.emit('msg', 'test');
-      });
       socket.connect();
-
-      // Wait until the completer is marked as complete
-
-      print('after: ${socket.disconnected}');
       socket.on(widget.tractorId, (data) {
-        log('onnnnn');
-        // print('---------------------------mount Chart update');
-        //  print('tttttttttttttttt');
         final Map<String, dynamic> b = jsonDecode(data['logs']);
         final _nguon= b['ctr_oly'][0];
         final _de =  b['ctr_oly'][1];
@@ -78,8 +62,6 @@ late IO.Socket socket;
     super.initState();
 
     Map<String, String> extraHeaders = {'token': widget.token};
-
-    // Khởi tạo kết nối socket với headers
     socket = IO.io(url, <String, dynamic>{
       'transports': ['websocket'],
       'force new connection': true,
@@ -91,12 +73,7 @@ late IO.Socket socket;
 
   @override
   void dispose() {
-    print('---------------------------UNmount CHarT');
-    // socket.off('64d9cdfac48bca2dd296ad1d'); // Dispose the socket connection
 
-    socket.onDisconnect((_) {
-      print('DisConnected to the socket server');
-    });
     socket.disconnect();
 
     socket.dispose();
@@ -106,7 +83,6 @@ late IO.Socket socket;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return(
       Container(
         child: LayoutBuilder(
@@ -119,9 +95,11 @@ late IO.Socket socket;
               return Container(
                 width: width,
                 height: height,
+                color: AppColors.backgroundColor,
                 child:  Padding(
         padding: const EdgeInsets.all( 10),
         child: Column(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,7 +111,7 @@ late IO.Socket socket;
                        
                       ],
                     ),
-                    SizedBox(height: 10,),
+                    
                   Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -144,7 +122,7 @@ late IO.Socket socket;
                        
                       ],
                     ),
-                    SizedBox(height: 10,),
+                   
                      Row(
                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -164,6 +142,5 @@ late IO.Socket socket;
           ),
       )
     );
-    throw UnimplementedError();
   }
 }

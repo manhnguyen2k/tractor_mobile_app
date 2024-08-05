@@ -4,7 +4,9 @@ import 'dart:developer';
 import '../../service/MQTT.service/mqtt.service.dart';
 import 'TractorDetail/index.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-final topic = dotenv.env['MQTT_CHANNEL']??'';
+
+final topic = dotenv.env['MQTT_CHANNEL'] ?? '';
+
 enum Trang_thai_may_cay {
   _pause('Dừng lại', 0),
   _continue('Đi tiếp', 1);
@@ -54,7 +56,8 @@ enum Do_nghieng {
 }
 
 class ControlTractor extends StatefulWidget {
-  ControlTractor( {required this.tractorId,
+  ControlTractor(
+      {required this.tractorId,
       required this.token,
       required this.onTabChange,
       required this.tractorName});
@@ -92,7 +95,7 @@ class _StateControlTractor extends State<ControlTractor> {
       TextEditingController(text: '0');
   final TextEditingController _controller_tam_de =
       TextEditingController(text: '0');
-  
+
   final int _min = 0;
   final int _max_rpm = 2700;
   final int _max_so_cang = 49;
@@ -108,12 +111,12 @@ class _StateControlTractor extends State<ControlTractor> {
 
   final MQTTService mqttService = MQTTService();
 
+  @override
+  void initState() {
+    super.initState();
+    mqttService.connect();
+  }
 
-@override
-void initState(){
-  super.initState();
-  mqttService.connect();
-}
   void Xu_ly_input(int loai_input, value) {
     if (loai_input == input_trangthaimay) {
       setState(() {
@@ -153,28 +156,39 @@ void initState(){
       });
     }
 
-      final String string = '{"data":{   "reset_er_c":"' + reset_err.toString()
-            + '" ,"min_rpm_c":"' + trang_thai_min_rpm.toString()
-            + '" ,"max_rpm_c":"' + trang_thai_max_rpm.toString()
-            + '" ,"mode_run_c":"' + trang_thai_may_cay.toString()
-            + '" ,"so_cang_max":"' + trang_thai_so_cang.toString() 
-            + '" ,"tam_de":"' + trang_thai_tam_de.toString()
-            + '" ,"nghieng":"' + do_nghieng.toString()
-            + '" ,"led1":"' + trang_thai_den.toString()
-            + '" ,"phumax":"' + trang_thai_so_phu.toString()
-            + '"  }}';
-             mqttService.publish(topic, string,);
-      log('bbb: $string');
+    final String string = '{"data":{   "reset_er_c":"' +
+        reset_err.toString() +
+        '" ,"min_rpm_c":"' +
+        trang_thai_min_rpm.toString() +
+        '" ,"max_rpm_c":"' +
+        trang_thai_max_rpm.toString() +
+        '" ,"mode_run_c":"' +
+        trang_thai_may_cay.toString() +
+        '" ,"so_cang_max":"' +
+        trang_thai_so_cang.toString() +
+        '" ,"tam_de":"' +
+        trang_thai_tam_de.toString() +
+        '" ,"nghieng":"' +
+        do_nghieng.toString() +
+        '" ,"led1":"' +
+        trang_thai_den.toString() +
+        '" ,"phumax":"' +
+        trang_thai_so_phu.toString() +
+        '"  }}';
+    mqttService.publish(
+      topic,
+      string,
+    );
+    log('bbb: $string');
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DropdownMenu<Trang_thai_may_cay>(
               width: 120,
@@ -186,7 +200,6 @@ void initState(){
                 Xu_ly_input(input_trangthaimay, trangthai?.value);
                 ;
               },
-
               dropdownMenuEntries: Trang_thai_may_cay.values
                   .map<DropdownMenuEntry<Trang_thai_may_cay>>(
                       (Trang_thai_may_cay trangthai) {
@@ -208,7 +221,8 @@ void initState(){
                   border: OutlineInputBorder(),
                   labelText: 'Max rpm',
                 ),
-                onEditingComplete:()=>  Xu_ly_input(input_maxrpm, trang_thai_max_rpm),
+                onEditingComplete: () =>
+                    Xu_ly_input(input_maxrpm, trang_thai_max_rpm),
                 onChanged: (value) {
                   int newValue = int.tryParse(value) ?? _min;
                   if (newValue < _min) {
@@ -221,7 +235,6 @@ void initState(){
                   setState(() {
                     trang_thai_max_rpm = newValue;
                   });
-                 
                 },
               ),
             ),
@@ -250,7 +263,8 @@ void initState(){
                     trang_thai_min_rpm = newValue;
                   });
                 },
-                 onEditingComplete:()=>  Xu_ly_input(input_minrpm, trang_thai_min_rpm),
+                onEditingComplete: () =>
+                    Xu_ly_input(input_minrpm, trang_thai_min_rpm),
               ),
             ),
           ],
@@ -259,7 +273,7 @@ void initState(){
           height: 10,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
               width: 120,
@@ -285,9 +299,9 @@ void initState(){
                   setState(() {
                     trang_thai_so_cang = newValue;
                   });
-                 
                 },
-                onEditingComplete:()=>  Xu_ly_input(input_socang, trang_thai_so_cang),
+                onEditingComplete: () =>
+                    Xu_ly_input(input_socang, trang_thai_so_cang),
               ),
             ),
             SizedBox(
@@ -314,9 +328,9 @@ void initState(){
                   setState(() {
                     trang_thai_tam_de = newValue;
                   });
-                
                 },
-                  onEditingComplete:()=>  Xu_ly_input(input_tamde, trang_thai_tam_de),
+                onEditingComplete: () =>
+                    Xu_ly_input(input_tamde, trang_thai_tam_de),
               ),
             ),
             DropdownMenu<Trang_thai_den>(
@@ -343,7 +357,7 @@ void initState(){
           height: 10,
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DropdownMenu<Trang_thai_so_phu>(
               width: 120,
@@ -401,35 +415,45 @@ void initState(){
             ),
           ],
         ),
-         const SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-              SizedBox(width: 160,
+            SizedBox(
+              width: 160,
               child: FilledButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => TractorDetailChart(
-                                  tractorId: widget.tractorId,
-                                  token: widget.token,
-                                  tractorName: widget.tractorName??'Tractor' ,
-                                )),
-                      );
-                    },
-                    child: const Text('Xem chi tiết', style: TextStyle(fontSize: 14),),
-                  ), ),
-                  const SizedBox(width: 20,),
-                  SizedBox(width: 160,
-                  child:  FilledButton(
-                    onPressed: () { 
-                          widget.onTabChange(widget.tractorName ?? 'None', 1);
-                    },
-                    child: const Text('Xem trên bản đồ',style: TextStyle(fontSize: 14)),
-                  ) ,)
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TractorDetailChart(
+                              tractorId: widget.tractorId,
+                              token: widget.token,
+                              tractorName: widget.tractorName ?? 'Tractor',
+                            )),
+                  );
+                },
+                child: const Text(
+                  'Xem chi tiết',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            SizedBox(
+              width: 160,
+              child: FilledButton(
+                onPressed: () {
+                  widget.onTabChange(widget.tractorName ?? 'None', 1);
+                },
+                child: const Text('Xem trên bản đồ',
+                    style: TextStyle(fontSize: 14)),
+              ),
+            )
           ],
         )
       ],

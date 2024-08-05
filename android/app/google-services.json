@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "360641274854",
+    "project_id": "tractorapp-530d1",
+    "storage_bucket": "tractorapp-530d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360641274854:android:9d1b0b3c745078c7612c27",
+        "android_client_info": {
+          "package_name": "com.example.tractorapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCK1ZBIuOYIabe5YuEdipqH1mRg8n_DtNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

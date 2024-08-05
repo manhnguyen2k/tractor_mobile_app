@@ -12,7 +12,7 @@ import 'dart:developer';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
-
+import '../../utils/common_widgets/appbar.dart';
 const kGoogleApiKey = "AIzaSyDL9J82iDhcUWdQiuIvBYa0t5asrtz3Swk";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
@@ -37,9 +37,6 @@ class MapSampleState extends State<AddField> {
   int stroke_width = 2;
   double opacity = 0.5;
   String name = '';
-  LatLng _lastMapPosition = LatLng(45.521563, -122.677433);
-  final TextEditingController _searchController = TextEditingController();
-
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -116,20 +113,28 @@ class MapSampleState extends State<AddField> {
     return '#${color.value.toRadixString(16).padLeft(8, '0').substring(2)}';
   }
 
+  void handleDelete(){
+    setState(() {
+      _markers.clear();
+                        _polygons.clear();
+                        _points.clear();
+    });
+ 
+  }
   Future<void> handleSave() async {
     if (name.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Lỗi'),
-            content: Text('Hãy nhập tên ruộng!'),
+            title:const Text('Lỗi'),
+            content: const Text('Hãy nhập tên ruộng!'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Đóng'),
+                child: const Text('Đóng'),
               ),
             ],
           );
@@ -155,15 +160,15 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Thông báo'),
-                content: Text('Tạo ruộng mới thành công!'),
+                title: const Text('Thông báo'),
+                content: const Text('Tạo ruộng mới thành công!'),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       setState(() {
                         _markers.clear();
                         _polygons.clear();
-                        _points.cast();
+                        _points.clear();
                         _stroke_width.clear();
                         _opacity.clear();
                         _name.clear();
@@ -175,7 +180,7 @@ class MapSampleState extends State<AddField> {
                       });
                       Navigator.of(context).pop();
                     },
-                    child: Text('Ok'),
+                    child: const Text('Ok'),
                   ),
                 ],
               );
@@ -186,14 +191,14 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Thông báo'),
-                content: Text('Có lỗi xảy ra, xin thử lại!'),
+                title:const  Text('Thông báo'),
+                content: const Text('Có lỗi xảy ra, xin thử lại!'),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text('Đóng'),
+                    child:const  Text('Đóng'),
                   ),
                 ],
               );
@@ -212,7 +217,6 @@ class MapSampleState extends State<AddField> {
           await _places.getDetailsByPlaceId(p.placeId!);
       final lat = detail.result.geometry!.location.lat;
       final lng = detail.result.geometry!.location.lng;
-
       mapController?.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(target: LatLng(lat, lng), zoom: 15.0),
@@ -221,27 +225,16 @@ class MapSampleState extends State<AddField> {
     }
   }
 
-  void _onCameraMove(CameraPosition position) {
-    _lastMapPosition = position.target;
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.darkBlue,
-        leading: IconButton(
+      appBar: CustomAppBar(title: AppStrings.addFieldTitle,
+      leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textColor),
           onPressed: () {
             Navigator.pop(context);
           },
-        ),
-        title: const Text(
-          AppStrings.addFieldTitle,
-          style: TextStyle(
-              color: Colors.grey,
-              fontSize: 24.0,
-              fontWeight: FontWeight.normal),
         ),
       ),
       body: Stack(
@@ -256,14 +249,13 @@ class MapSampleState extends State<AddField> {
             polygons: _polygons,
             markers: _markers,
             onTap: _onTap,
-            onCameraMove: _onCameraMove,
           ),
           Positioned(
-            top: 20,
+            top: 10,
            
             right: 20,
             child:IconButton(
-                    icon: const Icon(Icons.search),
+                    icon: const Icon(Icons.search, color: Colors.white,),
                     onPressed: () async {
                       Prediction? p = await PlacesAutocomplete.show(
                           types: [],
@@ -282,7 +274,7 @@ class MapSampleState extends State<AddField> {
                 
             ),
           
-          if (_getLatLngFromMarkers().length > 2)
+          if (_getLatLngFromMarkers().isNotEmpty)
             Positioned(
                 top: 20.0,
                 left: 20.0,
@@ -297,10 +289,10 @@ class MapSampleState extends State<AddField> {
                         log('stroke: $color');
                       },
                     ),
-                    Text('Màu viền')
+                   const  Text('Màu viền')
                   ],
                 )),
-          if (_getLatLngFromMarkers().length > 2)
+          if (_getLatLngFromMarkers().isNotEmpty)
             Positioned(
                 top: 80.0,
                 left: 20.0,
@@ -315,10 +307,10 @@ class MapSampleState extends State<AddField> {
                         _updatePolygon();
                       },
                     ),
-                    Text('Màu phủ')
+                  const  Text('Màu phủ')
                   ],
                 )),
-          if (_getLatLngFromMarkers().length > 2)
+          if (_getLatLngFromMarkers().isNotEmpty)
             Positioned(
               top: 140.0,
               left: 20.0,
@@ -346,7 +338,7 @@ class MapSampleState extends State<AddField> {
                 ),
               ),
             ),
-          if (_getLatLngFromMarkers().length > 2)
+          if (_getLatLngFromMarkers().isNotEmpty)
             Positioned(
               left: 20.0,
               top: 200.0,
@@ -354,7 +346,7 @@ class MapSampleState extends State<AddField> {
                 width: 120,
                 child: TextField(
                   controller: _opacity,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(
                         RegExp(r'^\d+\.?\d{0,2}')),
@@ -375,7 +367,7 @@ class MapSampleState extends State<AddField> {
                 ),
               ),
             ),
-          if (_getLatLngFromMarkers().length > 2)
+          if ( _getLatLngFromMarkers().isNotEmpty)
             Positioned(
               top: 260.0,
               left: 20.0,
@@ -388,8 +380,6 @@ class MapSampleState extends State<AddField> {
                     labelText: 'Tên ruộng',
                   ),
                   onChanged: (value) {
-                    log('change: $value');
-
                     _name.text = value.toString();
                     setState(() {
                       name = value;
@@ -398,14 +388,23 @@ class MapSampleState extends State<AddField> {
                 ),
               ),
             ),
-          if (_getLatLngFromMarkers().length > 2)
+             if (_getLatLngFromMarkers().isNotEmpty)
             Positioned(
               top: 320.0,
               left: 20.0,
               child: SizedBox(
                   width: 120,
                   child: FilledButton(
-                      onPressed: () => handleSave(), child: Text('Lưu'))),
+                      onPressed: () => handleDelete(), child: const Text('Xóa'))),
+            ),
+          if (_getLatLngFromMarkers().length > 2)
+            Positioned(
+              top: 380.0,
+              left: 20.0,
+              child: SizedBox(
+                  width: 120,
+                  child: FilledButton(
+                      onPressed: () => handleSave(), child: const Text('Lưu'))),
             ),
         ],
       ),

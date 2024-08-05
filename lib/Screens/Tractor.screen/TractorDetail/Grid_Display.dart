@@ -1,7 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-
+import '../../../values/app_colors.dart';
 class GridItem extends StatelessWidget {
   GridItem(
       {required this.title,
@@ -20,13 +18,10 @@ class GridItem extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey, // Border color
-            width: 1.0, // Border width
-          ),
+          
           borderRadius: BorderRadius.circular(8.0),
           color: value == 0
-              ? Colors.transparent
+              ? AppColors.cardBackgroundColor
               : Colors.red, // Optional: to give rounded corners
         ),
         child: Center(

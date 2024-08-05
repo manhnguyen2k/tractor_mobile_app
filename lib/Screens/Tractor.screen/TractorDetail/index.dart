@@ -5,12 +5,14 @@ import './wigets/Piechart.dart';
 import 'Linechart2.dart';
 import 'Speedometer.dart';
 import 'Fueldisplay.dart';
-import 'Grid_Display.dart';
 import 'List_grid.dart';
-import 'Therameter.dart';
+import '../../../utils/common_widgets/appbar.dart';
 
 class TractorDetailChart extends StatefulWidget {
-  TractorDetailChart({required this.tractorId, required this.token,required this.tractorName});
+  TractorDetailChart(
+      {required this.tractorId,
+      required this.token,
+      required this.tractorName});
   final String tractorId;
   final String token;
   final String tractorName;
@@ -21,65 +23,55 @@ class TractorDetailChart extends StatefulWidget {
 class _TractorDetailChart extends State<TractorDetailChart> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-     double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.darkBlue,
+        appBar: CustomAppBar(
+          title: widget.tractorName,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: AppColors.textColor),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          title:  Text(
-            widget.tractorName,
-            style:const TextStyle(
-                color: AppColors.textColor, // Set the text color here
-                fontSize: 24.0, // Set the font size here
-                fontWeight: FontWeight.normal),
-          ),
         ),
-        backgroundColor: AppColors.darkBlue,
+        backgroundColor: AppColors.backgroundColor,
         body: SingleChildScrollView(
           child: Column(children: [
             Padding(
               padding: const EdgeInsets.all(
-                  5.0), // Increase vertical padding for more spacing
+                  15.0), // Increase vertical padding for more spacing
               child: Container(
                   height: 300,
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey, // Border color
-                      width: 1.0, // Border width
-                    ),
+                    color: AppColors.cardBackgroundColor,
+
                     borderRadius: BorderRadius.circular(
                         8.0), // Optional: to give rounded corners
                   ),
-                  child: Center(
+                  child:
+                   Padding(
+              padding: const EdgeInsets.all(10),
+              child: Center(
                     child: LineChart1(
                       tractorId: widget.tractorId,
                       token: widget.token,
                     ),
-                  )),
+                  ) ,)
+                  ),
             ),
             Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(
-                  height: 220,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey, // Border color
-                      width: 1.0, // Border width
-                    ),
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                       Container(
+                         decoration: BoxDecoration(
+                    color: AppColors.cardBackgroundColor,
                     borderRadius:
                         BorderRadius.circular(8.0), // Optional: to give rounde
                   ),
-                  child: Center(
-                    child: Row(children: [
-                      Expanded(
-                          child: Container(
-                        height: 200,
+                     height: 300,
+                     
                         child: PieChartSample2(
                           tractorId: widget.tractorId,
                           token: widget.token,
@@ -87,10 +79,15 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                           logItemIndex1: 2,
                           logItemIndex2: 3,
                         ),
-                      )),
-                      Expanded(
-                          child: Container(
-                        height: 200,
+                      ),
+                     
+                          Container(
+                            decoration: BoxDecoration(
+                    color: AppColors.cardBackgroundColor,
+                    borderRadius:
+                        BorderRadius.circular(8.0), // Optional: to give rounde
+                  ),
+                        height: 300,
                         child: PieChartSample2(
                           tractorId: widget.tractorId,
                           token: widget.token,
@@ -102,9 +99,9 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                           item2_color: Colors.orange,
                           item2_name: 'Thời gian còn lại',
                         ),
-                      ))
+                      )
                     ]),
-                  )),
+                  
             ),
             Padding(
               padding: const EdgeInsets.all(
@@ -112,10 +109,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
               child: Container(
                   height: 300,
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey, // Border color
-                      width: 1.0, // Border width
-                    ),
+                    color: AppColors.cardBackgroundColor,
                     borderRadius: BorderRadius.circular(
                         8.0), // Optional: to give rounded corners
                   ),
@@ -132,10 +126,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
               child: Container(
                   height: 380,
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey, // Border color
-                      width: 1.0, // Border width
-                    ),
+                    color: AppColors.cardBackgroundColor,
                     borderRadius: BorderRadius.circular(
                         8.0), // Optional: to give rounded corners
                   ),
@@ -152,10 +143,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                 child: Container(
                     height: 250,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey, // Border color
-                        width: 1.0, // Border width
-                      ),
+                      color: AppColors.cardBackgroundColor,
                       borderRadius: BorderRadius.circular(
                           8.0), // Optional: to give rounded corners
                     ),
@@ -165,28 +153,22 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                         token: widget.token,
                       ),
                     ))),
-                    Padding(
+            Padding(
                 padding: const EdgeInsets.all(
                     5.0), // Increase vertical padding for more spacing
                 child: Container(
                     height: screenWidth,
-                  //  width: 400,
+                    //  width: 400,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey, // Border color
-                        width: 1.0, // Border width
-                      ),
+                      color: AppColors.cardBackgroundColor,
                       borderRadius: BorderRadius.circular(
                           8.0), // Optional: to give rounded corners
                     ),
-                    child: ListGrid(tractorId: widget.tractorId, token: widget.token,))),
-                    
-                          
-          
-          ]
-          
-          ),
+                    child: ListGrid(
+                      tractorId: widget.tractorId,
+                      token: widget.token,
+                    ))),
+          ]),
         ));
-    throw UnimplementedError();
   }
 }

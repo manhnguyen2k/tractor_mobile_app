@@ -11,20 +11,16 @@ class Progress extends StatefulWidget{
 class _ProgressState extends State<Progress>{
   @override
   Widget build(BuildContext context) {
-   // log(widget.progress.toString());
-    // TODO: implement buildretu
-    return Container(
-   
+    return SizedBox(
       height: 50,
       child: LinearPercentIndicator(
               //  width: 140.0,
                 lineHeight: 14.0,
-                barRadius: Radius.circular(3),
+                barRadius: const Radius.circular(3),
                 percent: widget.progress/100,
                 backgroundColor: Colors.grey,
                 progressColor: AppColors.primaryColor,
               ),
     ); 
-    throw UnimplementedError();
   }
 }

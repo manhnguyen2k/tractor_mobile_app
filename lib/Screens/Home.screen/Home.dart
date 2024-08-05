@@ -2,32 +2,35 @@ import 'package:flutter/material.dart';
 import '../../values/app_colors.dart';
 import '../../values/app_strings.dart';
 import 'Float-button.dart';
+import '../../service/firebase.service/firebase.dart';
+class Home extends StatefulWidget {
+   const Home({super.key});
 
-class Home extends StatelessWidget {
   @override
+  State<Home> createState() => _Home();
+ 
+}
+class _Home extends State<Home>{
+  void _firebase()async{
+    await FirebaseApi().initNotification();
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _firebase();
+  }
+ @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      //extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: AppColors.darkBlue,
-        title: const Text(
-          AppStrings.homeTitleAppbarr,
-          style: TextStyle(
-              color: Colors.grey, // Set the text color here
-              fontSize: 24.0, // Set the font size here
-              fontWeight: FontWeight.normal),
-        ),
-      ),
-      backgroundColor: AppColors.bodyColor,
-      body: Padding(
+    return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 10,),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatButton(
                   size: size,
@@ -55,12 +58,12 @@ class Home extends StatelessWidget {
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatButton(
                   size: size,
                   color: Colors.orange,
-                  icon: Icon(Icons.music_note_outlined, color: Colors.white),
+                  icon: const Icon(Icons.music_note_outlined, color: Colors.white),
                   title: 'Speakers',
                   subtitle: '2 Devices',
                   onTap: () {
@@ -70,7 +73,7 @@ class Home extends StatelessWidget {
                 FloatButton(
                   size: size,
                   color: Colors.teal,
-                  icon: Icon(Icons.sports_cricket_sharp, color: Colors.white),
+                  icon: const Icon(Icons.sports_cricket_sharp, color: Colors.white),
                   title: 'Cricket bat',
                   subtitle: '8 Devices',
                   onTap: () {
@@ -80,7 +83,7 @@ class Home extends StatelessWidget {
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FloatButton(
                   size: size,
@@ -106,9 +109,7 @@ class Home extends StatelessWidget {
             )
           ],
         ),
-      ),
-    );
-
+      );
     // TODO: implement build
     throw UnimplementedError();
   }
