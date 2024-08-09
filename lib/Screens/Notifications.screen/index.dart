@@ -12,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import '../../values/app_colors.dart';
+import 'package:provider/provider.dart';
+import '../../service/Event.service/Event.service.dart';
 
 class NotificationDemo extends StatefulWidget {
   @override
@@ -20,25 +22,47 @@ class NotificationDemo extends StatefulWidget {
 
 class _NotificationDemoState extends State<NotificationDemo> {
 //  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  late FirebaseApi _firebaseApi;
-  late StreamSubscription<RemoteMessage> _subscription;
+  bool isLoading = false;
   List<dynamic> notidata = [];
   Future<void> loadNoti() async {
+    setState(() {
+      isLoading = true;
+    });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setString('deviceToken', fcmToken ?? '');
     final String? uid = prefs.getString('uid');
-    final data = await UserService.getNoti(uid ?? '');
+    final data = await UserService.getLimitNoti(uid ?? '');
+    final Map<String, dynamic> responseData = json.decode(data.body);
+    final List<dynamic> userData = (responseData['data']);
+
+    setState(() {
+      notidata = userData;
+      isLoading = false;
+    });
+    // log('uuuuuu: ${userData}');
+    Provider.of<BoolNotifier>(context, listen: false).setValue(false);
+  }
+
+  Future<void> loadmoreNoti() async {
+    setState(() {
+      isLoading = true;
+    });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString('deviceToken', fcmToken ?? '');
+    final String? uid = prefs.getString('uid');
+    final data = await UserService.getAllNoti(uid ?? '');
     final Map<String, dynamic> responseData = json.decode(data.body);
     final List<dynamic> userData = (responseData['data']);
     setState(() {
       notidata = userData;
+      isLoading = false;
     });
-    log('uuuuuu: ${userData}');
   }
 
   @override
   void initState() {
     super.initState();
+
     loadNoti();
     // _firebaseApi.initNotification();
   }
@@ -74,61 +98,107 @@ class _NotificationDemoState extends State<NotificationDemo> {
           ),
         ),
         //  backgroundColor:  AppColors.backgroundColor,
-        body: RefreshIndicator(
-            onRefresh: () => loadNoti(),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 0),
-              child: ListView.builder(
-                  itemCount: notidata.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: 
-                           Material(
-                            color: AppColors.textColor,
-                            child:
-                            Container(
-                              decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 0.0,
-                    ),
-                    borderRadius: BorderRadius.circular(15.0),),
-                              child:   ListTile(
-                              leading: Container(
-                                width: 40,
-                                height: 40,
-                                child: Icon(Icons.notifications,
-                                    color: Colors.black),
-                              ),
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    notidata[index]['title'],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 16),
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : RefreshIndicator(
+                onRefresh: () => loadNoti(),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 0),
+                  child: ListView.builder(
+                      itemCount: notidata.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index < notidata.length) {
+                          return Padding(
+                            padding: const EdgeInsets.all(0.0),
+                            child: Container(
+                              decoration:const BoxDecoration(
+                                color: AppColors.bodyColor,
+                                border:  Border(
+                                  bottom: BorderSide(
+                                    color: Colors.grey,
+                                    width: 0.5,
                                   ),
-                                  Text(notidata[index]['data'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                          color: Colors.grey)),
-                                  Text(timeAgo(notidata[index]['createdAt']),
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12,
-                                          color: Colors.grey))
-                                ],
+                                ),
+                                //borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: Material(
+                                color: AppColors.bodyColor,
+                                child: InkWell(
+                                  onTap: () {
+                                    if( notidata[index]['type'] == 1){
+                                      log("máy");
+                                      
+                                    }
+                                  },
+                                  child: ListTile(
+                                    leading: Container(
+                                      width: 40,
+                                      height: 40,
+                                      child: const Icon(Icons.notifications,
+                                          color: Colors.black),
+                                    ),
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          notidata[index]['title'],
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 16),
+                                        ),
+                                        Text(notidata[index]['data'],
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14,
+                                                color: Colors.grey)),
+                                        Text(
+                                            timeAgo(
+                                                notidata[index]['createdAt']),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                                color: Colors.grey))
+                                      ],
+                                    ),
+                                    trailing: PopupMenuButton<String>(
+                                      icon: Image.asset(
+                                        'assets/image/menu.png',
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                      onSelected: (String result) {
+                                        // Handle menu action here
+                                        log("Selected: ${notidata[index]['_id']}");
+                                      },
+                                      itemBuilder: (BuildContext context) =>
+                                          <PopupMenuEntry<String>>[
+                                        const PopupMenuItem<String>(
+                                          value: 'delete',
+                                          child: Text('Xóa thông báo'),
+                                        ),
+                                       
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                            )
-                           
-                          ),
-                    );
-                  }),
-            )));
+                          );
+                        } 
+                        /*
+                        else if (index == notidata.length &&
+                            notidata.length > 21) {
+                          return InkWell(
+                            onTap: loadmoreNoti,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text("Thông báo cũ hơn"),
+                            ),
+                          );
+                        }
+                        */
+                      }),
+                )));
   }
 }

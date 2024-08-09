@@ -5,8 +5,8 @@ import 'login_register_app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import './service/firebase.service/firebase.dart';
-
-
+import './service/Event.service/Event.service.dart';
+import 'package:provider/provider.dart';
  Future  main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
@@ -17,6 +17,10 @@ import './service/firebase.service/firebase.dart';
   // Set the background messaging handler early on, as a named top-level function
  
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
-    (_) => runApp(const LoginRegisterApp()),
+    (_) => runApp(ChangeNotifierProvider(
+      create: (context) => BoolNotifier(),
+      child: const LoginRegisterApp(),
+    ),),
+   
   );
 }

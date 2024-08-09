@@ -31,14 +31,14 @@ class GridItem1 extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+                    color: AppColors.text_dark, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
               Icon(
                 icon,
-                color: Colors.white,
+                color: AppColors.text_dark,
                 size: 30,
               ),
               const SizedBox(
@@ -46,7 +46,7 @@ class GridItem1 extends StatelessWidget {
               ),
               Text(value.toString(),
                   style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold))
+                      color: AppColors.text_dark, fontWeight: FontWeight.bold))
             ],
           ),
         ));

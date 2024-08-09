@@ -320,19 +320,20 @@ class _MapScreenState extends State<MapScreen> {
               hint: const Text('Select a field'),
             ),
           ),
-        Positioned(
-                  bottom: 10,
-                  right: 10,
-                  child: FloatingActionButton.extended(
-                     heroTag: "btn1",
-                    onPressed: () {
-                      // Show refresh indicator programmatically on button tap.
-                       _refreshIndicatorKey.currentState?.show();
-                    },
-                    icon: const Icon(Icons.refresh),
-                    label: const Text('Tải lại'),
-                  ),
-                ), ],
+          Positioned(
+            bottom: 10,
+            right: 10,
+            child: FloatingActionButton.extended(
+              heroTag: "btn1",
+              onPressed: () {
+                // Show refresh indicator programmatically on button tap.
+                _refreshIndicatorKey.currentState?.show();
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text('Tải lại'),
+            ),
+          ),
+        ],
       ),
     );
     /*

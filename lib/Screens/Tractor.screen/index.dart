@@ -8,21 +8,23 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../values/app_strings.dart';
 import '../../service/Tractor.service/Tractor.service.dart';
+import '../../utils//common_widgets/connection.err.dart';
 import 'dart:developer';
 
 final url = dotenv.env['BASE_URL'];
 
 class ListTractor extends StatefulWidget {
   final Function(String, int) onTabChange;
-
+ 
   const ListTractor({Key? key, required this.onTabChange}) : super(key: key);
   @override
   State<ListTractor> createState() => _ListTractorState();
 }
 
 class _ListTractorState extends State<ListTractor> {
+   bool isLoading = false;
+   bool isError = false;
   String _token = '';
-
   String getToken() {
     String token = '';
     try {
@@ -45,6 +47,7 @@ class _ListTractorState extends State<ListTractor> {
   Map<String, dynamic> tractorSockets = {};
 
   Future<void> _loadData() async {
+   
     all_tractor.clear();
     try {
       final data = await TractorService.getAllTractor();
@@ -55,16 +58,20 @@ class _ListTractorState extends State<ListTractor> {
         log('$count');
         setState(() {
           all_tractor.add(item['_id']);
+       isError = false;
         });
       }
 //count= 0 ;
     } catch (e) {
       log('errrr${e.toString()}:');
+      setState(() {
+        isError = true;
+      });
     }
   }
 
   void connect(IO.Socket socket) async {
-    print('eeeeeeeeeeeeee');
+   
     if (socket.disconnected) {
       socket.connect();
 
@@ -121,6 +128,8 @@ class _ListTractorState extends State<ListTractor> {
   @override
   Widget build(BuildContext context) {
     return
+   
+   // isError? ConnectionFailed():
     RefreshIndicator(
           onRefresh: _refresh,
           child:

@@ -13,6 +13,7 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../utils/common_widgets/appbar.dart';
+
 const kGoogleApiKey = "AIzaSyDL9J82iDhcUWdQiuIvBYa0t5asrtz3Swk";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
@@ -113,21 +114,21 @@ class MapSampleState extends State<AddField> {
     return '#${color.value.toRadixString(16).padLeft(8, '0').substring(2)}';
   }
 
-  void handleDelete(){
+  void handleDelete() {
     setState(() {
       _markers.clear();
-                        _polygons.clear();
-                        _points.clear();
+      _polygons.clear();
+      _points.clear();
     });
- 
   }
+
   Future<void> handleSave() async {
     if (name.isEmpty) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title:const Text('Lỗi'),
+            title: const Text('Lỗi'),
             content: const Text('Hãy nhập tên ruộng!'),
             actions: <Widget>[
               TextButton(
@@ -191,14 +192,14 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title:const  Text('Thông báo'),
+                title: const Text('Thông báo'),
                 content: const Text('Có lỗi xảy ra, xin thử lại!'),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child:const  Text('Đóng'),
+                    child: const Text('Đóng'),
                   ),
                 ],
               );
@@ -225,12 +226,12 @@ class MapSampleState extends State<AddField> {
     }
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: AppStrings.addFieldTitle,
-      leading: IconButton(
+      appBar: CustomAppBar(
+        title: AppStrings.addFieldTitle,
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textColor),
           onPressed: () {
             Navigator.pop(context);
@@ -252,28 +253,28 @@ class MapSampleState extends State<AddField> {
           ),
           Positioned(
             top: 10,
-           
             right: 20,
-            child:IconButton(
-                    icon: const Icon(Icons.search, color: Colors.white,),
-                    onPressed: () async {
-                      Prediction? p = await PlacesAutocomplete.show(
-                          types: [],
-                          offset: 0,
-                          radius: 1000,
-                          strictbounds: false,
-                          region: "vn",
-                          mode: Mode.overlay, // Mode.fullscreen
-                          language: "vn",
-                          components: [Component(Component.country, "vn")],
-                          context: context,
-                          apiKey: kGoogleApiKey);
-                      displayPrediction(p);
-                    },
-                  ),
-                
+            child: IconButton(
+              icon: const Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                Prediction? p = await PlacesAutocomplete.show(
+                    types: [],
+                    offset: 0,
+                    radius: 1000,
+                    strictbounds: false,
+                    region: "vn",
+                    mode: Mode.overlay, // Mode.fullscreen
+                    language: "vn",
+                    components: [Component(Component.country, "vn")],
+                    context: context,
+                    apiKey: kGoogleApiKey);
+                displayPrediction(p);
+              },
             ),
-          
+          ),
           if (_getLatLngFromMarkers().isNotEmpty)
             Positioned(
                 top: 20.0,
@@ -289,7 +290,7 @@ class MapSampleState extends State<AddField> {
                         log('stroke: $color');
                       },
                     ),
-                   const  Text('Màu viền')
+                    const Text('Màu viền')
                   ],
                 )),
           if (_getLatLngFromMarkers().isNotEmpty)
@@ -307,7 +308,7 @@ class MapSampleState extends State<AddField> {
                         _updatePolygon();
                       },
                     ),
-                  const  Text('Màu phủ')
+                    const Text('Màu phủ')
                   ],
                 )),
           if (_getLatLngFromMarkers().isNotEmpty)
@@ -346,7 +347,8 @@ class MapSampleState extends State<AddField> {
                 width: 120,
                 child: TextField(
                   controller: _opacity,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(
                         RegExp(r'^\d+\.?\d{0,2}')),
@@ -367,7 +369,7 @@ class MapSampleState extends State<AddField> {
                 ),
               ),
             ),
-          if ( _getLatLngFromMarkers().isNotEmpty)
+          if (_getLatLngFromMarkers().isNotEmpty)
             Positioned(
               top: 260.0,
               left: 20.0,
@@ -388,14 +390,15 @@ class MapSampleState extends State<AddField> {
                 ),
               ),
             ),
-             if (_getLatLngFromMarkers().isNotEmpty)
+          if (_getLatLngFromMarkers().isNotEmpty)
             Positioned(
               top: 320.0,
               left: 20.0,
               child: SizedBox(
                   width: 120,
                   child: FilledButton(
-                      onPressed: () => handleDelete(), child: const Text('Xóa'))),
+                      onPressed: () => handleDelete(),
+                      child: const Text('Xóa'))),
             ),
           if (_getLatLngFromMarkers().length > 2)
             Positioned(

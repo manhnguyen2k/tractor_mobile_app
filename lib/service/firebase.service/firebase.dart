@@ -6,18 +6,13 @@ import '../User.service/User.service.dart';
 import '../../values/app_routes.dart';
 import '../../utils/helpers/navigation_helper.dart';
 import '../Event.service/Event.service.dart';
-Future<void> handlerBackgroundMesage(RemoteMessage mesage) async {
-  log('Title: ${mesage.notification?.title}');
-  log('Body: ${mesage.notification?.body}');
-  log('Payload: ${mesage.data}');
-  //
-}
+import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseApi {
   final _firebaseMessage = FirebaseMessaging.instance;
-    final EventService _eventService = EventService();
-    late StreamSubscription<String> _subscription;
-  Future<void> initNotification() async {
+  
+  Future<void> initNotification(BuildContext context) async {
     await _firebaseMessage.requestPermission();
     final fcmToken = await _firebaseMessage.getToken();
     log('Token: $fcmToken');
@@ -26,13 +21,15 @@ class FirebaseApi {
     final String? uid = prefs.getString('uid');
     log('uid: $uid');
     await UserService.saveDeviceToken(fcmToken ?? '', uid ?? '');
-    FirebaseMessaging.onBackgroundMessage(handlerBackgroundMesage);
+    FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
+  log('Thông báo nền nhận được: ${message.messageId}');
+  log('Nội dung thông báo: ${message.notification?.body}');
+});
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       log('Titleopen: ${message.notification?.title}');
       log('Bodyopen: ${message.notification?.body}');
       log('Payloadopen: ${message.data}');
-     // prefs.setBool('isNoti', true);
-      //_eventService.addEvent(true);
+      Provider.of<BoolNotifier>(context, listen: false).setValue(true);
     });
     final FirebaseMessaging _messaging = FirebaseMessaging.instance;
     _messaging.getInitialMessage().then((RemoteMessage? message) {

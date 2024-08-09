@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../values/app_colors.dart';
+
 class GridItem extends StatelessWidget {
   GridItem(
       {required this.title,
@@ -33,14 +34,14 @@ class GridItem extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+                    color: AppColors.text_dark, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
               ),
               Icon(
                 icon,
-                color: Colors.white,
+                color: AppColors.text_dark,
                 size: 30,
               ),
               const SizedBox(
@@ -48,7 +49,7 @@ class GridItem extends StatelessWidget {
               ),
               Text(value == 0 ? 'Tắt' : 'Bật',
                   style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold))
+                      color: AppColors.text_dark, fontWeight: FontWeight.bold))
             ],
           ),
         ));

@@ -1,4 +1,3 @@
-
 //import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
 import './indicator.dart';
@@ -6,20 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../../../values/app_colors.dart';
 final url = dotenv.env['BASE_URL'];
+
 class PieChartSample2 extends StatefulWidget {
- // const PieChartSample2({super.key});
+  // const PieChartSample2({super.key});
   PieChartSample2({
-    required this.tractorId, 
-     required this.token, 
+    required this.tractorId,
+    required this.token,
     required this.logItem,
     required this.logItemIndex1,
     required this.logItemIndex2,
-    this.item1_name, 
+    this.item1_name,
     this.item2_name,
     this.item1_color,
     this.item2_color,
-    });
+  });
   final String tractorId;
   final String token;
   final String logItem;
@@ -39,118 +40,107 @@ class PieChart2State extends State<PieChartSample2> {
   double sections1 = 50;
   double sections2 = 50;
   late IO.Socket socket;
-   void connect( IO.Socket socket) async {
-   if(socket.disconnected){
-    socket.connect();
-    socket.on(widget.tractorId, (data) {
-      final Map<String, dynamic> b = jsonDecode(data['logs']);
-    
-      final double _sections1 = b[widget.logItem][widget.logItemIndex1].toDouble();
-      final double _sections2 = b[widget.logItem][widget.logItemIndex2].toDouble();
-        final sum = _sections2+_sections1;
-        final percent1 = (_sections1/sum)*100;
-        final percent2 = (_sections2/sum)*100;
-      if(mounted){
-        setState(() {
-          sections1 = percent1;
-          sections2 = percent2;
-        });
-      }
+  void connect(IO.Socket socket) async {
+    if (socket.disconnected) {
+      socket.connect();
+      socket.on(widget.tractorId, (data) {
+        final Map<String, dynamic> b = jsonDecode(data['logs']);
 
-    });
-
-   }
-   
-  
+        final double _sections1 =
+            b[widget.logItem][widget.logItemIndex1].toDouble();
+        final double _sections2 =
+            b[widget.logItem][widget.logItemIndex2].toDouble();
+        final sum = _sections2 + _sections1;
+        final percent1 = (_sections1 / sum) * 100;
+        final percent2 = (_sections2 / sum) * 100;
+        if (mounted) {
+          setState(() {
+            sections1 = percent1;
+            sections2 = percent2;
+          });
+        }
+      });
+    }
   }
-  @override
-  void initState(){
-    super.initState();
-       Map<String, String> extraHeaders = {
-    'token':
-              widget.token   
-  };
 
-  // Khởi tạo kết nối socket với headers
-   socket = IO.io(url, <String, dynamic>{
-    'transports': ['websocket'],
-    'force new connection': true,
-    'extraHeaders': extraHeaders,
-  });
+  @override
+  void initState() {
+    super.initState();
+    Map<String, String> extraHeaders = {'token': widget.token};
+
+    // Khởi tạo kết nối socket với headers
+    socket = IO.io(url, <String, dynamic>{
+      'transports': ['websocket'],
+      'force new connection': true,
+      'extraHeaders': extraHeaders,
+    });
 
     connect(socket);
   }
+
   @override
-  void dispose(){
-      socket.disconnect();
-      socket.dispose();
+  void dispose() {
+    socket.disconnect();
+    socket.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
- 
-    return  
-       Column(
-         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-         
-          SizedBox(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                   startDegreeOffset: -90,
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
-                  ),
-                  borderData: FlBorderData(
-                    show: true,
-                  ),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: showingSections(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 250,
+          width: 250,
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: PieChart(
+              PieChartData(
+                startDegreeOffset: -90,
+                pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    setState(() {
+                      if (!event.isInterestedForInteractions ||
+                          pieTouchResponse == null ||
+                          pieTouchResponse.touchedSection == null) {
+                        touchedIndex = -1;
+                        return;
+                      }
+                      touchedIndex =
+                          pieTouchResponse.touchedSection!.touchedSectionIndex;
+                    });
+                  },
                 ),
+                borderData: FlBorderData(
+                  show: true,
+                ),
+                sectionsSpace: 0,
+                centerSpaceRadius: 50,
+                sections: showingSections(),
               ),
             ),
           ),
-           Indicator(
-                color: widget.item1_color?? Colors.blue,
-                text: widget.item1_name ??'Quãng đường đã đi',
-                isSquare: true,
-                width: 137,
-                fontsize: 12,
-              ),
-          const   SizedBox(
-                height: 4,
-              ),
-            
-              Indicator(
-                color: widget.item2_color??Colors.green,
-                text: widget.item2_name ??'Quãng đường còn lại',
-                isSquare: true,
-                width: 137,
-                fontsize: 12,
-              ),
-            
-        
-         
-          
-          
-        ],
-      );
-    
-    
+        ),
+        Indicator(
+          color: widget.item1_color ?? Colors.blue,
+          text: widget.item1_name ?? 'Quãng đường đã đi',
+          isSquare: true,
+          width: 137,
+          fontsize: 12,
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        Indicator(
+          color: widget.item2_color ?? Colors.green,
+          text: widget.item2_name ?? 'Quãng đường còn lại',
+          isSquare: true,
+          width: 137,
+          fontsize: 12,
+        ),
+      ],
+    );
   }
 
   List<PieChartSectionData> showingSections() {
@@ -162,28 +152,28 @@ class PieChart2State extends State<PieChartSample2> {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: widget.item1_color?? Colors.blue,
+            color: widget.item1_color ?? Colors.blue,
             value: sections2,
             title: '${sections2.toStringAsFixed(1)}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: AppColors.text_dark,
               shadows: shadows,
             ),
           );
-       
+
         case 1:
           return PieChartSectionData(
-            color:widget.item2_color?? Colors.green,
+            color: widget.item2_color ?? Colors.green,
             value: sections1,
             title: '${sections1.toStringAsFixed(1)}%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color:Colors.white,
+              color: AppColors.text_dark,
               shadows: shadows,
             ),
           );

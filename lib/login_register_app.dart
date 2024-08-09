@@ -12,8 +12,10 @@ class LoginRegisterApp extends StatelessWidget {
 
   Future<String> _getInitialRoute() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool hasKey = prefs.containsKey('isLogin'); // Thay thế 'your_key' bằng khóa bạn muốn kiểm tra
-    return hasKey ? AppRoutes.home : AppRoutes.login; // Thay AppRoutes.home bằng route của màn hình home
+    bool hasKey = prefs.containsKey('isLogin'); 
+    return hasKey ? 
+    AppRoutes.home 
+    : AppRoutes.login; 
   }
 
   @override

@@ -55,7 +55,10 @@ dependencies:
   firebase_messaging: ^15.0.3
   flutter_local_notifications: ^17.2.1+2
   flutter_svg: ^2.0.9
-
+  provider: ^6.1.2
+  youtube_player_flutter: ^8.1.2
+  flutter_inappwebview: ^5.8.0
+ 
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,6 +76,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
+    - assets/video.html
     - assets/image/
     - .env
   # The following line ensures that the Material Icons font is

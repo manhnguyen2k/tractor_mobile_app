@@ -24,6 +24,7 @@ class Infomation extends StatelessWidget{
       body: const Center(child: Text(AppStrings.InfomationTitle)),
     );
     // TODO: implement build
+    
     throw UnimplementedError();
   }
 }

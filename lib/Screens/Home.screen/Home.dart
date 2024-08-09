@@ -11,14 +11,12 @@ class Home extends StatefulWidget {
  
 }
 class _Home extends State<Home>{
-  void _firebase()async{
-    await FirebaseApi().initNotification();
-  }
+ 
 
   @override
   void initState(){
     super.initState();
-    _firebase();
+  
   }
  @override
   Widget build(BuildContext context) {

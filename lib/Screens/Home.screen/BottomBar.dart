@@ -14,7 +14,9 @@ import '../../values/app_routes.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../service/Event.service/Event.service.dart';
 import 'dart:async';
-
+import '../../service/firebase.service/firebase.dart';
+import 'package:provider/provider.dart';
+import '../../service/Event.service/Event.service.dart';
 class AnimatedBarExample extends StatefulWidget {
   const AnimatedBarExample({super.key});
 
@@ -23,8 +25,8 @@ class AnimatedBarExample extends StatefulWidget {
 }
 
 class _AnimatedBarExampleState extends State<AnimatedBarExample> {
-  final EventService _eventService = EventService();
-  late StreamSubscription<bool> _subscription;
+
+
   int selected = 0;
   int type = 0;
   bool isSetcenterMap = false;
@@ -36,6 +38,9 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
     AppStrings.mapTitleAppbarr,
     AppStrings.ProfileTitle,
   ];
+   void _firebase()async{
+    await FirebaseApi().initNotification(context);
+  }
   void _changeCenterMapTab(String selected_center, int _type) {
     setState(() {
       isSetcenterMap = true;
@@ -48,13 +53,13 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
   @override
   void initState() {
     super.initState();
-    _subscription = _eventService.eventStream.listen((event) {
-      log('Received event: $event');
-    });
+    _firebase();
   }
 
   @override
   Widget build(BuildContext context) {
+     final bool hasNotification = Provider.of<BoolNotifier>(context).value;
+
     return Scaffold(
         appBar: CustomAppBar(
           title: _titles[selected],
@@ -64,10 +69,11 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
                 NavigationHelper.pushNamed(AppRoutes.noti);
               },
               icon: SvgPicture.asset(
-                'assets/image/notification-alert-svgrepo-com (4).svg',
-
-                width: 24.0, // Set the size as needed
-                height: 24.0, // Set the size as needed
+                 hasNotification
+              ? 'assets/image/notification-alert-svgrepo-com (4).svg'
+              : 'assets/image/notification-svgrepo-com.svg',
+                width: 24.0, 
+                height: 24.0, 
               ),
             )
           ],

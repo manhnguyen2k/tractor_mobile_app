@@ -39,10 +39,8 @@ class _Fields extends State<Fields> {
   }
 
   Future<void> _refresh() async {
-    // Simulate a network request or some other async operation
     await Future.delayed(const Duration(seconds: 2));
     _loadData();
-    // Update the list with new data
   }
 
   @override
@@ -59,29 +57,27 @@ class _Fields extends State<Fields> {
                     final item = _data[index];
                     return Padding(
                       padding: const EdgeInsets.all(
-                          5.0), // Increase vertical padding for more spacing
+                          5.0), 
                       child: Container(
                         constraints: const BoxConstraints(
-                          minHeight: 50.0, // Minimum height is 50 units
+                          minHeight: 50.0, 
                         ),
                         height: 60,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: Colors.white, // Border color
-                            width: 0.0, // Border width
+                            color: Colors.white,
+                            width: 0.0,
                           ),
                           borderRadius: BorderRadius.circular(15.0),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black
-                                  .withOpacity(0.3), // Màu của bóng đổ
-                              spreadRadius: 1, // Độ rộng bóng đổ
-                              blurRadius: 5, // Độ mờ của bóng đổ
-                              offset:
-                                  const Offset(0, 3), // Vị trí bóng đổ (x, y)
+                              color: Colors.black.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
                             ),
-                          ], // Optional: to give rounded corners
+                          ],
                         ),
                         child: Material(
                             color: Colors.transparent,
@@ -111,7 +107,11 @@ class _Fields extends State<Fields> {
                                         child: const Icon(
                                             LineAwesomeIcons.angle_right_solid,
                                             size: 18.0,
-                                            color: Colors.grey))))),
+                                            color: Colors.grey)
+                                            )
+                                          )
+                                        )
+                                  ),
                       ),
                     );
                   },
@@ -120,9 +120,8 @@ class _Fields extends State<Fields> {
                   bottom: 10,
                   right: 10,
                   child: FloatingActionButton.extended(
-                     heroTag: "btn2",
+                    heroTag: "btn2",
                     onPressed: () {
-                      // Show refresh indicator programmatically on button tap.
                       NavigationHelper.pushNamed(AppRoutes.add_field);
                     },
                     icon: const Icon(Icons.add),

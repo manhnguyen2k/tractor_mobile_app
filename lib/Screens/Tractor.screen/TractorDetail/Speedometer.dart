@@ -81,9 +81,9 @@ class _SpeedState extends State<Speedometer1> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
+    return SizedBox(
+      height: 280,
+      child: 
         SfRadialGauge(
           axes: <RadialAxis>[
             RadialAxis(
@@ -97,11 +97,11 @@ class _SpeedState extends State<Speedometer1> {
                 showLastLabel: false,
                 minorTicksPerInterval: 4,
                 majorTickStyle: const MajorTickStyle(
-                    length: 8, thickness: 3, color: AppColors.textColor),
+                    length: 8, thickness: 3, color: AppColors.text_dark),
                 minorTickStyle: const MinorTickStyle(
-                    length: 3, thickness: 1.5, color: AppColors.textColor),
+                    length: 3, thickness: 1.5, color: AppColors.text_dark),
                 axisLabelStyle: const GaugeTextStyle(
-                    color: AppColors.textColor,
+                    color: AppColors.text_dark,
                     fontWeight: FontWeight.bold,
                     fontSize: 14),
                 onLabelCreated: labelCreated),
@@ -112,11 +112,11 @@ class _SpeedState extends State<Speedometer1> {
               axisLineStyle: const AxisLineStyle(
                   thicknessUnit: GaugeSizeUnit.factor, thickness: 0.03),
               majorTickStyle: const MajorTickStyle(
-                  length: 6, thickness: 3, color: AppColors.textColor),
+                  length: 6, thickness: 3, color: AppColors.text_dark),
               minorTickStyle: const MinorTickStyle(
-                  length: 3, thickness: 2, color: AppColors.textColor),
+                  length: 3, thickness: 2, color: AppColors.text_dark),
               axisLabelStyle: const GaugeTextStyle(
-                  color: AppColors.textColor,
+                  color: AppColors.text_dark,
                   fontWeight: FontWeight.bold,
                   fontSize: 14),
               ranges: <GaugeRange>[
@@ -146,7 +146,7 @@ class _SpeedState extends State<Speedometer1> {
                     needleEndWidth: 6,
                     needleColor: Colors.red,
                     knobStyle: const KnobStyle(
-                        knobRadius: 0.09, color: AppColors.textColor))
+                        knobRadius: 0.09, color: AppColors.text_dark))
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
@@ -156,13 +156,13 @@ class _SpeedState extends State<Speedometer1> {
                           style: const TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.textColor)),
+                              color: AppColors.text_dark)),
                       const SizedBox(height: 20),
                       const Text('Tốc độ (km/h)',
                           style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.textColor))
+                              color: AppColors.text_dark))
                     ])),
                     angle: 90,
                     positionFactor: 1.5)
@@ -170,7 +170,7 @@ class _SpeedState extends State<Speedometer1> {
             ),
           ],
         )
-      ],
+     
     );
   }
 }

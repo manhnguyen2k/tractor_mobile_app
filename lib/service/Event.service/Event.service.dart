@@ -1,17 +1,17 @@
+import 'package:flutter/material.dart';
 
-import 'dart:async';
-import 'dart:ffi';
+class BoolNotifier extends ChangeNotifier {
+  bool _value = false;
 
-class EventService {
-  final _eventController = StreamController<bool>();
+  bool get value => _value;
 
-  Stream<bool> get eventStream => _eventController.stream;
-
-  void addEvent(bool event) {
-    _eventController.add(event);
+  void toggleValue() {
+    _value = !_value;
+    notifyListeners();
   }
 
-  void dispose() {
-    _eventController.close();
+  void setValue(bool newValue) {
+    _value = newValue;
+    notifyListeners();
   }
 }

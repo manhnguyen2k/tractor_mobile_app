@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WebSocket Echo Test</title>
+    <script type="text/javascript">
+        var url =
+            "ws://tractorserver.myddns.me:8080/echo";
+        var output;
+
+        const CUSTOM_TOPIC = Math.floor(Math.random() * 1000);
+
+        function millis() {
+            return Date.now();
+        }
+
+        function init() {
+            output = document.getElementById("output");
+            doWebSocket();
+        }
+
+
+        var intervalId_reconnect = null;
+        function doWebSocket() {
+
+            if (intervalId_reconnect != null) {
+                intervalId_reconnect = null;
+            }
+
+            lasttime_receive_data = 0;
+            if (intervalId_reconnect == null) {
+                intervalId_reconnect = setInterval(reconnect, 200);
+            }
+
+
+        }
+
+
+        var lasttime_receive_data = 0;
+        var websocket = null;
+
+
+
+        var CONNECTED_OK = false;
+
+
+        function reconnect() {
+            // Thử kết nối lại sau khoảng thời gian nhất định
+
+
+
+            if (
+                websocket == null ||
+                (millis() > lasttime_receive_data)) {
+
+                if (websocket != null) {
+
+                    websocket.close();
+                    websocket = null;
+                    CONNECTED_OK = false;
+                }
+
+
+
+
+
+
+                lasttime_receive_data = millis() + 3000;
+                if (websocket == null) {
+
+
+                    console.log('Đang thử kết nối lại...');
+
+
+
+
+                    websocket = new WebSocket(url); // Thay thế bằng URL của máy chủ WebSocket mới
+                    websocket.binaryType = 'arraybuffer';
+
+
+
+                    websocket.onopen = function (e) {
+
+                        {
+
+
+                            console.log('Kết nối WebSocket đã được thiết lập (kết nối lại).');
+                            //    websocket = newSocket; // Cập nhật đối tượng WebSocket với kết nối mới
+
+                            onOpen(e);
+                            CONNECTED_OK = true;
+
+                        };
+
+                        websocket.onmessage = function (e) {
+
+                            onMessage(e);
+                        };
+
+                        websocket.onerror = function (e) {
+                            CONNECTED_OK = false;
+                            onError(e);
+                            websocket = null;
+                        };
+
+                        websocket.onclose = function (e) {
+                            CONNECTED_OK = false;
+
+                            onClose(e);
+                            websocket = null;
+                        };
+                    }
+
+
+
+                }
+
+
+
+
+
+
+
+
+            }
+
+
+
+            // Thời gian chờ trước khi thử kết nối lại (5 giây trong ví dụ này)
+        }
+
+        var count = 0;
+
+        var intervalId = null;
+        var speed_bytes_per_s = 0;
+
+        function tick() {
+
+            let mang_du_lieu = [];
+
+
+            for (let i = 0; i < 5; i++) {
+
+                mang_du_lieu[i] = 'a';
+            }
+
+            var date = new Date();
+            var seconds = date.getSeconds();
+
+            var timeString = seconds.toString().padStart(2, '0');
+
+
+            var textarea = document.getElementById("myTextarea");
+            var duLieu = textarea.value;
+
+            send(JSON.stringify({ topic: "123" + duLieu, speed: timeString + "-" + speed_bytes_per_s }));
+
+            //send ("abcd123efgh" ); 
+            count++;
+
+        }
+        function onOpen(event) {
+            writeToScreen("CONNECTED");
+
+
+
+            if (intervalId != null) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+
+            if (intervalId == null) {
+                // Bắt đầu vòng lặp tick
+                intervalId = setInterval(tick, 1000);
+            }
+
+
+
+        }
+
+
+        var last_time = 0;
+        var count_size_rev = 0;
+        var count_rec = 0;
+        function onMessage(event) {
+
+
+            //document.getElementById("demo_TPOCI").innerHTML = ("REV_" + count_rec + ":" +event.data);
+
+            count_rec++;
+
+
+            //console.log("data RECEIVE="+ event.data);
+            var bytearray = new Uint8Array(event.data);
+
+            lasttime_receive_data = millis() + 3000;
+            console.log("lengh=" + bytearray.length);
+            if (bytearray != null && bytearray.length > 1) {
+
+
+
+                decodeArrayBuffer(bytearray);//event.data);
+
+
+
+                let denta_time = millis() - last_time;
+
+                count_size_rev += bytearray.length;
+
+                if (denta_time >= 2000) {
+                    last_time = millis();
+                    speed_bytes_per_s = Math.floor((1000 * count_size_rev) / denta_time);
+                    count_size_rev = 0;
+
+                    let inputElement = document.getElementById("echo_message");
+
+                    // Set the value of the input element
+                    inputElement.innerHTML = '<span style="color: blue;">RESPONSE: ' + speed_bytes_per_s + '</span>';
+
+
+                }
+
+
+
+            }
+
+
+
+            //websocket.close ();
+        }
+
+        function onError(event) {
+            writeToScreen('<span style="color: red;">ERROR: ' + event.data + '</span>');
+
+            if (intervalId != null) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+
+        function onClose(event) {
+            writeToScreen("DISCONNECTED");
+
+            if (intervalId != null) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+
+        function send(message) {
+            if (websocket != null && CONNECTED_OK) {
+                console.log("senddd")
+                websocket.send(message);
+            }
+        }
+
+        function writeToScreen(message) {
+            /*
+              var pre = document.createElement ("p");
+              pre.style.wordWrap = "break-word";
+              pre.innerHTML = message;
+              output.appendChild (pre);
+              */
+        }
+
+        //window.addEventListener ("load", init, false);
+        function handleImageLoad() {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+            context.drawImage(image, 0, 0);
+        }
+
+        function decodeArrayBuffer(buffer) {
+            var mime;
+            var a = new Uint8Array(buffer);
+            var nb = a.length;
+            if (nb < 4)
+                return null;
+            var b0 = a[0];
+            var b1 = a[1];
+            var b2 = a[2];
+            var b3 = a[3];
+            if (b0 == 0x89 && b1 == 0x50 && b2 == 0x4E && b3 == 0x47)
+                mime = 'image/png';
+            else if (b0 == 0xff && b1 == 0xd8)
+                mime = 'image/jpeg';
+            else if (b0 == 0x47 && b1 == 0x49 && b2 == 0x46)
+                mime = 'image/gif';
+            else
+                return null;
+            var binary = "";
+            for (var i = 0; i < nb; i++) {
+                binary += String.fromCharCode(a[i]);
+            }
+
+            var base64 = window.btoa(binary);
+            var image = new Image();
+            image.onload = () => {
+                // Get a reference to the canvas element
+                const canvas = document.getElementById('canvas');
+
+                // Get the 2D rendering context of the canvas
+                const context = canvas.getContext('2d');
+
+                // Draw the image on the canvas
+                context.drawImage(image, 0, 0);
+            };;//onLoad;
+            image.src = 'data:' + mime + ';base64,' + base64;
+            return image;
+        }
+        function layDuLieu() {
+            doWebSocket();
+        }
+    </script>
+</head>
+
+<body>
+    <h2>WebSocket Echo Test</h2>
+
+
+    <textarea id="myTextarea" rows="1" cols="3"></textarea>
+
+    <button onclick="layDuLieu()">Submit</button>
+
+    <h4 id="demo_TPOCI"></h4>
+    <h4 id="Sent_"></h4>
+    <h4 id="echo_message"></h4>
+
+    <canvas id="canvas" width="1000" height="600"></canvas>
+
+    <div id="output"></div>
+
+
+
+</body>
+
+</html>

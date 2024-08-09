@@ -7,7 +7,7 @@ class FloatButton extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.subtitle,
-    required this.onTap, // Thêm thuộc tính onTap
+    required this.onTap,
   });
 
   final Size size;
@@ -15,8 +15,8 @@ class FloatButton extends StatelessWidget {
   final Icon icon;
   final String title;
   final String subtitle;
-  final VoidCallback onTap; // Kiểu dữ liệu của onTap là VoidCallback
-
+  final VoidCallback onTap; 
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,7 +29,8 @@ class FloatButton extends StatelessWidget {
         ),
         child: InkWell(
           onTap: onTap, // Xử lý sự kiện nhấn
-          borderRadius: BorderRadius.circular(8.0), // Hiệu ứng ripple theo bo góc của Card
+          borderRadius: BorderRadius.circular(
+              8.0), // Hiệu ứng ripple theo bo góc của Card
           child: SizedBox(
             height: size.height * .1,
             width: size.width * .39,

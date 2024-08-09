@@ -90,14 +90,14 @@ late IO.Socket socket;
               // Adjust the size of the Container based on the parent constraints
               double width = constraints.maxWidth;
               double height = constraints.maxHeight;
-              double item_width = width*0.3;
-              double item_height = height*0.3;
+              double item_width = width*0.32;
+              double item_height = height*0.32;
               return Container(
                 width: width,
                 height: height,
                 color: AppColors.backgroundColor,
                 child:  Padding(
-        padding: const EdgeInsets.all( 10),
+        padding: const EdgeInsets.all( 00),
         child: Column(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

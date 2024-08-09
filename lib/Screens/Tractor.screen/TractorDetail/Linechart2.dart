@@ -5,6 +5,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import './wigets/indicator.dart';
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../../values/app_colors.dart';
 final url = dotenv.env['BASE_URL'];
 class LineChart2 extends StatefulWidget {
   LineChart2({
@@ -209,7 +210,7 @@ class _LineChartState extends State<LineChart2>{
                         return Text(
                            value.toInt().toString(),
                           style: TextStyle(
-                            color: Colors.white, // Chỉnh màu chữ của title
+                            color: AppColors.text_dark, // Chỉnh màu chữ của title
                             
                           ),
                         );
@@ -223,7 +224,7 @@ class _LineChartState extends State<LineChart2>{
                         return Text(
                            value.toInt().toString(),
                           style: TextStyle(
-                            color: Colors.white, // Chỉnh màu chữ của title
+                            color: AppColors.text_dark, // Chỉnh màu chữ của title
                             fontSize: 12
                           ),
                         );
@@ -237,7 +238,7 @@ class _LineChartState extends State<LineChart2>{
                         return Text(
                            value.toInt().toString(),
                           style: TextStyle(
-                            color: Colors.white, // Chỉnh màu chữ của title
+                            color: AppColors.text_dark, // Chỉnh màu chữ của title
                             fontSize: 12
                           ),
                         );

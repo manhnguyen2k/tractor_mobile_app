@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tractorapp/Screens/Tractor.screen/TractorDetail/index.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'Screens/Home.screen/BottomBar.dart';
@@ -9,6 +10,7 @@ import 'Screens/Profile.screen/ManageAccount.dart';
 import 'Screens/Profile.screen/InfomationScreen.dart';
 import './Screens/Field.screen/AddField.screens.dart';
 import './Screens/Notifications.screen/index.dart';
+import './Screens/Tractor.screen/TractorDetail/wigets/youtube.srteam.dart';
 
 class Routes {
   const Routes._();
@@ -43,8 +45,13 @@ class Routes {
         return getRoute(widget: Infomation());
       case AppRoutes.add_field:
         return getRoute(widget: const AddField());
-            case AppRoutes.noti:
-        return getRoute(widget:  NotificationDemo ());
+      case AppRoutes.noti:
+        return getRoute(widget: NotificationDemo());
+     // case AppRoutes.stream:
+      //  return getRoute(widget: YouTubePlayerScreen());
+      case AppRoutes.detail:
+        return getRoute(widget: TractorDetailChart(tractorId: '',token: '',tractorName: '',));
+      
       default:
         return getRoute(widget: const InvalidRoute());
     }

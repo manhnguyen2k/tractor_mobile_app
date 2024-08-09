@@ -59,8 +59,8 @@ class _FuelDiaplayState extends State<FuelDisplay> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        // height: 300,
-        child: Center(
+        height: 280,
+       
       child: SfRadialGauge(
         axes: <RadialAxis>[
           RadialAxis(
@@ -69,13 +69,14 @@ class _FuelDiaplayState extends State<FuelDisplay> {
             showTicks: false,
             showAxisLine: false,
             showLabels: false,
+          
             //canScaleToFit: true,
             annotations: <GaugeAnnotation>[
               const GaugeAnnotation(
                   widget: Text(
                     'E',
                     style: TextStyle(
-                        color: AppColors.textColor,
+                        color: AppColors.text_dark,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Times'),
@@ -86,30 +87,32 @@ class _FuelDiaplayState extends State<FuelDisplay> {
                   widget: Text(
                     'F',
                     style: TextStyle(
-                        color: AppColors.textColor,
+                        color: AppColors.text_dark,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Times'),
                   ),
                   angle: 10,
                   positionFactor: 0.95),
-              GaugeAnnotation(
-                  widget: SizedBox(
-                      child: Column(children: <Widget>[
-                    Text('${fuel.toInt().toString()}%',
-                        style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textColor)),
-                    const Text('Nhiên liệu',
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textColor))
-                  ])),
-                  angle: 90,
-                  positionFactor: 1.1)
+                   GaugeAnnotation(
+                    widget: Container(
+                        child: Column(children: <Widget>[
+                      Text('${fuel.toInt().toString()}%',
+                          style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.text_dark)),
+                      const SizedBox(height: 20),
+                      const Text('Nhiên liệu',
+                          style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.text_dark))
+                    ])),
+                    angle: 90,
+                    positionFactor: 1.5)
             ],
+            
             ranges: <GaugeRange>[
               GaugeRange(
                   startValue: 0,
@@ -122,25 +125,25 @@ class _FuelDiaplayState extends State<FuelDisplay> {
                   endValue: 40,
                   startWidth: 15,
                   endWidth: 20,
-                  color: AppColors.textColor),
+                  color: AppColors.text_dark),
               GaugeRange(
                   startValue: 42,
                   endValue: 60,
                   startWidth: 20,
                   endWidth: 25,
-                  color: AppColors.textColor),
+                  color: AppColors.text_dark),
               GaugeRange(
                   startValue: 62,
                   endValue: 80,
                   startWidth: 25,
                   endWidth: 30,
-                  color: AppColors.textColor),
+                  color: AppColors.text_dark),
               GaugeRange(
                   startValue: 82,
                   endValue: 100,
                   startWidth: 30,
                   endWidth: 35,
-                  color: AppColors.textColor),
+                  color: AppColors.text_dark),
             ],
             pointers: <GaugePointer>[
               NeedlePointer(
@@ -150,12 +153,12 @@ class _FuelDiaplayState extends State<FuelDisplay> {
                   needleStartWidth: 1,
                   needleColor: Colors.red,
                   needleLength: 0.8,
-                  knobStyle: const KnobStyle(
-                      color: AppColors.textColor, knobRadius: 0.06))
+                knobStyle: const KnobStyle(
+                        knobRadius: 0.09, color: AppColors.text_dark))
             ],
           )
         ],
       ),
-    ));
+    );
   }
 }
