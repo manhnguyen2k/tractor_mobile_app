@@ -20,13 +20,13 @@ class GridItem1 extends StatelessWidget {
         decoration: BoxDecoration(
             
             borderRadius: BorderRadius.circular(8.0),
-            color: AppColors.cardBackgroundColor // Optional: to give rounded corners
+            color: AppColors.cardBackgroundColor 
             ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+            mainAxisAlignment: MainAxisAlignment.center, 
             crossAxisAlignment:
-                CrossAxisAlignment.center, // Center horizontally
+                CrossAxisAlignment.center, 
             children: [
               Text(
                 title,

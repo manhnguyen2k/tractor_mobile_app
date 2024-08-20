@@ -9,6 +9,7 @@ import 'List_grid.dart';
 import '../../../utils/common_widgets/appbar.dart';
 import './wigets/youtube.srteam.dart';
 import './wigets/control_online_video.dart';
+import '../../../values/app_string1.dart';
 class TractorDetailChart extends StatefulWidget {
   TractorDetailChart(
       {required this.tractorId,
@@ -36,7 +37,166 @@ class _TractorDetailChart extends State<TractorDetailChart> {
           ),
         ),
         backgroundColor: AppColors.backgroundColor,
-        body: SingleChildScrollView(
+        body: ListView.builder(itemBuilder: (context, index) {
+          if (index == 0) {
+            return Padding(
+              padding:
+                  const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+              child: Container(
+                  height: 500,
+                  decoration: BoxDecoration(
+                    color: AppColors.cardBackgroundColor,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: ControlOnlineTractor()),
+            );
+          }
+
+          if (index == 1) {
+            return Padding(
+              padding:
+                  const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+              child: Container(
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: AppColors.cardBackgroundColor,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Center(
+                      child: LineChart1(
+                        tractorId: widget.tractorId,
+                        token: widget.token,
+                      ),
+                    ),
+                  )),
+            );
+          }
+
+          if (index == 2) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                  top: 5,
+                  bottom: 5,
+                  left: 15,
+                  right: 15), 
+              child: Container(
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: AppColors.cardBackgroundColor,
+                    borderRadius: BorderRadius.circular(
+                        8.0), 
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Center(
+                      child: LineChart2(
+                        tractorId: widget.tractorId,
+                        token: widget.token,
+                      ),
+                    ),
+                  )),
+            );
+          }
+          if (index == 3) {
+            return Padding(
+              padding:
+                  const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 300,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: AppColors.cardBackgroundColor,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: PieChartSample2(
+                      tractorId: widget.tractorId,
+                      token: widget.token,
+                      logItem: 'sum',
+                      logItemIndex1: 2,
+                      logItemIndex2: 3,
+                    ),
+                  ),
+                  Container(
+                    height: 300,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: AppColors.cardBackgroundColor,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: PieChartSample2(
+                      tractorId: widget.tractorId,
+                      token: widget.token,
+                      logItem: 'sum',
+                      logItemIndex1: 0,
+                      logItemIndex2: 1,
+                      item1_color: Colors.red,
+                      item1_name: AppStrings1.piechart_timeed_title,
+                      item2_color: Colors.orange,
+                      item2_name: AppStrings1.piechart_time_left_title,
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
+          if (index == 4) {
+            return Padding(
+                padding: const EdgeInsets.only(
+                    top: 5, bottom: 5, left: 15, right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 300,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        color: AppColors.cardBackgroundColor,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Speedometer1(
+                        tractorId: widget.tractorId,
+                        token: widget.token,
+                      ),
+                    ),
+                    Container(
+                      height: 300,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        color: AppColors.cardBackgroundColor,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: FuelDisplay(
+                        tractorId: widget.tractorId,
+                        token: widget.token,
+                      ),
+                    ),
+                  ],
+                ));
+          }
+          if (index == 5) {
+            return Padding(
+                padding: const EdgeInsets.only(
+                    top: 5, bottom: 5, left: 15, right: 15),
+                child: Container(
+                    height: screenWidth,
+                    //  width: 400,
+                    decoration: BoxDecoration(
+                      color: AppColors.cardBackgroundColor,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: ListGrid(
+                      tractorId: widget.tractorId,
+                      token: widget.token,
+                    )));
+          }
+        })
+        /*
+        SingleChildScrollView(
           child: Column(children: [
              Padding(
               padding: const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15), 
@@ -181,6 +341,8 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                       token: widget.token,
                     ))),
           ]),
-        ));
+        )
+        */
+        );
   }
 }

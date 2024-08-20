@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../values/app_colors.dart';
-import '../../values/app_strings.dart';
+//import '../../values/app_strings.dart';
+import '../../values/app_string1.dart';
+import 'Account_information.screen/Build_profile.dart';
 class ManageAccount extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -13,17 +15,16 @@ class ManageAccount extends StatelessWidget{
               Navigator.pop(context);
             },
           ),
-          title: const Text(
-            AppStrings.AccountManageTitle,
-            style: TextStyle(
-                color: AppColors.textColor, // Set the text color here
-                fontSize: 24.0, // Set the font size here
+          title:  Center(child: Text(
+            AppStrings1.AccountManageTitle,
+            style:const TextStyle(
+                color: AppColors.textColor, 
+                fontSize: 24.0, 
                 fontWeight: FontWeight.normal),
-          ),
+          ),) ,
         ),
-      body: const Center(child: Text(AppStrings.AccountManageTitle)),
+      body: ProfileScreen()
     );
-    // TODO: implement build
-    throw UnimplementedError();
+    
   }
 }

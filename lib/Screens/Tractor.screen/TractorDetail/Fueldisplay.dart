@@ -4,7 +4,7 @@ import '../../../values/app_colors.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import '../../../values/app_string1.dart';
 final url = dotenv.env['BASE_URL'];
 
 class FuelDisplay extends StatefulWidget {
@@ -50,17 +50,14 @@ class _FuelDiaplayState extends State<FuelDisplay> {
   @override
   void dispose() {
     socket.disconnect();
-
     socket.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 280,
-       
+      height: 280,
       child: SfRadialGauge(
         axes: <RadialAxis>[
           RadialAxis(
@@ -69,7 +66,6 @@ class _FuelDiaplayState extends State<FuelDisplay> {
             showTicks: false,
             showAxisLine: false,
             showLabels: false,
-          
             //canScaleToFit: true,
             annotations: <GaugeAnnotation>[
               const GaugeAnnotation(
@@ -94,25 +90,24 @@ class _FuelDiaplayState extends State<FuelDisplay> {
                   ),
                   angle: 10,
                   positionFactor: 0.95),
-                   GaugeAnnotation(
-                    widget: Container(
-                        child: Column(children: <Widget>[
-                      Text('${fuel.toInt().toString()}%',
-                          style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.text_dark)),
-                      const SizedBox(height: 20),
-                      const Text('Nhiên liệu',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.text_dark))
-                    ])),
-                    angle: 90,
-                    positionFactor: 1.5)
+              GaugeAnnotation(
+                  widget:  Column(children: <Widget>[
+                    Text('${fuel.toInt().toString()}%',
+                        style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.text_dark)),
+                    const SizedBox(height: 20),
+                     Text(AppStrings1.tractor_fuel,
+                        style:const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.text_dark))
+                  ]),
+                  angle: 90,
+                  positionFactor: 1.5)
             ],
-            
+
             ranges: <GaugeRange>[
               GaugeRange(
                   startValue: 0,
@@ -153,8 +148,8 @@ class _FuelDiaplayState extends State<FuelDisplay> {
                   needleStartWidth: 1,
                   needleColor: Colors.red,
                   needleLength: 0.8,
-                knobStyle: const KnobStyle(
-                        knobRadius: 0.09, color: AppColors.text_dark))
+                  knobStyle: const KnobStyle(
+                      knobRadius: 0.09, color: AppColors.text_dark))
             ],
           )
         ],

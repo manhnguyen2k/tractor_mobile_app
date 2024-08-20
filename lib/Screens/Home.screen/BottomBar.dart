@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:tractorapp/values/app_colors.dart';
-import 'package:tractorapp/values/app_strings.dart';
+//import 'package:tractorapp/values/app_strings.dart';
 import '../Tractor.screen/index.dart';
 import '../Map.screen/Map.dart';
 import 'Home.dart';
@@ -16,7 +16,8 @@ import '../../service/Event.service/Event.service.dart';
 import 'dart:async';
 import '../../service/firebase.service/firebase.dart';
 import 'package:provider/provider.dart';
-import '../../service/Event.service/Event.service.dart';
+import '../../values/app_string1.dart';
+import '../../values/app_string1.dart';
 class AnimatedBarExample extends StatefulWidget {
   const AnimatedBarExample({super.key});
 
@@ -25,22 +26,22 @@ class AnimatedBarExample extends StatefulWidget {
 }
 
 class _AnimatedBarExampleState extends State<AnimatedBarExample> {
-
-
   int selected = 0;
   int type = 0;
   bool isSetcenterMap = false;
   String _selected_center = 'None';
   final List<String> _titles = [
-    AppStrings.homeTitleAppbarr,
-    AppStrings.tractorTitleAppbarr,
-    AppStrings.FieldTitle,
-    AppStrings.mapTitleAppbarr,
-    AppStrings.ProfileTitle,
+    AppStrings1.homeTitleAppbarr,
+    AppStrings1.tractorTitleAppbarr,
+    AppStrings1.FieldTitle,
+    AppStrings1.mapTitleAppbarr,
+    AppStrings1.ProfileTitle,
   ];
-   void _firebase()async{
+  
+  void _firebase() async {
     await FirebaseApi().initNotification(context);
   }
+
   void _changeCenterMapTab(String selected_center, int _type) {
     setState(() {
       isSetcenterMap = true;
@@ -50,134 +51,147 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
     });
   }
 
+
   @override
   void initState() {
     super.initState();
     _firebase();
+     // _loadLanguageStrings();
+  
   }
 
   @override
   Widget build(BuildContext context) {
-     final bool hasNotification = Provider.of<BoolNotifier>(context).value;
+    final bool hasNotification = Provider.of<BoolNotifier>(context).value;
 
-    return Scaffold(
-        appBar: CustomAppBar(
-          title: _titles[selected],
-          actions: [
-            IconButton(
-              onPressed: () {
-                NavigationHelper.pushNamed(AppRoutes.noti);
-              },
-              icon: SvgPicture.asset(
-                 hasNotification
-              ? 'assets/image/notification-alert-svgrepo-com (4).svg'
-              : 'assets/image/notification-svgrepo-com.svg',
-                width: 24.0, 
-                height: 24.0, 
-              ),
-            )
-          ],
-        ),
-        extendBody: true,
-        bottomNavigationBar: StylishBottomBar(
-          backgroundColor: AppColors.darkBlue,
-          option: DotBarOptions(
-              dotStyle: DotStyle.tile, inkColor: AppColors.primaryColor),
-          items: [
-            BottomBarItem(
-              icon: const Icon(
-                Icons.home_outlined,
-              ),
-              selectedIcon: const Icon(Icons.house_rounded),
-              selectedColor: AppColors.primaryColor,
-              unSelectedColor: AppColors.textColor,
-              title: const Text(AppStrings.BottombarHome),
-            ),
-            BottomBarItem(
-              icon: const ImageIcon(
-                AssetImage('assets/image/tractor-icon.png'),
-              ),
-              unSelectedColor: AppColors.textColor,
-              selectedIcon: const ImageIcon(
-                AssetImage('assets/image/tractor-icon.png'),
-              ),
-              selectedColor: AppColors.primaryColor,
-              title: const Text(AppStrings.BottombarTractor),
-            ),
-            BottomBarItem(
-              icon: const ImageIcon(
-                AssetImage('assets/image/field.png'),
-              ),
-              selectedIcon: const ImageIcon(
-                AssetImage('assets/image/field.png'),
-              ),
-              selectedColor: AppColors.primaryColor,
-              unSelectedColor: AppColors.textColor,
-              title: const Text(AppStrings.FieldBottomTitle),
-            ),
-            BottomBarItem(
-              icon: const Icon(
-                Icons.map_outlined,
-              ),
-              selectedIcon: const Icon(
-                Icons.map,
-              ),
-              selectedColor: AppColors.primaryColor,
-              unSelectedColor: AppColors.textColor,
-              title: const Text(AppStrings.BottombarMap),
-            ),
-            BottomBarItem(
-              icon: const Icon(
-                Icons.person_outline,
-              ),
-              selectedIcon: const Icon(
-                Icons.person,
-              ),
-              selectedColor: AppColors.primaryColor,
-              unSelectedColor: AppColors.textColor,
-              title: const Text(AppStrings.BottombarProfile),
-            ),
-          ],
-          hasNotch: true,
-          currentIndex: selected,
-          notchStyle: NotchStyle.square,
-          onTap: (index) {
+    return WillPopScope(
+        onWillPop: () async {
+          if (selected != 0) {
             setState(() {
-              selected = index;
+              selected = 0; 
             });
-          },
-        ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Offstage(
-                offstage: selected != 0,
-                child: Home(),
-              ),
-              Offstage(
-                offstage: selected != 1,
-                child: ListTractor(
-                  onTabChange: _changeCenterMapTab,
+            return false; 
+          }
+          return true; 
+        },
+        child: Scaffold(
+            appBar: CustomAppBar(
+              title: _titles[selected],
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    NavigationHelper.pushNamed(AppRoutes.noti);
+                  },
+                  icon: SvgPicture.asset(
+                    hasNotification
+                        ? 'assets/image/notification-alert-svgrepo-com (4).svg'
+                        : 'assets/image/notification-svgrepo-com.svg',
+                    width: 24.0,
+                    height: 24.0,
+                  ),
+                )
+              ],
+            ),
+            extendBody: true,
+            bottomNavigationBar: StylishBottomBar(
+              backgroundColor: AppColors.darkBlue,
+              option: DotBarOptions(
+                  dotStyle: DotStyle.tile, inkColor: AppColors.primaryColor),
+              items: [
+                BottomBarItem(
+                  icon: const Icon(
+                    Icons.home_outlined,
+                  ),
+                  selectedIcon: const Icon(Icons.house_rounded),
+                  selectedColor: AppColors.primaryColor,
+                  unSelectedColor: AppColors.textColor,
+                  title:  Text(AppStrings1.BottombarHome),
                 ),
-              ),
-              Offstage(
-                offstage: selected != 2,
-                child: Fields(onTabChange: _changeCenterMapTab),
-              ),
-              Offstage(
-                offstage: selected != 3,
-                child: MapScreen(
-                  center: _selected_center,
-                  type: type,
-                  onTabChange: _changeCenterMapTab,
+                BottomBarItem(
+                  icon: const ImageIcon(
+                    AssetImage('assets/image/tractor-icon.png'),
+                  ),
+                  unSelectedColor: AppColors.textColor,
+                  selectedIcon: const ImageIcon(
+                    AssetImage('assets/image/tractor-icon.png'),
+                  ),
+                  selectedColor: AppColors.primaryColor,
+                  title:  Text(AppStrings1.BottombarTractor),
                 ),
+                BottomBarItem(
+                  icon: const ImageIcon(
+                    AssetImage('assets/image/field.png'),
+                  ),
+                  selectedIcon: const ImageIcon(
+                    AssetImage('assets/image/field.png'),
+                  ),
+                  selectedColor: AppColors.primaryColor,
+                  unSelectedColor: AppColors.textColor,
+                  title:  Text(AppStrings1.FieldBottomTitle),
+                ),
+                BottomBarItem(
+                  icon: const Icon(
+                    Icons.map_outlined,
+                  ),
+                  selectedIcon: const Icon(
+                    Icons.map,
+                  ),
+                  selectedColor: AppColors.primaryColor,
+                  unSelectedColor: AppColors.textColor,
+                  title:  Text(AppStrings1.login),
+                ),
+                BottomBarItem(
+                  icon: const Icon(
+                    Icons.person_outline,
+                  ),
+                  selectedIcon: const Icon(
+                    Icons.person,
+                  ),
+                  selectedColor: AppColors.primaryColor,
+                  unSelectedColor: AppColors.textColor,
+                  title:  Text(AppStrings1.BottombarProfile),
+                ),
+              ],
+              hasNotch: true,
+              currentIndex: selected,
+              notchStyle: NotchStyle.square,
+              onTap: (index) {
+                setState(() {
+                  selected = index;
+                });
+              },
+            ),
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  Offstage(
+                    offstage: selected != 0,
+                    child: const Home(),
+                  ),
+                  Offstage(
+                    offstage: selected != 1,
+                    child: ListTractor(
+                      onTabChange: _changeCenterMapTab,
+                    ),
+                  ),
+                  Offstage(
+                    offstage: selected != 2,
+                    child: Fields(onTabChange: _changeCenterMapTab),
+                  ),
+                  Offstage(
+                    offstage: selected != 3,
+                    child: MapScreen(
+                      center: _selected_center,
+                      type: type,
+                      onTabChange: _changeCenterMapTab,
+                    ),
+                  ),
+                  Offstage(
+                    offstage: selected != 4,
+                    child: const ProfileScreen(),
+                  ),
+                ],
               ),
-              Offstage(
-                offstage: selected != 4,
-                child: const ProfileScreen(),
-              ),
-            ],
-          ),
-        ));
+            )));
   }
 }

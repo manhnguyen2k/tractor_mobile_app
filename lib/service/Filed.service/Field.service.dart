@@ -3,14 +3,16 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';
- final String baseUrl = dotenv.env['BASE_URL'] ??''; // Thay thế bằng base URL của bạn
-  
+import '../api.config.dart';
+
+final String baseUrl = dotenv.env['BASE_URL'] ?? '';
+
 class FieldService {
-  
+  static final apiService = ApiService();
   static Future<http.Response> getAllField() async {
     try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/api/v1/fields/get_all_fields'),
+      final response = await apiService.get(
+        '/fields/get_all_fields',
       );
 
       return response;
@@ -18,16 +20,10 @@ class FieldService {
       throw Exception('Failed to get fields: $e');
     }
   }
+
   static Future<http.Response> addField(Map<String, dynamic> payload) async {
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-    };
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/v1/fields/createfield'), 
-        headers: headers,
-         body: jsonEncode(payload),
-      );
+      final response = await apiService.post('/fields/createfield', payload);
 
       return response;
     } catch (e) {

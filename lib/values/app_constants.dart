@@ -12,4 +12,9 @@ class AppConstants {
   static final RegExp passwordRegex = RegExp(
     r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#!%*?&_])[A-Za-z\d@#$!%*?&_].{7,}$',
   );
+  static final Duration timeout = Duration(seconds: 10);
+
+  static final Map<String, String> headers = {
+    'Content-Type': 'application/json',
+  };
 }

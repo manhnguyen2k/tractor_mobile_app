@@ -1,4 +1,8 @@
+
+import 'package:shared_preferences/shared_preferences.dart';
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
 class AppStrings {
+  
   const AppStrings._();
 
   static const String loginAndRegister = 'Login and Register UI';
@@ -65,4 +69,8 @@ class AppStrings {
 
   
   static const String notiTitle = 'Thông báo';
+
+
+
+  
 }

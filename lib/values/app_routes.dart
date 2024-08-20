@@ -12,5 +12,6 @@ class AppRoutes {
   static const String noti = 'noti';
   static const String video = 'video';
   static const String stream = 'stream';
+   static const String changepw = 'changepw';
   
 }

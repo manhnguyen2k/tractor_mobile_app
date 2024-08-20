@@ -126,7 +126,7 @@ class _Tractor_lineState extends State<Tractor_line> {
         Padding(
             padding: const EdgeInsets.all(
               10.0,
-            ), // Add vertical padding for spacing
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -144,9 +144,7 @@ class _Tractor_lineState extends State<Tractor_line> {
                         ],
                       ),
                     ),
-
                     const SizedBox(width: 10),
-
                     SizedBox(
                         width: 70,
                         height: 70,
@@ -158,11 +156,9 @@ class _Tractor_lineState extends State<Tractor_line> {
                             const Text('Tiến độ')
                           ],
                         )),
-
                     const SizedBox(
                       width: 10,
                     ),
-
                     SizedBox(
                         width: 70,
                         height: 70,
@@ -174,9 +170,7 @@ class _Tractor_lineState extends State<Tractor_line> {
                             const Text('Nhiên liệu')
                           ],
                         )),
-
                     const SizedBox(width: 10),
-
                     SizedBox(
                       width: 50,
                       height: 70,
@@ -241,9 +235,8 @@ class _Tractor_lineState extends State<Tractor_line> {
           Positioned.fill(
             child: Center(
               child: ClipRect(
-                // Clip widget to contain the blur to one widget
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), // The filter
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), 
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.3),
@@ -260,8 +253,8 @@ class _Tractor_lineState extends State<Tractor_line> {
                           color: Colors.red,
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
-                    ) // Example of an overlay content
-                        ),
+                        ) 
+                    ),
                   ),
                 ),
               ),

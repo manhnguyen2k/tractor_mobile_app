@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 class FirebaseApi {
   final _firebaseMessage = FirebaseMessaging.instance;
-  
+
   Future<void> initNotification(BuildContext context) async {
     await _firebaseMessage.requestPermission();
     final fcmToken = await _firebaseMessage.getToken();
@@ -22,9 +22,9 @@ class FirebaseApi {
     log('uid: $uid');
     await UserService.saveDeviceToken(fcmToken ?? '', uid ?? '');
     FirebaseMessaging.onBackgroundMessage((RemoteMessage message) async {
-  log('Thông báo nền nhận được: ${message.messageId}');
-  log('Nội dung thông báo: ${message.notification?.body}');
-});
+      log('Thông báo nền nhận được: ${message.messageId}');
+      log('Nội dung thông báo: ${message.notification?.body}');
+    });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       log('Titleopen: ${message.notification?.title}');
       log('Bodyopen: ${message.notification?.body}');
@@ -38,10 +38,8 @@ class FirebaseApi {
       }
     });
   }
+
   void _handleMessage(RemoteMessage message) {
     NavigationHelper.pushNamed(AppRoutes.noti);
   }
-  
-
 }
-

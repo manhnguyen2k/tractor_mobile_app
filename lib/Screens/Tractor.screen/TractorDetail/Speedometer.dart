@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../values/app_colors.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import '../../../values/app_string1.dart';
 final url = dotenv.env['BASE_URL'];
 
 class Speedometer1 extends StatefulWidget {
@@ -126,11 +126,11 @@ class _SpeedState extends State<Speedometer1> {
                     sizeUnit: GaugeSizeUnit.factor,
                     startWidth: 0.03,
                     endWidth: 0.03,
-                    gradient: const SweepGradient(colors: const <Color>[
+                    gradient: const SweepGradient(colors: <Color>[
                       Colors.green,
                       Colors.yellow,
                       Colors.red
-                    ], stops: const <double>[
+                    ], stops:  <double>[
                       0.0,
                       0.5,
                       1
@@ -150,20 +150,19 @@ class _SpeedState extends State<Speedometer1> {
               ],
               annotations: <GaugeAnnotation>[
                 GaugeAnnotation(
-                    widget: Container(
-                        child: Column(children: <Widget>[
+                    widget:  Column(children: <Widget>[
                       Text(speed.toString(),
                           style: const TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: AppColors.text_dark)),
                       const SizedBox(height: 20),
-                      const Text('Tốc độ (km/h)',
+                       Text('${AppStrings1.tractor_speed} (km/h)',
                           style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: AppColors.text_dark))
-                    ])),
+                    ]),
                     angle: 90,
                     positionFactor: 1.5)
               ],

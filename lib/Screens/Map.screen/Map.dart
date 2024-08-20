@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:tractorapp/values/app_colors.dart';
 import '../../service/Filed.service/Field.service.dart';
-
+import '../../values/app_string1.dart';
 final url = dotenv.env['BASE_URL'];
 
 class MapScreen extends StatefulWidget {
@@ -123,7 +123,6 @@ class _MapScreenState extends State<MapScreen> {
                   polyline.polylineId.value == 'poly_${tractor['tractorId']}');
               _polyline.removeWhere((polyline) =>
                   polyline.polylineId.value == 'plans_${tractor['tractorId']}');
-
               setState(() {
                 if (!tractorPoints.containsKey(tractor['tractorId'])) {
                   tractorPoints[tractor['tractorId']] = [];
@@ -224,9 +223,7 @@ class _MapScreenState extends State<MapScreen> {
         log('valueeee: $_polyvalue');
         Polygon? polygon = _polygons.firstWhere(
           (poly) => poly.polygonId.value == _polyvalue,
-          orElse: () => Polygon(
-              polygonId:
-                  PolygonId('default')), // Trả về null nếu không tìm thấy
+          orElse: () => Polygon(polygonId: PolygonId('default')),
         );
         if (polygon.polygonId.value == 'default') {
           _polyvalue = 'None';
@@ -294,7 +291,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ],
               onChanged: _onDropdownChanged,
-              hint: const Text('Select a tractor'),
+             
             ),
           ),
           Positioned(
@@ -317,7 +314,7 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ],
               onChanged: _onPolyDropdownChanged,
-              hint: const Text('Select a field'),
+              
             ),
           ),
           Positioned(
@@ -330,7 +327,7 @@ class _MapScreenState extends State<MapScreen> {
                 _refreshIndicatorKey.currentState?.show();
               },
               icon: const Icon(Icons.refresh),
-              label: const Text('Tải lại'),
+              label:  Text(AppStrings1.map_reload),
             ),
           ),
         ],

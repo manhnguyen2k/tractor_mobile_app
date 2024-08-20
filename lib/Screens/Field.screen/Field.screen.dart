@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../service/Filed.service/Field.service.dart';
-import '../../values/app_strings.dart';
+//import '../../values/app_strings.dart';
 import '../../values/app_colors.dart';
 import '../../utils/helpers/navigation_helper.dart';
 import '../../values/app_routes.dart';
 import 'dart:developer';
 import 'dart:convert';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
+import '../../values/app_string1.dart';
 class Fields extends StatefulWidget {
   final Function(String, int) onTabChange;
 
@@ -125,7 +125,7 @@ class _Fields extends State<Fields> {
                       NavigationHelper.pushNamed(AppRoutes.add_field);
                     },
                     icon: const Icon(Icons.add),
-                    label: const Text('Thêm ruộng'),
+                    label:  Text(AppStrings1.addFieldTitle),
                   ),
                 ),
               ],

@@ -10,6 +10,7 @@ class AppTheme {
 
   static final ThemeData themeData = ThemeData(
     useMaterial3: true,
+    //brightness: Brightness.dark,
     colorSchemeSeed: AppColors.primaryColor,
     scaffoldBackgroundColor: Colors.white,
     textTheme: const TextTheme(
@@ -64,18 +65,17 @@ class AppTheme {
         ),
       ),
     ),
-    filledButtonTheme: FilledButtonThemeData(
-      style: FilledButton.styleFrom(
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
         foregroundColor: Colors.black,
         backgroundColor: AppColors.primaryColor,
         disabledBackgroundColor: Colors.grey.shade300,
-        minimumSize: const Size(double.infinity, 52),
+        // minimumSize: const Size(double.infinity, 52),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
       ),
-      
     ),
   );
 

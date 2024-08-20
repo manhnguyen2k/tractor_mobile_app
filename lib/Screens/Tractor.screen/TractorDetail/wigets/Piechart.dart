@@ -6,6 +6,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../../values/app_colors.dart';
+import '../../../../values/app_string1.dart';
 final url = dotenv.env['BASE_URL'];
 
 class PieChartSample2 extends StatefulWidget {
@@ -124,7 +125,7 @@ class PieChart2State extends State<PieChartSample2> {
         ),
         Indicator(
           color: widget.item1_color ?? Colors.blue,
-          text: widget.item1_name ?? 'Quãng đường đã đi',
+          text: widget.item1_name ?? AppStrings1.piechart_roaded_title,
           isSquare: true,
           width: 137,
           fontsize: 12,
@@ -134,7 +135,7 @@ class PieChart2State extends State<PieChartSample2> {
         ),
         Indicator(
           color: widget.item2_color ?? Colors.green,
-          text: widget.item2_name ?? 'Quãng đường còn lại',
+          text: widget.item2_name ?? AppStrings1.piechart_road_left_title,
           isSquare: true,
           width: 137,
           fontsize: 12,

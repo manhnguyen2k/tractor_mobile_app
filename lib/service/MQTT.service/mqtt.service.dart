@@ -8,7 +8,7 @@ final host = dotenv.env['MQTT_HOST'];
 
 class MQTTService {
   late MqttServerClient client;
-  final String broker = host ?? ''; // Địa chỉ broker của bạn
+  final String broker = host ?? ''; 
   final String clientIdentifier;
 
   MQTTService() : clientIdentifier = 'mqttjs_' + _randomString(8) {
@@ -61,30 +61,5 @@ class MQTTService {
       builder.payload!,
       retain: retain,
     );
-  }
-
-  // Callbacks
-  void onConnected() {
-    print('Connected to the broker.');
-  }
-
-  void onDisconnected() {
-    print('Disconnected from the broker.');
-  }
-
-  void onSubscribed(String topic) {
-    print('Subscribed to topic: $topic');
-  }
-
-  void onSubscribeFail(String topic) {
-    print('Failed to subscribe to topic: $topic');
-  }
-
-  void onUnsubscribed(String topic) {
-    print('Unsubscribed from topic: $topic');
-  }
-
-  void pong() {
-    print('Ping response received.');
   }
 }

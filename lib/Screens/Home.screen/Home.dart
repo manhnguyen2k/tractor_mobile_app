@@ -16,7 +16,6 @@ class _Home extends State<Home>{
   @override
   void initState(){
     super.initState();
-  
   }
  @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class _Home extends State<Home>{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -40,17 +39,17 @@ class _Home extends State<Home>{
                   title: 'Cameras',
                   subtitle: '8 Devices',
                   onTap: () {
-                    print('Card tapped!');
+                  //  print('Card tapped!');
                   },
                 ),
                 FloatButton(
                   size: size,
                   color: Colors.amber,
-                  icon: Icon(Icons.lightbulb_outline, color: Colors.white),
+                  icon: const Icon(Icons.lightbulb_outline, color: Colors.white),
                   title: 'Lights',
                   subtitle: '8 Devices',
                   onTap: () {
-                    print('Card tapped!');
+                   // print('Card tapped!');
                   },
                 ),
               ],
@@ -65,7 +64,7 @@ class _Home extends State<Home>{
                   title: 'Speakers',
                   subtitle: '2 Devices',
                   onTap: () {
-                    print('Card tapped!');
+                   // print('Card tapped!');
                   },
                 ),
                 FloatButton(
@@ -86,21 +85,21 @@ class _Home extends State<Home>{
                 FloatButton(
                   size: size,
                   color: Colors.purple,
-                  icon: Icon(Icons.wifi_outlined, color: Colors.white),
+                  icon: const Icon(Icons.wifi_outlined, color: Colors.white),
                   title: 'Sensors',
                   subtitle: '5 Devices',
                   onTap: () {
-                    print('Card tapped!');
+                    //print('Card tapped!');
                   },
                 ),
                 FloatButton(
                   size: size,
                   color: Colors.green,
-                  icon: Icon(Icons.air_outlined, color: Colors.white),
+                  icon: const Icon(Icons.air_outlined, color: Colors.white),
                   title: 'Air Condition',
                   subtitle: '4 Devices',
                   onTap: () {
-                    print('Card tapped!');
+                   // print('Card tapped!');
                   },
                 ),
               ],

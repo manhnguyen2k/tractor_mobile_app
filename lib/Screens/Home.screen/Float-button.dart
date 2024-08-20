@@ -22,7 +22,7 @@ class FloatButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Card(
-        color: Colors.white,
+        //color: Colors.white,
         elevation: 5.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),

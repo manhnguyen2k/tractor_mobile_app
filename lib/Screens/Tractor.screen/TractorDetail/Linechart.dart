@@ -1,12 +1,14 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+//import 'package:tractorapp/values/app_strings.dart';
 import './wigets/indicator.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../values/app_colors.dart';
+import '../../../values/app_string1.dart';
 final url = dotenv.env['BASE_URL'];
 final int maxLength = 30;
 
@@ -86,8 +88,6 @@ class _LineChartSample2State extends State<LineChart1> {
     now = 0;
     now1 = 0;
     Map<String, String> extraHeaders = {'token': widget.token};
-
-    // Khởi tạo kết nối socket với headers
     socket = IO.io(url, <String, dynamic>{
       'transports': ['websocket'],
       'force new connection': true,
@@ -135,15 +135,15 @@ class _LineChartSample2State extends State<LineChart1> {
             ),
           ),
           const SizedBox(height: 15),
-          const Column(
+           Column(
             mainAxisAlignment:
                 MainAxisAlignment.start, 
             crossAxisAlignment:
                 CrossAxisAlignment.center,
-            children: const [
+            children:  [
               Indicator(
                 color: Colors.blue,
-                text: 'Độ nghiêng dàn xới mong muốn',
+                text: AppStrings1.linechart_dan_xoi_cacul,
                 isSquare: false,
                 width: 270,
               ),
@@ -152,7 +152,7 @@ class _LineChartSample2State extends State<LineChart1> {
               ),
               Indicator(
                 color: Color.fromARGB(255, 227, 224, 159),
-                text: 'Độ nghiêng dàn xới thực tế',
+                text:AppStrings1.linechart_dan_xoi_real,
                 isSquare: false,
                 width: 270,
               ),

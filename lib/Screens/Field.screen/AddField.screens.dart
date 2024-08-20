@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart';
 import '../../service/Filed.service/Field.service.dart';
 import '../../values/app_colors.dart';
-import '../../values/app_strings.dart';
+//import '../../values/app_strings.dart';
 
 import 'dart:convert';
 import './Color.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../utils/common_widgets/appbar.dart';
-
+import '../../values/app_string1.dart';
 const kGoogleApiKey = "AIzaSyDL9J82iDhcUWdQiuIvBYa0t5asrtz3Swk";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
@@ -128,14 +128,14 @@ class MapSampleState extends State<AddField> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Lỗi'),
-            content: const Text('Hãy nhập tên ruộng!'),
+            title:  Text(AppStrings1.dialog_errorTitle),
+            content:  Text(AppStrings1.dialog_err_field_name),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: const Text('Đóng'),
+                child: Text(AppStrings1.dialog_close),
               ),
             ],
           );
@@ -161,8 +161,8 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text('Thông báo'),
-                content: const Text('Tạo ruộng mới thành công!'),
+                title:  Text(AppStrings1.dialog_noti_title),
+                content:  Text(AppStrings1.dialog_addfiled_success),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
@@ -192,14 +192,14 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text('Thông báo'),
-                content: const Text('Có lỗi xảy ra, xin thử lại!'),
+                title:  Text(AppStrings1.dialog_noti_title),
+                content:  Text(AppStrings1.dialog_has_error),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text('Đóng'),
+                    child:  Text(AppStrings1.dialog_close),
                   ),
                 ],
               );
@@ -230,7 +230,7 @@ class MapSampleState extends State<AddField> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: AppStrings.addFieldTitle,
+        title: AppStrings1.addFieldTitle,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textColor),
           onPressed: () {
@@ -290,7 +290,7 @@ class MapSampleState extends State<AddField> {
                         log('stroke: $color');
                       },
                     ),
-                    const Text('Màu viền')
+                     Text(AppStrings1.addfiled_color_border)
                   ],
                 )),
           if (_getLatLngFromMarkers().isNotEmpty)
@@ -308,7 +308,7 @@ class MapSampleState extends State<AddField> {
                         _updatePolygon();
                       },
                     ),
-                    const Text('Màu phủ')
+                     Text(AppStrings1.addfiled_color_fill)
                   ],
                 )),
           if (_getLatLngFromMarkers().isNotEmpty)
@@ -323,9 +323,9 @@ class MapSampleState extends State<AddField> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
                   ],
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Độ dày đường',
+                    labelText: AppStrings1.addfiled_border_width,
                   ),
                   onChanged: (value) {
                     log('change: $value');
@@ -353,9 +353,9 @@ class MapSampleState extends State<AddField> {
                     FilteringTextInputFormatter.allow(
                         RegExp(r'^\d+\.?\d{0,2}')),
                   ],
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Độ trong suốt',
+                    labelText: AppStrings1.addfiled_opacity,
                   ),
                   onChanged: (value) {
                     double newValue = double.tryParse(value) ?? opacity;
@@ -377,9 +377,9 @@ class MapSampleState extends State<AddField> {
                 width: 120,
                 child: TextField(
                   controller: _name,
-                  decoration: const InputDecoration(
+                  decoration:  InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Tên ruộng',
+                    labelText: AppStrings1.addfiled_fieldname,
                   ),
                   onChanged: (value) {
                     _name.text = value.toString();
@@ -398,7 +398,7 @@ class MapSampleState extends State<AddField> {
                   width: 120,
                   child: FilledButton(
                       onPressed: () => handleDelete(),
-                      child: const Text('Xóa'))),
+                      child:  Text(AppStrings1.addfield_delete))),
             ),
           if (_getLatLngFromMarkers().length > 2)
             Positioned(
@@ -407,7 +407,7 @@ class MapSampleState extends State<AddField> {
               child: SizedBox(
                   width: 120,
                   child: FilledButton(
-                      onPressed: () => handleSave(), child: const Text('Lưu'))),
+                      onPressed: () => handleSave(), child:  Text(AppStrings1.addfield_save))),
             ),
         ],
       ),

@@ -15,15 +15,15 @@ final url = dotenv.env['BASE_URL'];
 
 class ListTractor extends StatefulWidget {
   final Function(String, int) onTabChange;
- 
+
   const ListTractor({Key? key, required this.onTabChange}) : super(key: key);
   @override
   State<ListTractor> createState() => _ListTractorState();
 }
 
 class _ListTractorState extends State<ListTractor> {
-   bool isLoading = false;
-   bool isError = false;
+  bool isLoading = false;
+  bool isError = false;
   String _token = '';
   String getToken() {
     String token = '';
@@ -35,8 +35,7 @@ class _ListTractorState extends State<ListTractor> {
         },
       );
     } catch (error) {
-    
-      return ''; 
+      return '';
     }
     return token;
   }
@@ -47,7 +46,6 @@ class _ListTractorState extends State<ListTractor> {
   Map<String, dynamic> tractorSockets = {};
 
   Future<void> _loadData() async {
-   
     all_tractor.clear();
     try {
       final data = await TractorService.getAllTractor();
@@ -58,7 +56,7 @@ class _ListTractorState extends State<ListTractor> {
         log('$count');
         setState(() {
           all_tractor.add(item['_id']);
-       isError = false;
+          isError = false;
         });
       }
 //count= 0 ;
@@ -71,7 +69,6 @@ class _ListTractorState extends State<ListTractor> {
   }
 
   void connect(IO.Socket socket) async {
-   
     if (socket.disconnected) {
       socket.connect();
 
@@ -82,7 +79,6 @@ class _ListTractorState extends State<ListTractor> {
             online_tractor = newOnlineTractor;
           });
         }
-
       });
     }
   }
@@ -128,54 +124,50 @@ class _ListTractorState extends State<ListTractor> {
   @override
   Widget build(BuildContext context) {
     return
-   
-   // isError? ConnectionFailed():
-    RefreshIndicator(
-          onRefresh: _refresh,
-          child:
-            Padding(  padding: const EdgeInsets.only(top: 5),
-            child: ListView.builder(
-            itemCount: all_tractor.length,
-            itemBuilder: (context, index) {
-              bool isOnline = online_tractor.contains(all_tractor[index]);
-              return Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Container(
-                  constraints: const BoxConstraints(
-                    minHeight: 100.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 0.0,
+
+        // isError? ConnectionFailed():
+        RefreshIndicator(
+            onRefresh: _refresh,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: ListView.builder(
+                itemCount: all_tractor.length,
+                itemBuilder: (context, index) {
+                  bool isOnline = online_tractor.contains(all_tractor[index]);
+                  return Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        minHeight: 100.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 0.0,
+                        ),
+                        borderRadius: BorderRadius.circular(15.0),
+                        boxShadow: isOnline
+                            ? [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ]
+                            : [],
+                      ),
+                      child: Tractor_line(
+                        isOnline: isOnline,
+                        tractorId: all_tractor[index],
+                        token: _token,
+                        onTabChange: widget.onTabChange,
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(15.0),
-                    boxShadow: isOnline
-                        ? [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              spreadRadius: 1,
-                              blurRadius: 5,
-                              offset: const Offset(0, 3),
-                            ),
-                          ]
-                        : [],
-                  ),
-                  child: Tractor_line(
-                    isOnline: isOnline,
-                    tractorId: all_tractor[index],
-                    token: _token,
-                    onTabChange: widget.onTabChange,
-                  ),
-                ),
-              );
-            },
-          ),)
-           
-        );
-    
-    
-   
+                  );
+                },
+              ),
+            ));
   }
 }

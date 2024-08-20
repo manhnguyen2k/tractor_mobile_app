@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../values/app_colors.dart';
-
+import '../../../values/app_string1.dart';
 class GridItem extends StatelessWidget {
   GridItem(
       {required this.title,
@@ -23,13 +23,13 @@ class GridItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           color: value == 0
               ? AppColors.cardBackgroundColor
-              : Colors.red, // Optional: to give rounded corners
+              : Colors.red, 
         ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+            mainAxisAlignment: MainAxisAlignment.center, 
             crossAxisAlignment:
-                CrossAxisAlignment.center, // Center horizontally
+                CrossAxisAlignment.center,
             children: [
               Text(
                 title,
@@ -47,7 +47,7 @@ class GridItem extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Text(value == 0 ? 'Tắt' : 'Bật',
+              Text(value == 0 ? AppStrings1.tractor_sensor_off :AppStrings1.tractor_sensor_on,
                   style: const TextStyle(
                       color: AppColors.text_dark, fontWeight: FontWeight.bold))
             ],

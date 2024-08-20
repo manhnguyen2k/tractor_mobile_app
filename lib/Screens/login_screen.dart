@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tractorapp/utils/helpers/snackbar_helper.dart';
-import 'package:tractorapp/values/app_regex.dart';
 import 'dart:developer';
 import '../components/app_text_form_field.dart';
-import '../resources/resources.dart';
 import '../utils/common_widgets/gradient_background.dart';
 import '../utils/helpers/navigation_helper.dart';
-import '../values/app_constants.dart';
 import '../values/app_routes.dart';
 import '../values/app_strings.dart';
 import '../values/app_theme.dart';
 import '../service/Auth.service/Auth.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'dart:developer';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,12 +26,22 @@ class _LoginPageState extends State<LoginPage> {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
 
+  bool isSubmit = false;
+  bool _isLoading = false;
   Future<void> _login() async {
+    setState(() {
+      isSubmit = true;
+    });
     final String username = emailController.text;
     final String password = passwordController.text;
     try {
+      setState(() {
+        _isLoading = true;
+      });
       final response = await AuthService.logIn(username, password);
-
+      setState(() {
+        _isLoading = false;
+      });
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         final Map<String, dynamic> userData = (responseData['data']);
@@ -48,8 +51,8 @@ class _LoginPageState extends State<LoginPage> {
             prefs.setString('accesstoken', userData['accessToken']);
             prefs.setString('uid', userData['_id']);
             prefs.setBool('isLogin', true);
-             prefs.setBool('isNoti', false);
-          //  Firebase.initializeApp();
+            prefs.setBool('isNoti', false);
+            //  Firebase.initializeApp();
             NavigationHelper.pushReplacementNamed(
               AppRoutes.home,
             );
@@ -59,15 +62,17 @@ class _LoginPageState extends State<LoginPage> {
             log("SharedPreferences ERROR = $error");
           });
         } else {
-          // Show error message
           _showError(responseData['message']);
         }
       } else {
-        // If the server returns an unexpected response, show an error
         _showError('Server error: ${response.statusCode}');
       }
     } catch (e) {
-      // Handle any errors that occur during the HTTP request
+      setState(() {
+        _isLoading = false;
+        isSubmit = false;
+      });
+
       _showError('Error: $e');
     }
   }
@@ -77,14 +82,14 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title:const Text('Error'),
+          title: const Text('Error'),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child:const Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -106,12 +111,17 @@ class _LoginPageState extends State<LoginPage> {
   void controllerListener() {
     final email = emailController.text;
     final password = passwordController.text;
-
-    if (email.isEmpty && password.isEmpty) return;
-    if (!email.isEmpty && !password.isEmpty) {
-      fieldValidNotifier.value = true;
+    if (email.isEmpty || password.isEmpty) {
+      setState(() {
+        fieldValidNotifier.value = false;
+      });
     }
     ;
+    if (email.isNotEmpty && password.isNotEmpty) {
+      setState(() {
+        fieldValidNotifier.value = true;
+      });
+    }
   }
 
   @override
@@ -157,9 +167,9 @@ class _LoginPageState extends State<LoginPage> {
                     textInputAction: TextInputAction.next,
                     onChanged: (_) => _formKey.currentState?.validate(),
                     validator: (value) {
-                      return value!.isEmpty
-                          ? AppStrings.pleaseEnterUsername
-                          : null;
+                      if (value!.isEmpty && isSubmit == true) {
+                        return AppStrings.pleaseEnterUsername;
+                      }
                     },
                   ),
                   ValueListenableBuilder(
@@ -173,9 +183,9 @@ class _LoginPageState extends State<LoginPage> {
                         keyboardType: TextInputType.visiblePassword,
                         onChanged: (_) => _formKey.currentState?.validate(),
                         validator: (value) {
-                          return value!.isEmpty
-                              ? AppStrings.pleaseEnterPassword
-                              : null;
+                          if (value!.isEmpty && isSubmit == true) {
+                            return AppStrings.pleaseEnterUsername;
+                          }
                         },
                         suffixIcon: IconButton(
                           onPressed: () =>
@@ -202,10 +212,35 @@ class _LoginPageState extends State<LoginPage> {
                   ValueListenableBuilder(
                     valueListenable: fieldValidNotifier,
                     builder: (_, isValid, __) {
-                      return FilledButton(
-                        onPressed: isValid ? _login : null,
-                        child: const Text(AppStrings.login),
-                      );
+                      return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 52), // Set this
+                            padding: EdgeInsets.zero, // and this
+                          ),
+                          onPressed: isValid && !_isLoading ? _login : null,
+                          child: Positioned(
+                            top: 0,
+                            bottom: 0,
+                            right: 0,
+                            left: 0,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                if (!_isLoading)
+                                  const Text(
+                                      AppStrings.login), 
+                                if (_isLoading)
+                                  Container(
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ));
                     },
                   ),
                   const SizedBox(height: 20),
@@ -216,10 +251,9 @@ class _LoginPageState extends State<LoginPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                AppStrings.doNotHaveAnAccount,
-                style: AppTheme.bodySmall.copyWith(color: Colors.black),
-              ),
+              const Text(
+                AppStrings.doNotHaveAnAccount
+                ),
               const SizedBox(width: 4),
               TextButton(
                 onPressed: () {

@@ -9,6 +9,7 @@ import '../values/app_regex.dart';
 import '../values/app_routes.dart';
 import '../values/app_strings.dart';
 import '../values/app_theme.dart';
+import '../values/app_string1.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -82,11 +83,11 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: ListView(
         children: [
-          const GradientBackground(
+           GradientBackground(
             children: [
-              Text(AppStrings.register, style: AppTheme.titleLarge),
+              Text(AppStrings1.register, style: AppTheme.titleLarge),
               SizedBox(height: 6),
-              Text(AppStrings.createYourAccount, style: AppTheme.bodySmall),
+              Text(AppStrings1.createYourAccount, style: AppTheme.bodySmall),
             ],
           ),
           Padding(
@@ -98,31 +99,31 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   AppTextFormField(
                     autofocus: true,
-                    labelText: AppStrings.name,
+                    labelText: AppStrings1.name,
                     keyboardType: TextInputType.name,
                     textInputAction: TextInputAction.next,
                     onChanged: (value) => _formKey.currentState?.validate(),
                     validator: (value) {
                       return value!.isEmpty
-                          ? AppStrings.pleaseEnterName
+                          ? AppStrings1.pleaseEnterName
                           : value.length < 4
-                              ? AppStrings.invalidName
+                              ? AppStrings1.invalidName
                               : null;
                     },
                     controller: nameController,
                   ),
                   AppTextFormField(
-                    labelText: AppStrings.username,
+                    labelText: AppStrings1.username,
                     controller: emailController,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (_) => _formKey.currentState?.validate(),
                     validator: (value) {
                       return value!.isEmpty
-                          ? AppStrings.pleaseEnterUsername
+                          ? AppStrings1.pleaseEnterUsername
                           : AppConstants.emailRegex.hasMatch(value)
                               ? null
-                              : AppStrings.invalidUsername;
+                              : AppStrings1.invalidUsername;
                     },
                   ),
                   ValueListenableBuilder<bool>(
@@ -131,16 +132,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       return AppTextFormField(
                         obscureText: passwordObscure,
                         controller: passwordController,
-                        labelText: AppStrings.password,
+                        labelText: AppStrings1.password,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.visiblePassword,
                         onChanged: (_) => _formKey.currentState?.validate(),
                         validator: (value) {
                           return value!.isEmpty
-                              ? AppStrings.pleaseEnterPassword
+                              ? AppStrings1.pleaseEnterPassword
                               : AppConstants.passwordRegex.hasMatch(value)
                                   ? null
-                                  : AppStrings.invalidPassword;
+                                  : AppStrings1.invalidPassword;
                         },
                         suffixIcon: Focus(
                           /// If false,
@@ -173,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     valueListenable: confirmPasswordNotifier,
                     builder: (_, confirmPasswordObscure, __) {
                       return AppTextFormField(
-                        labelText: AppStrings.confirmPassword,
+                        labelText: AppStrings1.confirmPassword,
                         controller: confirmPasswordController,
                         obscureText: confirmPasswordObscure,
                         textInputAction: TextInputAction.done,
@@ -181,13 +182,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         onChanged: (_) => _formKey.currentState?.validate(),
                         validator: (value) {
                           return value!.isEmpty
-                              ? AppStrings.pleaseReEnterPassword
+                              ? AppStrings1.pleaseReEnterPassword
                               : AppConstants.passwordRegex.hasMatch(value)
                                   ? passwordController.text ==
                                           confirmPasswordController.text
                                       ? null
-                                      : AppStrings.passwordNotMatched
-                                  : AppStrings.invalidPassword;
+                                      : AppStrings1.passwordNotMatched
+                                  : AppStrings1.invalidPassword;
                         },
                         suffixIcon: Focus(
                           /// If false,
@@ -223,7 +224,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: isValid
                             ? () {
                                 SnackbarHelper.showSnackBar(
-                                  AppStrings.registrationComplete,
+                                  AppStrings1.registrationComplete,
                                 );
                                 nameController.clear();
                                 emailController.clear();
@@ -231,7 +232,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 confirmPasswordController.clear();
                               }
                             : null,
-                        child: const Text(AppStrings.register),
+                        child:  Text(AppStrings1.register),
                       );
                     },
                   ),
@@ -243,14 +244,14 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppStrings.iHaveAnAccount,
+                AppStrings1.iHaveAnAccount,
                 style: AppTheme.bodySmall.copyWith(color: Colors.black),
               ),
               TextButton(
                 onPressed: () => NavigationHelper.pushReplacementNamed(
                   AppRoutes.login,
                 ),
-                child: const Text(AppStrings.login),
+                child:  Text(AppStrings1.login),
               ),
             ],
           ),
