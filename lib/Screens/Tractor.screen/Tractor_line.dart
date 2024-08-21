@@ -175,7 +175,6 @@ class _Tractor_lineState extends State<Tractor_line> {
                       width: 50,
                       height: 70,
                       child: Column(
-                        //  crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Battery(
                             percent: percent,

@@ -6,7 +6,7 @@ class ThemeProvider with ChangeNotifier {
   static const String themeKey = 'theme_mode';
 
   ThemeProvider() {
-    _loadTheme(); // Load the saved theme during initialization
+    _loadTheme();
   }
 
   ThemeMode get themeMode => _themeMode;
@@ -14,7 +14,7 @@ class ThemeProvider with ChangeNotifier {
   void toggleTheme() async {
     _themeMode = _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
-    _saveTheme(); // Save the selected theme
+    _saveTheme(); 
   }
 
   void _saveTheme() async {
@@ -25,7 +25,7 @@ class ThemeProvider with ChangeNotifier {
   void _loadTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedTheme = prefs.getString(themeKey);
-    log('themeeeee: $savedTheme');
+   // log('themeeeee: $savedTheme');
     if (savedTheme != null) {
       _themeMode = savedTheme == 'light' ? ThemeMode.light : ThemeMode.dark;
       notifyListeners();

@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../../values/app_colors.dart';
 import '../../../../values/app_string1.dart';
+
 final url = dotenv.env['BASE_URL'];
 
 class PieChartSample2 extends StatefulWidget {
@@ -17,6 +18,9 @@ class PieChartSample2 extends StatefulWidget {
     required this.logItem,
     required this.logItemIndex1,
     required this.logItemIndex2,
+    required this.height,
+    required this.width,
+    required this.centerRadius,
     this.item1_name,
     this.item2_name,
     this.item1_color,
@@ -31,6 +35,10 @@ class PieChartSample2 extends StatefulWidget {
   final String? item2_name;
   final Color? item1_color;
   final Color? item2_color;
+  final double width;
+  final double height;
+  final double centerRadius;
+
 
   @override
   PieChart2State createState() => PieChart2State();
@@ -88,59 +96,73 @@ class PieChart2State extends State<PieChartSample2> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: 250,
-          width: 250,
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: PieChart(
-              PieChartData(
-                startDegreeOffset: -90,
-                pieTouchData: PieTouchData(
-                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                    setState(() {
-                      if (!event.isInterestedForInteractions ||
-                          pieTouchResponse == null ||
-                          pieTouchResponse.touchedSection == null) {
-                        touchedIndex = -1;
-                        return;
-                      }
-                      touchedIndex =
-                          pieTouchResponse.touchedSection!.touchedSectionIndex;
-                    });
-                  },
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      child: Stack(
+        //  crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 250,
+            height: 250,
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: PieChart(
+                PieChartData(
+                  startDegreeOffset: -90,
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          touchedIndex = -1;
+                          return;
+                        }
+                        touchedIndex = pieTouchResponse
+                            .touchedSection!.touchedSectionIndex;
+                      });
+                    },
+                  ),
+                  borderData: FlBorderData(
+                    show: true,
+                  ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: widget.centerRadius,
+                  sections: showingSections(),
                 ),
-                borderData: FlBorderData(
-                  show: true,
-                ),
-                sectionsSpace: 0,
-                centerSpaceRadius: 50,
-                sections: showingSections(),
               ),
             ),
           ),
-        ),
-        Indicator(
-          color: widget.item1_color ?? Colors.blue,
-          text: widget.item1_name ?? AppStrings1.piechart_roaded_title,
-          isSquare: true,
-          width: 137,
-          fontsize: 12,
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        Indicator(
-          color: widget.item2_color ?? Colors.green,
-          text: widget.item2_name ?? AppStrings1.piechart_road_left_title,
-          isSquare: true,
-          width: 137,
-          fontsize: 12,
-        ),
-      ],
+          Positioned(
+              bottom: 20,
+              left: 0,
+              right: 0,
+              child:Center(child: Column(
+                children: [
+                  Indicator(
+                    color: widget.item1_color ?? Colors.blue,
+                    text:
+                        widget.item1_name ?? AppStrings1.piechart_roaded_title,
+                    isSquare: true,
+                    width: 137,
+                    fontsize: 12,
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Indicator(
+                    color: widget.item2_color ?? Colors.green,
+                    text: widget.item2_name ??
+                        AppStrings1.piechart_road_left_title,
+                    isSquare: true,
+                    width: 137,
+                    fontsize: 12,
+                  ),
+                ],
+              ),) )
+        ],
+      ),
     );
   }
 

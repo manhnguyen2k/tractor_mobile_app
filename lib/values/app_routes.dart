@@ -13,5 +13,6 @@ class AppRoutes {
   static const String video = 'video';
   static const String stream = 'stream';
    static const String changepw = 'changepw';
+   static const String imgpicker = 'imgpicker';
   
 }

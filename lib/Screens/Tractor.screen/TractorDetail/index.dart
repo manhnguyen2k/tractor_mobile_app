@@ -10,6 +10,7 @@ import '../../../utils/common_widgets/appbar.dart';
 import './wigets/youtube.srteam.dart';
 import './wigets/control_online_video.dart';
 import '../../../values/app_string1.dart';
+
 class TractorDetailChart extends StatefulWidget {
   TractorDetailChart(
       {required this.tractorId,
@@ -26,6 +27,8 @@ class _TractorDetailChart extends State<TractorDetailChart> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    bool isTablet = screenWidth >= 600;
+    double itemWidth = screenWidth / 2 - 20;
     return Scaffold(
         appBar: CustomAppBar(
           title: widget.tractorName,
@@ -76,17 +79,13 @@ class _TractorDetailChart extends State<TractorDetailChart> {
 
           if (index == 2) {
             return Padding(
-              padding: const EdgeInsets.only(
-                  top: 5,
-                  bottom: 5,
-                  left: 15,
-                  right: 15), 
+              padding:
+                  const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
               child: Container(
                   height: 300,
                   decoration: BoxDecoration(
                     color: AppColors.cardBackgroundColor,
-                    borderRadius: BorderRadius.circular(
-                        8.0), 
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -99,6 +98,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                   )),
             );
           }
+
           if (index == 3) {
             return Padding(
               padding:
@@ -108,7 +108,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                 children: [
                   Container(
                     height: 300,
-                    width: 300,
+                    width: itemWidth,
                     decoration: BoxDecoration(
                       color: AppColors.cardBackgroundColor,
                       borderRadius: BorderRadius.circular(8.0),
@@ -119,11 +119,15 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                       logItem: 'sum',
                       logItemIndex1: 2,
                       logItemIndex2: 3,
+                      width: 250,
+                      height: 250,
+                      centerRadius: isTablet ? 50 : 30,
                     ),
                   ),
+
                   Container(
                     height: 300,
-                    width: 300,
+                    width: itemWidth,
                     decoration: BoxDecoration(
                       color: AppColors.cardBackgroundColor,
                       borderRadius: BorderRadius.circular(8.0),
@@ -138,12 +142,16 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                       item1_name: AppStrings1.piechart_timeed_title,
                       item2_color: Colors.orange,
                       item2_name: AppStrings1.piechart_time_left_title,
+                      width: 250,
+                      height: 250,
+                      centerRadius: isTablet ? 50 : 30,
                     ),
                   )
                 ],
               ),
             );
           }
+
           if (index == 4) {
             return Padding(
                 padding: const EdgeInsets.only(
@@ -153,7 +161,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                   children: [
                     Container(
                       height: 300,
-                      width: 300,
+                      width: itemWidth,
                       decoration: BoxDecoration(
                         color: AppColors.cardBackgroundColor,
                         borderRadius: BorderRadius.circular(8.0),
@@ -165,7 +173,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                     ),
                     Container(
                       height: 300,
-                      width: 300,
+                      width: itemWidth,
                       decoration: BoxDecoration(
                         color: AppColors.cardBackgroundColor,
                         borderRadius: BorderRadius.circular(8.0),
@@ -178,13 +186,13 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                   ],
                 ));
           }
+          
           if (index == 5) {
             return Padding(
                 padding: const EdgeInsets.only(
                     top: 5, bottom: 5, left: 15, right: 15),
                 child: Container(
                     height: screenWidth,
-                    //  width: 400,
                     decoration: BoxDecoration(
                       color: AppColors.cardBackgroundColor,
                       borderRadius: BorderRadius.circular(8.0),
@@ -195,6 +203,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                     )));
           }
         })
+
         /*
         SingleChildScrollView(
           child: Column(children: [

@@ -144,6 +144,9 @@ class AppStrings1 {
   static late String setting_language;
   static late String settings_darkmode;
 
+  static late String select_image_galary;
+  static late String select_image_camera;
+
   static Future<void> loadLanguageStrings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? selectedLanguage = prefs.getString('selected_language');
@@ -270,9 +273,9 @@ class AppStrings1 {
         tractor_sensor_off = 'Off';
 
         piechart_roaded_title = 'The distance has been plowed';
-        piechart_roaded_title = 'The distance left';
-        piechart_time_left_title = 'Time has plowed';
-        piechart_road_left_title = 'Time left';
+        piechart_road_left_title = 'The distance left';
+        piechart_timeed_title = 'Time has plowed';
+        piechart_time_left_title = 'Time left';
 
         linechart_dan_xoi_cacul = 'Calculated tiller tilt';
         linechart_dan_xoi_real = 'Realality tiller tilt';
@@ -297,6 +300,9 @@ class AppStrings1 {
         old_password = 'Old password';
         new_password = 'New password';
         confirm_new_password = 'Confirm new password';
+
+        select_image_galary = 'Select from galary';
+        select_image_camera = 'Open camera';
         // Assign other English strings here...
         break;
 
@@ -416,9 +422,9 @@ class AppStrings1 {
         tractor_sensor_off = 'Tắt';
 
         piechart_roaded_title = 'Quãng đường đã đi';
-        piechart_roaded_title = 'Quãng đường còn lại';
-        piechart_time_left_title = 'Thời gian đã đi';
-        piechart_road_left_title = 'Thời gian còn lại';
+        piechart_road_left_title = 'Quãng đường còn lại';
+        piechart_timeed_title = 'Thời gian đã đi';
+        piechart_time_left_title = 'Thời gian còn lại';
 
         linechart_dan_xoi_cacul = 'Độ nghiêng dàn xới mong muốn';
         linechart_dan_xoi_real = 'Độ nghiêng dàn xới thực tế';
@@ -443,6 +449,9 @@ class AppStrings1 {
          old_password = 'Mật khẩu cũ';
         new_password = 'Mật khẩu mới';
         confirm_new_password = 'Xác nhận mật khẩu mới';
+
+        select_image_galary = 'Chọn ảnh từ thư viện';
+        select_image_camera = 'Chụp từ camera';
         break;
     }
   }

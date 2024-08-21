@@ -5,6 +5,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../values/app_colors.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../values/app_string1.dart';
+
 final url = dotenv.env['BASE_URL'];
 
 class Speedometer1 extends StatefulWidget {
@@ -82,94 +83,94 @@ class _SpeedState extends State<Speedometer1> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 280,
-      child: 
-        SfRadialGauge(
-          axes: <RadialAxis>[
-            RadialAxis(
-                startAngle: 270,
-                endAngle: 270,
-                minimum: 0,
-                maximum: 80,
-                interval: 10,
-                radiusFactor: 0.4,
-                showAxisLine: false,
-                showLastLabel: false,
-                minorTicksPerInterval: 4,
-                majorTickStyle: const MajorTickStyle(
-                    length: 8, thickness: 3, color: AppColors.text_dark),
-                minorTickStyle: const MinorTickStyle(
-                    length: 3, thickness: 1.5, color: AppColors.text_dark),
-                axisLabelStyle: const GaugeTextStyle(
-                    color: AppColors.text_dark,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-                onLabelCreated: labelCreated),
-            RadialAxis(
-              minimum: 0,
-              maximum: 60,
-              labelOffset: 10,
-              axisLineStyle: const AxisLineStyle(
-                  thicknessUnit: GaugeSizeUnit.factor, thickness: 0.03),
-              majorTickStyle: const MajorTickStyle(
-                  length: 6, thickness: 3, color: AppColors.text_dark),
-              minorTickStyle: const MinorTickStyle(
-                  length: 3, thickness: 2, color: AppColors.text_dark),
-              axisLabelStyle: const GaugeTextStyle(
-                  color: AppColors.text_dark,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14),
-              ranges: <GaugeRange>[
-                GaugeRange(
-                    startValue: 0,
-                    endValue: 200,
-                    sizeUnit: GaugeSizeUnit.factor,
-                    startWidth: 0.03,
-                    endWidth: 0.03,
-                    gradient: const SweepGradient(colors: <Color>[
-                      Colors.green,
-                      Colors.yellow,
-                      Colors.red
-                    ], stops:  <double>[
-                      0.0,
-                      0.5,
-                      1
-                    ]))
-              ],
-              pointers: <GaugePointer>[
-                NeedlePointer(
-                    value: speed,
-                    needleLength: 0.95,
-                    enableAnimation: true,
-                    animationType: AnimationType.ease,
-                    needleStartWidth: 1.5,
-                    needleEndWidth: 6,
-                    needleColor: Colors.red,
-                    knobStyle: const KnobStyle(
-                        knobRadius: 0.09, color: AppColors.text_dark))
-              ],
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                    widget:  Column(children: <Widget>[
-                      Text(speed.toString(),
-                          style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.text_dark)),
-                      const SizedBox(height: 20),
-                       Text('${AppStrings1.tractor_speed} (km/h)',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.text_dark))
-                    ]),
-                    angle: 90,
-                    positionFactor: 1.5)
+        height: 280,
+        child: Stack(
+          children: [
+            SfRadialGauge(
+              axes: <RadialAxis>[
+                RadialAxis(
+                    startAngle: 270,
+                    endAngle: 270,
+                    minimum: 0,
+                    maximum: 80,
+                    interval: 10,
+                    radiusFactor: 0.4,
+                    showAxisLine: false,
+                    showLastLabel: false,
+                    minorTicksPerInterval: 4,
+                    majorTickStyle: const MajorTickStyle(
+                        length: 8, thickness: 3, color: AppColors.text_dark),
+                    minorTickStyle: const MinorTickStyle(
+                        length: 3, thickness: 1.5, color: AppColors.text_dark),
+                    axisLabelStyle: const GaugeTextStyle(
+                        color: AppColors.text_dark,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14),
+                    onLabelCreated: labelCreated),
+                RadialAxis(
+                  minimum: 0,
+                  maximum: 60,
+                  labelOffset: 10,
+                  axisLineStyle: const AxisLineStyle(
+                      thicknessUnit: GaugeSizeUnit.factor, thickness: 0.03),
+                  majorTickStyle: const MajorTickStyle(
+                      length: 6, thickness: 3, color: AppColors.text_dark),
+                  minorTickStyle: const MinorTickStyle(
+                      length: 3, thickness: 2, color: AppColors.text_dark),
+                  axisLabelStyle: const GaugeTextStyle(
+                      color: AppColors.text_dark,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14),
+                  ranges: <GaugeRange>[
+                    GaugeRange(
+                        startValue: 0,
+                        endValue: 200,
+                        sizeUnit: GaugeSizeUnit.factor,
+                        startWidth: 0.03,
+                        endWidth: 0.03,
+                        gradient: const SweepGradient(colors: <Color>[
+                          Colors.green,
+                          Colors.yellow,
+                          Colors.red
+                        ], stops: <double>[
+                          0.0,
+                          0.5,
+                          1
+                        ]))
+                  ],
+                  pointers: <GaugePointer>[
+                    NeedlePointer(
+                        value: speed,
+                        needleLength: 0.95,
+                        enableAnimation: true,
+                        animationType: AnimationType.ease,
+                        needleStartWidth: 1.5,
+                        needleEndWidth: 6,
+                        needleColor: Colors.red,
+                        knobStyle: const KnobStyle(
+                            knobRadius: 0.09, color: AppColors.text_dark))
+                  ],
+                ),
               ],
             ),
+            Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Column(children: <Widget>[
+                  Text(speed.toString(),
+                      style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.text_dark)),
+                  const SizedBox(height: 10),
+                  Text('${AppStrings1.tractor_speed} (km/h)',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.text_dark))
+                ]))
           ],
-        )
-     
-    );
+        ));
   }
 }

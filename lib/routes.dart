@@ -12,6 +12,8 @@ import './Screens/Field.screen/AddField.screens.dart';
 import './Screens/Notifications.screen/index.dart';
 import './Screens/Tractor.screen/TractorDetail/wigets/youtube.srteam.dart';
 import './Screens/Profile.screen/Account_information.screen/Change_password.dart';
+import './Screens/Profile.screen/Account_information.screen/image.picker.dart';
+
 class Routes {
   const Routes._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -28,7 +30,7 @@ class Routes {
 
     switch (settings.name) {
       case AppRoutes.login:
-        return getRoute(widget: const LoginPage()); 
+        return getRoute(widget: const LoginPage());
       case AppRoutes.register:
         return getRoute(widget: const RegisterPage());
       case AppRoutes.home:
@@ -43,12 +45,23 @@ class Routes {
         return getRoute(widget: const AddField());
       case AppRoutes.noti:
         return getRoute(widget: NotificationDemo());
-     // case AppRoutes.stream:
+      // case AppRoutes.stream:
       //  return getRoute(widget: YouTubePlayerScreen());
       case AppRoutes.detail:
-        return getRoute(widget: TractorDetailChart(tractorId: '',token: '',tractorName: '',));
-         case AppRoutes.changepw:
+        return getRoute(
+            widget: TractorDetailChart(
+          tractorId: '',
+          token: '',
+          tractorName: '',
+        ));
+      case AppRoutes.changepw:
         return getRoute(widget: ChangePassword());
+
+        case AppRoutes.imgpicker:
+        return getRoute(widget: ImgPicker());
+
+
+   
       default:
         return getRoute(widget: const InvalidRoute());
     }

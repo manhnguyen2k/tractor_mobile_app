@@ -6,6 +6,7 @@ import 'TractorDetail/index.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../values/app_string1.dart';
 import '../../values/app_colors.dart';
+
 final topic = dotenv.env['MQTT_CHANNEL'] ?? '';
 
 class TrangThai {
@@ -27,22 +28,19 @@ class TrangThaiDen {
   final int value;
 
   const TrangThaiDen._(this.label, this.value);
-   static TrangThaiDen no = TrangThaiDen._('No', 0);
-  static TrangThaiDen on =
-      TrangThaiDen._(AppStrings1.enum_trangthaiden_on, 1);
-  static TrangThaiDen off =
-      TrangThaiDen._(AppStrings1.enum_trangthaiden_on, 2);
+  static TrangThaiDen no = TrangThaiDen._('No', 0);
+  static TrangThaiDen on = TrangThaiDen._(AppStrings1.enum_trangthaiden_on, 1);
+  static TrangThaiDen off = TrangThaiDen._(AppStrings1.enum_trangthaiden_on, 2);
 
   static List<TrangThaiDen> get values => [on, off];
 }
-
 
 class TrangThaiSoPhu {
   final String label;
   final int value;
 
   const TrangThaiSoPhu._(this.label, this.value);
-   static TrangThaiSoPhu no = TrangThaiSoPhu._('No', 0);
+  static TrangThaiSoPhu no = TrangThaiSoPhu._('No', 0);
   static TrangThaiSoPhu nomal =
       TrangThaiSoPhu._(AppStrings1.enum_trangthaisophu_nomal, 1);
   static TrangThaiSoPhu fast =
@@ -56,32 +54,28 @@ class ReserError {
   final int value;
 
   const ReserError._(this.label, this.value);
-   static ReserError no = ReserError._('No', 0);
-  static ReserError reset =
-      ReserError._(AppStrings1.enum_reseterr_reset, 1);
- 
+  static ReserError no = ReserError._('No', 0);
+  static ReserError reset = ReserError._(AppStrings1.enum_reseterr_reset, 1);
+
   static List<ReserError> get values => [reset];
 }
-
 
 class TrangThaiDoNghieng {
   final String label;
   final int value;
 
   const TrangThaiDoNghieng._(this.label, this.value);
-   static TrangThaiDoNghieng no = TrangThaiDoNghieng._('No', 0);
+  static TrangThaiDoNghieng no = TrangThaiDoNghieng._('No', 0);
   static TrangThaiDoNghieng nghieng1 =
       TrangThaiDoNghieng._(AppStrings1.enum_donghieng_1, 1);
- static TrangThaiDoNghieng nghieng2 =
+  static TrangThaiDoNghieng nghieng2 =
       TrangThaiDoNghieng._(AppStrings1.enum_donghieng_2, 2);
- 
- static TrangThaiDoNghieng nghieng3 =
+
+  static TrangThaiDoNghieng nghieng3 =
       TrangThaiDoNghieng._(AppStrings1.enum_donghieng_3, 3);
- 
-  static List<TrangThaiDoNghieng> get values => [nghieng1,nghieng2,nghieng3];
+
+  static List<TrangThaiDoNghieng> get values => [nghieng1, nghieng2, nghieng3];
 }
-
-
 
 class ControlTractor extends StatefulWidget {
   ControlTractor(
@@ -218,26 +212,25 @@ class _StateControlTractor extends State<ControlTractor> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-             DropdownMenu<TrangThai>(
-                    width: 100,
-                    initialSelection: TrangThai.no,
-                    controller: trang_thai_may_cay_controller,
-                    requestFocusOnTap: true,
-                    textStyle: const TextStyle(color: AppColors.text_dark),
-                    label:  Text(AppStrings1.tractor_state_state,
-                        style: TextStyle(color: AppColors.text_dark)),
-                    onSelected: (TrangThai? trangthai) {
-                      Xu_ly_input(input_trangthaimay, trangthai?.value);
-                    },
-                    dropdownMenuEntries: TrangThai.values
-                        .map<DropdownMenuEntry<TrangThai>>(
-                            (TrangThai trangthai) {
-                      return DropdownMenuEntry<TrangThai>(
-                        value: trangthai,
-                        label: trangthai.label,
-                      );
-                    }).toList(),
-                  ),
+            DropdownMenu<TrangThai>(
+              width: 100,
+              initialSelection: TrangThai.no,
+              controller: trang_thai_may_cay_controller,
+              requestFocusOnTap: true,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings1.tractor_state_state,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (TrangThai? trangthai) {
+                Xu_ly_input(input_trangthaimay, trangthai?.value);
+              },
+              dropdownMenuEntries: TrangThai.values
+                  .map<DropdownMenuEntry<TrangThai>>((TrangThai trangthai) {
+                return DropdownMenuEntry<TrangThai>(
+                  value: trangthai,
+                  label: trangthai.label,
+                );
+              }).toList(),
+            ),
             SizedBox(
               width: 120,
               child: TextField(
@@ -363,25 +356,25 @@ class _StateControlTractor extends State<ControlTractor> {
               ),
             ),
             DropdownMenu<TrangThaiDen>(
-                    width: 100,
-                    initialSelection: TrangThaiDen.no,
-                    controller: trang_thai_den_controller,
-                    requestFocusOnTap: true,
-                    textStyle: const TextStyle(color: AppColors.text_dark),
-                    label:  Text(AppStrings1.tractor_state_light,
-                        style: TextStyle(color: AppColors.text_dark)),
-                    onSelected: (TrangThaiDen? trangthai) {
-                      Xu_ly_input(input_trangthaiden, trangthai?.value);
-                    },
-                    dropdownMenuEntries: TrangThaiDen.values
-                        .map<DropdownMenuEntry<TrangThaiDen>>(
-                            (TrangThaiDen trangthai) {
-                      return DropdownMenuEntry<TrangThaiDen>(
-                        value: trangthai,
-                        label: trangthai.label,
-                      );
-                    }).toList(),
-                  ),
+              width: 100,
+              initialSelection: TrangThaiDen.no,
+              controller: trang_thai_den_controller,
+              requestFocusOnTap: true,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings1.tractor_state_light,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (TrangThaiDen? trangthai) {
+                Xu_ly_input(input_trangthaiden, trangthai?.value);
+              },
+              dropdownMenuEntries: TrangThaiDen.values
+                  .map<DropdownMenuEntry<TrangThaiDen>>(
+                      (TrangThaiDen trangthai) {
+                return DropdownMenuEntry<TrangThaiDen>(
+                  value: trangthai,
+                  label: trangthai.label,
+                );
+              }).toList(),
+            ),
           ],
         ),
         const SizedBox(
@@ -391,65 +384,64 @@ class _StateControlTractor extends State<ControlTractor> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DropdownMenu<TrangThaiSoPhu>(
-                    width: 100,
-                    initialSelection: TrangThaiSoPhu.no,
-                    controller: trang_thai_so_phu_controller,
-                    requestFocusOnTap: true,
-                    textStyle: const TextStyle(color: AppColors.text_dark),
-                    label:  Text(AppStrings1.tractor_state_so_phu,
-                        style: TextStyle(color: AppColors.text_dark)),
-                    onSelected: (TrangThaiSoPhu? trangthai) {
-                      Xu_ly_input(input_trangthaisophu, trangthai?.value);
-                    },
-                    dropdownMenuEntries: TrangThaiSoPhu.values
-                        .map<DropdownMenuEntry<TrangThaiSoPhu>>(
-                            (TrangThaiSoPhu trangthai) {
-                      return DropdownMenuEntry<TrangThaiSoPhu>(
-                        value: trangthai,
-                        label: trangthai.label,
-                      );
-                    }).toList(),
-                  ),
-           DropdownMenu<ReserError>(
-                    width: 100,
-                    initialSelection: ReserError.no,
-                    controller: reset_err_controller,
-                    requestFocusOnTap: true,
-                    textStyle: const TextStyle(color: AppColors.text_dark),
-                    label:  Text(AppStrings1.tractor_state_reseterr,
-                        style: TextStyle(color: AppColors.text_dark)),
-                    onSelected: (ReserError? trangthai) {
-                      Xu_ly_input(input_reseterr, trangthai?.value);
-                    },
-                    dropdownMenuEntries: ReserError.values
-                        .map<DropdownMenuEntry<ReserError>>(
-                            (ReserError trangthai) {
-                      return DropdownMenuEntry<ReserError>(
-                        value: trangthai,
-                        label: trangthai.label,
-                      );
-                    }).toList(),
-                  ),
-           DropdownMenu<TrangThaiDoNghieng>(
-                    width: 100,
-                    initialSelection: TrangThaiDoNghieng.no,
-                    controller: do_nghieng_controller,
-                    requestFocusOnTap: true,
-                    textStyle: const TextStyle(color: AppColors.text_dark),
-                    label:  Text(AppStrings1.tractor_state_do_nghieng,
-                        style: TextStyle(color: AppColors.text_dark)),
-                    onSelected: (TrangThaiDoNghieng? trangthai) {
-                      Xu_ly_input(input_reseterr, trangthai?.value);
-                    },
-                    dropdownMenuEntries: TrangThaiDoNghieng.values
-                        .map<DropdownMenuEntry<TrangThaiDoNghieng>>(
-                            (TrangThaiDoNghieng trangthai) {
-                      return DropdownMenuEntry<TrangThaiDoNghieng>(
-                        value: trangthai,
-                        label: trangthai.label,
-                      );
-                    }).toList(),
-                  ),
+              width: 100,
+              initialSelection: TrangThaiSoPhu.no,
+              controller: trang_thai_so_phu_controller,
+              requestFocusOnTap: true,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings1.tractor_state_so_phu,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (TrangThaiSoPhu? trangthai) {
+                Xu_ly_input(input_trangthaisophu, trangthai?.value);
+              },
+              dropdownMenuEntries: TrangThaiSoPhu.values
+                  .map<DropdownMenuEntry<TrangThaiSoPhu>>(
+                      (TrangThaiSoPhu trangthai) {
+                return DropdownMenuEntry<TrangThaiSoPhu>(
+                  value: trangthai,
+                  label: trangthai.label,
+                );
+              }).toList(),
+            ),
+            DropdownMenu<ReserError>(
+              width: 100,
+              initialSelection: ReserError.no,
+              controller: reset_err_controller,
+              requestFocusOnTap: true,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings1.tractor_state_reseterr,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (ReserError? trangthai) {
+                Xu_ly_input(input_reseterr, trangthai?.value);
+              },
+              dropdownMenuEntries: ReserError.values
+                  .map<DropdownMenuEntry<ReserError>>((ReserError trangthai) {
+                return DropdownMenuEntry<ReserError>(
+                  value: trangthai,
+                  label: trangthai.label,
+                );
+              }).toList(),
+            ),
+            DropdownMenu<TrangThaiDoNghieng>(
+              width: 100,
+              initialSelection: TrangThaiDoNghieng.no,
+              controller: do_nghieng_controller,
+              requestFocusOnTap: true,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings1.tractor_state_do_nghieng,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (TrangThaiDoNghieng? trangthai) {
+                Xu_ly_input(input_reseterr, trangthai?.value);
+              },
+              dropdownMenuEntries: TrangThaiDoNghieng.values
+                  .map<DropdownMenuEntry<TrangThaiDoNghieng>>(
+                      (TrangThaiDoNghieng trangthai) {
+                return DropdownMenuEntry<TrangThaiDoNghieng>(
+                  value: trangthai,
+                  label: trangthai.label,
+                );
+              }).toList(),
+            ),
           ],
         ),
         const SizedBox(

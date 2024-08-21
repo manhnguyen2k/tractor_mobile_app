@@ -5,6 +5,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../values/app_string1.dart';
+
 final url = dotenv.env['BASE_URL'];
 
 class FuelDisplay extends StatefulWidget {
@@ -57,103 +58,107 @@ class _FuelDiaplayState extends State<FuelDisplay> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 280,
-      child: SfRadialGauge(
-        axes: <RadialAxis>[
-          RadialAxis(
-            startAngle: 225,
-            endAngle: 0,
-            showTicks: false,
-            showAxisLine: false,
-            showLabels: false,
-            //canScaleToFit: true,
-            annotations: <GaugeAnnotation>[
-              const GaugeAnnotation(
-                  widget: Text(
-                    'E',
-                    style: TextStyle(
-                        color: AppColors.text_dark,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Times'),
-                  ),
-                  angle: 215,
-                  positionFactor: 1),
-              const GaugeAnnotation(
-                  widget: Text(
-                    'F',
-                    style: TextStyle(
-                        color: AppColors.text_dark,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Times'),
-                  ),
-                  angle: 10,
-                  positionFactor: 0.95),
-              GaugeAnnotation(
-                  widget:  Column(children: <Widget>[
-                    Text('${fuel.toInt().toString()}%',
-                        style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.text_dark)),
-                    const SizedBox(height: 20),
-                     Text(AppStrings1.tractor_fuel,
-                        style:const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.text_dark))
-                  ]),
-                  angle: 90,
-                  positionFactor: 1.5)
-            ],
+        height: 280,
+        child: Stack(
+          children: [
+            SfRadialGauge(
+              axes: <RadialAxis>[
+                RadialAxis(
+                  startAngle: 225,
+                  endAngle: 0,
+                  showTicks: false,
+                  showAxisLine: false,
+                  showLabels: false,
+                  //canScaleToFit: true,
+                  annotations: <GaugeAnnotation>[
+                    const GaugeAnnotation(
+                        widget: Text(
+                          'E',
+                          style: TextStyle(
+                              color: AppColors.text_dark,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Times'),
+                        ),
+                        angle: 215,
+                        positionFactor: 1),
+                    const GaugeAnnotation(
+                        widget: Text(
+                          'F',
+                          style: TextStyle(
+                              color: AppColors.text_dark,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Times'),
+                        ),
+                        angle: 10,
+                        positionFactor: 0.95),
+                  ],
 
-            ranges: <GaugeRange>[
-              GaugeRange(
-                  startValue: 0,
-                  endValue: 20,
-                  startWidth: 10,
-                  endWidth: 15,
-                  color: Colors.red),
-              GaugeRange(
-                  startValue: 22,
-                  endValue: 40,
-                  startWidth: 15,
-                  endWidth: 20,
-                  color: AppColors.text_dark),
-              GaugeRange(
-                  startValue: 42,
-                  endValue: 60,
-                  startWidth: 20,
-                  endWidth: 25,
-                  color: AppColors.text_dark),
-              GaugeRange(
-                  startValue: 62,
-                  endValue: 80,
-                  startWidth: 25,
-                  endWidth: 30,
-                  color: AppColors.text_dark),
-              GaugeRange(
-                  startValue: 82,
-                  endValue: 100,
-                  startWidth: 30,
-                  endWidth: 35,
-                  color: AppColors.text_dark),
-            ],
-            pointers: <GaugePointer>[
-              NeedlePointer(
-                  value: fuel,
-                  needleEndWidth: 7,
-                  // onValueChanged: _onPointerValueChanged,
-                  needleStartWidth: 1,
-                  needleColor: Colors.red,
-                  needleLength: 0.8,
-                  knobStyle: const KnobStyle(
-                      knobRadius: 0.09, color: AppColors.text_dark))
-            ],
-          )
-        ],
-      ),
-    );
+                  ranges: <GaugeRange>[
+                    GaugeRange(
+                        startValue: 0,
+                        endValue: 20,
+                        startWidth: 10,
+                        endWidth: 15,
+                        color: Colors.red),
+                    GaugeRange(
+                        startValue: 22,
+                        endValue: 40,
+                        startWidth: 15,
+                        endWidth: 20,
+                        color: AppColors.text_dark),
+                    GaugeRange(
+                        startValue: 42,
+                        endValue: 60,
+                        startWidth: 20,
+                        endWidth: 25,
+                        color: AppColors.text_dark),
+                    GaugeRange(
+                        startValue: 62,
+                        endValue: 80,
+                        startWidth: 25,
+                        endWidth: 30,
+                        color: AppColors.text_dark),
+                    GaugeRange(
+                        startValue: 82,
+                        endValue: 100,
+                        startWidth: 30,
+                        endWidth: 35,
+                        color: AppColors.text_dark),
+                  ],
+                  pointers: <GaugePointer>[
+                    NeedlePointer(
+                        value: fuel,
+                        needleEndWidth: 7,
+                        // onValueChanged: _onPointerValueChanged,
+                        needleStartWidth: 1,
+                        needleColor: Colors.red,
+                        needleLength: 0.8,
+                        knobStyle: const KnobStyle(
+                            knobRadius: 0.09, color: AppColors.text_dark))
+                  ],
+                )
+              ],
+            ),
+            Positioned(
+                bottom: 20,
+                left: 0,
+                right:0,
+                child: Column(children: <Widget>[
+                  Text('${fuel.toInt().toString()}%',
+                      style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.text_dark)),
+                  const SizedBox(height: 20),
+                  Text(AppStrings1.tractor_fuel,
+                      style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.text_dark))
+                ])),
+          ],
+        ));
   }
 }
