@@ -138,7 +138,7 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
                   ),
                   selectedColor: AppColors.primaryColor,
                   unSelectedColor: AppColors.textColor,
-                  title:  Text(AppStrings1.login),
+                  title:  Text(AppStrings1.mapTitleAppbarr),
                 ),
                 BottomBarItem(
                   icon: const Icon(

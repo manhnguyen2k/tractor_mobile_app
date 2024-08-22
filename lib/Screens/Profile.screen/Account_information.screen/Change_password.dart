@@ -39,7 +39,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           },
         ),
         title: Text(
-          'Đổi mật khẩu',
+          AppStrings1.account_change_password,
           style: const TextStyle(
               color: AppColors.textColor,
               fontSize: 24.0,
@@ -134,24 +134,19 @@ class _ChangePasswordState extends State<ChangePassword> {
                   );
                 },
               ),
-
               ValueListenableBuilder(
-                    valueListenable: confirm_newpw_noti,
-                    builder: (_, isValid, __) {
-                      return FilledButton(
-                        onPressed:
-                             () {
-                               
-                                oldpw_controller.clear();
-                                newpw_controller.clear();
-                                confirm_newpw_controller.clear();
-                              
-                              },
-                           
-                        child:  Text(AppStrings1.account_change_password),
-                      );
+                valueListenable: confirm_newpw_noti,
+                builder: (_, isValid, __) {
+                  return FilledButton(
+                    onPressed: () {
+                      oldpw_controller.clear();
+                      newpw_controller.clear();
+                      confirm_newpw_controller.clear();
                     },
-                  ),
+                    child: Text(AppStrings1.account_change_password),
+                  );
+                },
+              ),
             ],
           ),
         ),

@@ -27,7 +27,7 @@ class _ProfileScreen extends State<ProfileScreen> {
         _image = File(pickedFile.path);
       });
     } else {
-      print('No image selected.');
+      log('No image selected.');
     }
   }
 
@@ -35,33 +35,33 @@ class _ProfileScreen extends State<ProfileScreen> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-         final theme = Theme.of(context);
-   final backgroundcolor = theme.scaffoldBackgroundColor;
-    log('tileeeeee $backgroundcolor');
+        final theme = Theme.of(context);
+        final backgroundcolor = theme.scaffoldBackgroundColor;
+        //log('tileeeeee $backgroundcolor');
         return Container(
             height: 120,
             child: Material(
-              color:backgroundcolor ,
+              color: backgroundcolor,
               child: Column(
                 children: [
-                  Expanded(child:  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        _pickImage(ImageSource.camera);
-                      },
-                      child: ListTile(
-                        leading:const  Icon(Icons.photo_library),
-                        title: Text(AppStrings1.select_image_galary),
-                      )))
-                 ,
-                 Expanded(child:  InkWell(
+                  Expanded(
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            _pickImage(ImageSource.camera);
+                          },
+                          child: ListTile(
+                            leading: const Icon(Icons.photo_library),
+                            title: Text(AppStrings1.select_image_galary),
+                          ))),
+                  Expanded(
+                      child: InkWell(
                     onTap: () {},
                     child: ListTile(
-                      leading:const Icon(Icons.camera_alt),
+                      leading: const Icon(Icons.camera_alt),
                       title: Text(AppStrings1.select_image_camera),
                     ),
                   ))
-                 
                 ],
               ),
             ));

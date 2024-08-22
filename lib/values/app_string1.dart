@@ -66,7 +66,7 @@ class AppStrings1 {
   static late String color;
   static late String color_shade;
 
-  static late String map_reload;
+  static late String reload;
 
   static late String noti_date_justnow;
   static late String noti_date_minute_ago;
@@ -151,7 +151,7 @@ class AppStrings1 {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? selectedLanguage = prefs.getString('selected_language');
 
-    // Default to Vietnamese if no language is selected
+   
     if (selectedLanguage == null || selectedLanguage.isEmpty) {
       selectedLanguage = 'Vietnamese';
       prefs.setString('selected_language', selectedLanguage);
@@ -224,7 +224,7 @@ class AppStrings1 {
         color = 'Select Color';
         color_shade = 'Select color shades';
 
-        map_reload = 'Reload';
+        reload = 'Reload';
 
         noti_date_justnow = 'Just now';
         noti_date_minute_ago = 'minutes ago';
@@ -373,7 +373,7 @@ class AppStrings1 {
         color = 'Chọn màu';
         color_shade = 'Chọn màu trộn';
 
-        map_reload = 'Tải lại';
+        reload = 'Tải lại';
 
         noti_date_justnow = 'Vừa xong';
         noti_date_minute_ago = 'phút trước';

@@ -23,24 +23,15 @@ class NotificationDemo extends StatefulWidget {
 }
 
 class _NotificationDemoState extends State<NotificationDemo> {
-//  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  bool isLoading = false;
-  bool isResult = false;
+  late bool isLoading;
+  List isError = [];
   List<dynamic> notidata = [];
-  Future<void> loadString() async{
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final selected = prefs.getString('selected_language');
-    log('selected language: $selected');
-    await AppStrings1.loadLanguageStrings();
-  }
+ final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
   Future<void> loadNoti() async {
-    //   if (!mounted) return;
-    setState(() {
-      isLoading = true;
-    });
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      // prefs.setString('deviceToken', fcmToken ?? '');
       final String? uid = prefs.getString('uid');
       final data = await UserService.getLimitNoti(uid ?? '');
       final Map<String, dynamic> responseData = json.decode(data.body);
@@ -48,53 +39,53 @@ class _NotificationDemoState extends State<NotificationDemo> {
       if (mounted) {
         setState(() {
           notidata = userData;
-          isLoading = false;
-          isResult = true;
         });
       }
     } catch (e) {
       if (mounted) {
         setState(() {
-          isLoading = false;
-          isResult = false;
+       
+          isError.add(e.toString());
         });
       }
     }
   }
 
   Future<void> loadmoreNoti() async {
-    setState(() {
-      isLoading = true;
-    });
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      // prefs.setString('deviceToken', fcmToken ?? '');
       final String? uid = prefs.getString('uid');
       final data = await UserService.getAllNoti(uid ?? '');
       final Map<String, dynamic> responseData = json.decode(data.body);
       final List<dynamic> userData = (responseData['data']);
       setState(() {
         notidata = userData;
-        isLoading = false;
-        isResult = true;
       });
     } catch (e) {
       if (mounted) {
         setState(() {
-          isLoading = false;
-          isResult = false;
+          isError.add(e.toString());
         });
       }
     }
   }
 
+  Future<void> _initialize() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await loadNoti();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    loadString();
-    loadNoti();
-    log('tesssss ${AppStrings1.AccountManageTitle}');
-    // _firebaseApi.initNotification();
+    _initialize();
   }
 
   String timeAgo(String isoString) {
@@ -115,13 +106,11 @@ class _NotificationDemoState extends State<NotificationDemo> {
     }
   }
 
-  @override
-  void dispose() {
-    // Any cleanup if necessary
 
-    super.dispose();
+ Future<void> _refresh() async {
+    // await Future.delayed(const Duration(seconds: 2));
+    await loadNoti();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,15 +123,36 @@ class _NotificationDemoState extends State<NotificationDemo> {
             },
           ),
         ),
-        //  backgroundColor:  AppColors.backgroundColor,
         body: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : isResult
-                ? RefreshIndicator(
-                    onRefresh: () => loadNoti(),
+            ? const Center(child: CircularProgressIndicator()):
+           
+                RefreshIndicator(
+                  key: _refreshIndicatorKey,
+                    onRefresh: _refresh,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 0),
-                      child: ListView.builder(
+                      child:
+                        isError.isNotEmpty?
+                        Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppStrings1.err_disconected_server,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  _refreshIndicatorKey.currentState?.show();
+                                },
+                                child: Text(AppStrings1.reload))
+                          ],
+                        ),
+                      ):
+                       ListView.builder(
                           itemCount: notidata.length + 1,
                           itemBuilder: (context, index) {
                             if (index < notidata.length) {
@@ -223,22 +233,8 @@ class _NotificationDemoState extends State<NotificationDemo> {
                                 ),
                               );
                             }
-                            /*
-                        else if (index == notidata.length &&
-                            notidata.length > 21) {
-                          return InkWell(
-                            onTap: loadmoreNoti,
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text("Thông báo cũ hơn"),
-                            ),
-                          );
-                        }
-                        */
                           }),
                     ))
-                : Center(
-                    child: Text(AppStrings1.err_disconected_server),
-                  ));
+              );
   }
 }

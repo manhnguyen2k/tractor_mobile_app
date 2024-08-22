@@ -1,8 +1,3 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// ignore_for_file: public_member_api_docs
 
 import 'dart:async';
 import 'dart:io';
@@ -12,28 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 
-
-
-
 class ImgPicker extends StatefulWidget {
   const ImgPicker({super.key});
-
-  
-
   @override
   State<ImgPicker> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<ImgPicker> {
   List<XFile>? _mediaFileList;
-
   void _setImageFileListFromFile(XFile? value) {
     _mediaFileList = value == null ? null : <XFile>[value];
   }
 
   dynamic _pickImageError;
   bool isVideo = false;
-
 
   String? _retrieveDataError;
 
@@ -43,17 +30,14 @@ class _MyHomePageState extends State<ImgPicker> {
   final TextEditingController qualityController = TextEditingController();
   final TextEditingController limitController = TextEditingController();
 
- 
-
   Future<void> _onImageButtonPressed(
     ImageSource source, {
     required BuildContext context,
     bool isMultiImage = false,
     bool isMedia = false,
   }) async {
-   
     if (context.mounted) {
-    if (isMultiImage) {
+      if (isMultiImage) {
         await _displayPickImageDialog(context, true, (double? maxWidth,
             double? maxHeight, int? quality, int? limit) async {
           try {
@@ -126,20 +110,16 @@ class _MyHomePageState extends State<ImgPicker> {
 
   @override
   void deactivate() {
-   
     super.deactivate();
   }
 
   @override
   void dispose() {
-
     maxWidthController.dispose();
     maxHeightController.dispose();
     qualityController.dispose();
     super.dispose();
   }
-
-
 
   Widget _previewImages() {
     final Text? retrieveError = _getRetrieveErrorWidget();
@@ -170,7 +150,7 @@ class _MyHomePageState extends State<ImgPicker> {
                                     Text('This image type is not supported'));
                           },
                         )
-                      :null),
+                      : null),
             );
           },
           itemCount: _mediaFileList!.length,
@@ -189,11 +169,8 @@ class _MyHomePageState extends State<ImgPicker> {
     }
   }
 
-  
   Widget _handlePreview() {
-   
-      return _previewImages();
-    
+    return _previewImages();
   }
 
   Future<void> retrieveLostData() async {
@@ -202,16 +179,14 @@ class _MyHomePageState extends State<ImgPicker> {
       return;
     }
     if (response.file != null) {
-     
-        isVideo = false;
-        setState(() {
-          if (response.files == null) {
-            _setImageFileListFromFile(response.file);
-          } else {
-            _mediaFileList = response.files;
-          }
-        });
-      
+      isVideo = false;
+      setState(() {
+        if (response.files == null) {
+          _setImageFileListFromFile(response.file);
+        } else {
+          _mediaFileList = response.files;
+        }
+      });
     } else {
       _retrieveDataError = response.exception!.code;
     }
@@ -373,7 +348,7 @@ class _MyHomePageState extends State<ImgPicker> {
   }
 
   Future<void> _displayPickImageDialog(
-      BuildContext context, bool isMulti,  onPick) async {
+      BuildContext context, bool isMulti, onPick) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -441,5 +416,3 @@ class _MyHomePageState extends State<ImgPicker> {
         });
   }
 }
-
-

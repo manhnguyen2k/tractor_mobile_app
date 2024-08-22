@@ -327,7 +327,7 @@ class _MapScreenState extends State<MapScreen> {
                 _refreshIndicatorKey.currentState?.show();
               },
               icon: const Icon(Icons.refresh),
-              label:  Text(AppStrings1.map_reload),
+              label:  Text(AppStrings1.reload),
             ),
           ),
         ],

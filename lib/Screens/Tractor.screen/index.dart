@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:tractorapp/values/app_colors.dart';
 import 'Tractor_line.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../values/app_strings.dart';
+import '../../values/app_string1.dart';
 import '../../service/Tractor.service/Tractor.service.dart';
 import '../../utils//common_widgets/connection.err.dart';
 import 'dart:developer';
@@ -22,9 +21,12 @@ class ListTractor extends StatefulWidget {
 }
 
 class _ListTractorState extends State<ListTractor> {
-  bool isLoading = false;
-  bool isError = false;
+  late bool isLoading;
+  List isError = [];
   String _token = '';
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
   String getToken() {
     String token = '';
     try {
@@ -49,6 +51,7 @@ class _ListTractorState extends State<ListTractor> {
     all_tractor.clear();
     try {
       final data = await TractorService.getAllTractor();
+
       final a = jsonDecode(data.body);
       int count = 0;
       for (var item in a['data']) {
@@ -56,14 +59,14 @@ class _ListTractorState extends State<ListTractor> {
         log('$count');
         setState(() {
           all_tractor.add(item['_id']);
-          isError = false;
+          //isError = false;
         });
       }
 //count= 0 ;
     } catch (e) {
       log('errrr${e.toString()}:');
       setState(() {
-        isError = true;
+        isError.add(e.toString());
       });
     }
   }
@@ -83,10 +86,17 @@ class _ListTractorState extends State<ListTractor> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
+  Future<void> _initialize() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await _loadData();
+
+    setState(() {
+      isLoading = false;
+    });
+
     Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
     _sprefs.then(
       (prefs) {
@@ -94,7 +104,6 @@ class _ListTractorState extends State<ListTractor> {
         setState(() {
           _token = token;
         });
-        //   log('token:$token');
         Map<String, String> extraHeaders = {
           'token': token,
         };
@@ -110,6 +119,12 @@ class _ListTractorState extends State<ListTractor> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _initialize();
+  }
+
+  @override
   void dispose() {
     socket.disconnect();
     socket.dispose();
@@ -117,57 +132,84 @@ class _ListTractorState extends State<ListTractor> {
   }
 
   Future<void> _refresh() async {
-    await Future.delayed(const Duration(seconds: 2));
-    _loadData();
+    //await Future.delayed(const Duration(seconds: 2));
+    await _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    log('loading: ${isLoading}');
+    //final textColor = theme.textTheme.bodyMedium;
     return
-
         // isError? ConnectionFailed():
         RefreshIndicator(
+            key: _refreshIndicatorKey,
             onRefresh: _refresh,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: ListView.builder(
-                itemCount: all_tractor.length,
-                itemBuilder: (context, index) {
-                  bool isOnline = online_tractor.contains(all_tractor[index]);
-                  return Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      constraints: const BoxConstraints(
-                        minHeight: 100.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 0.0,
-                        ),
-                        borderRadius: BorderRadius.circular(15.0),
-                        boxShadow: isOnline
-                            ? [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
+            child: isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: isError.isNotEmpty
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppStrings1.err_disconected_server,
                                 ),
-                              ]
-                            : [],
-                      ),
-                      child: Tractor_line(
-                        isOnline: isOnline,
-                        tractorId: all_tractor[index],
-                        token: _token,
-                        onTabChange: widget.onTabChange,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ));
+                                SizedBox(height: 10,),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      _refreshIndicatorKey.currentState?.show();
+                                    },
+                                    child: Text(AppStrings1.reload))
+                              ],
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: all_tractor.length,
+                            itemBuilder: (context, index) {
+                              bool isOnline =
+                                  online_tractor.contains(all_tractor[index]);
+                              return Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
+                                  constraints: const BoxConstraints(
+                                    minHeight: 100.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 0.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    boxShadow: isOnline
+                                        ? [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.3),
+                                              spreadRadius: 1,
+                                              blurRadius: 5,
+                                              offset: const Offset(0, 3),
+                                            ),
+                                          ]
+                                        : [],
+                                  ),
+                                  child: Tractor_line(
+                                    isOnline: isOnline,
+                                    tractorId: all_tractor[index],
+                                    token: _token,
+                                    onTabChange: widget.onTabChange,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                  ));
   }
 }
