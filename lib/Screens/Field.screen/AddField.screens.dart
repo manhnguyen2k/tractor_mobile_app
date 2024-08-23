@@ -13,7 +13,7 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../utils/common_widgets/appbar.dart';
-import '../../values/app_string1.dart';
+import '../../values/app_strings.dart';
 const kGoogleApiKey = "AIzaSyDL9J82iDhcUWdQiuIvBYa0t5asrtz3Swk";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
@@ -128,14 +128,14 @@ class MapSampleState extends State<AddField> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title:  Text(AppStrings1.dialog_errorTitle),
-            content:  Text(AppStrings1.dialog_err_field_name),
+            title:  Text(AppStrings.dialog_errorTitle),
+            content:  Text(AppStrings.dialog_err_field_name),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text(AppStrings1.dialog_close),
+                child: Text(AppStrings.dialog_close),
               ),
             ],
           );
@@ -161,8 +161,8 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title:  Text(AppStrings1.dialog_noti_title),
-                content:  Text(AppStrings1.dialog_addfiled_success),
+                title:  Text(AppStrings.dialog_noti_title),
+                content:  Text(AppStrings.dialog_addfiled_success),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
@@ -192,14 +192,14 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title:  Text(AppStrings1.dialog_noti_title),
-                content:  Text(AppStrings1.dialog_has_error),
+                title:  Text(AppStrings.dialog_noti_title),
+                content:  Text(AppStrings.dialog_has_error),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child:  Text(AppStrings1.dialog_close),
+                    child:  Text(AppStrings.dialog_close),
                   ),
                 ],
               );
@@ -230,7 +230,7 @@ class MapSampleState extends State<AddField> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: AppStrings1.addFieldTitle,
+        title: AppStrings.addFieldTitle,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.textColor),
           onPressed: () {
@@ -290,7 +290,7 @@ class MapSampleState extends State<AddField> {
                         log('stroke: $color');
                       },
                     ),
-                     Text(AppStrings1.addfiled_color_border)
+                     Text(AppStrings.addfiled_color_border)
                   ],
                 )),
           if (_getLatLngFromMarkers().isNotEmpty)
@@ -308,7 +308,7 @@ class MapSampleState extends State<AddField> {
                         _updatePolygon();
                       },
                     ),
-                     Text(AppStrings1.addfiled_color_fill)
+                     Text(AppStrings.addfiled_color_fill)
                   ],
                 )),
           if (_getLatLngFromMarkers().isNotEmpty)
@@ -325,7 +325,7 @@ class MapSampleState extends State<AddField> {
                   ],
                   decoration:  InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: AppStrings1.addfiled_border_width,
+                    labelText: AppStrings.addfiled_border_width,
                   ),
                   onChanged: (value) {
                     log('change: $value');
@@ -355,7 +355,7 @@ class MapSampleState extends State<AddField> {
                   ],
                   decoration:  InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: AppStrings1.addfiled_opacity,
+                    labelText: AppStrings.addfiled_opacity,
                   ),
                   onChanged: (value) {
                     double newValue = double.tryParse(value) ?? opacity;
@@ -379,7 +379,7 @@ class MapSampleState extends State<AddField> {
                   controller: _name,
                   decoration:  InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: AppStrings1.addfiled_fieldname,
+                    labelText: AppStrings.addfiled_fieldname,
                   ),
                   onChanged: (value) {
                     _name.text = value.toString();
@@ -398,7 +398,7 @@ class MapSampleState extends State<AddField> {
                   width: 120,
                   child: FilledButton(
                       onPressed: () => handleDelete(),
-                      child:  Text(AppStrings1.addfield_delete))),
+                      child:  Text(AppStrings.addfield_delete))),
             ),
           if (_getLatLngFromMarkers().length > 2)
             Positioned(
@@ -407,7 +407,7 @@ class MapSampleState extends State<AddField> {
               child: SizedBox(
                   width: 120,
                   child: FilledButton(
-                      onPressed: () => handleSave(), child:  Text(AppStrings1.addfield_save))),
+                      onPressed: () => handleSave(), child:  Text(AppStrings.addfield_save))),
             ),
         ],
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import './List_account_info.dart';
 import '../ProfileMenu.dart';
-import '../../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 import 'dart:developer';
 import '../../../utils/helpers/navigation_helper.dart';
 import '../../../values/app_routes.dart';
@@ -52,14 +52,14 @@ class _ProfileScreen extends State<ProfileScreen> {
                           },
                           child: ListTile(
                             leading: const Icon(Icons.photo_library),
-                            title: Text(AppStrings1.select_image_galary),
+                            title: Text(AppStrings.select_image_galary),
                           ))),
                   Expanded(
                       child: InkWell(
                     onTap: () {},
                     child: ListTile(
                       leading: const Icon(Icons.camera_alt),
-                      title: Text(AppStrings1.select_image_camera),
+                      title: Text(AppStrings.select_image_camera),
                     ),
                   ))
                 ],
@@ -153,7 +153,7 @@ class _ProfileScreen extends State<ProfileScreen> {
             const Divider(),
 
             ProfileMenuWidget(
-                title: AppStrings1.account_change_password,
+                title: AppStrings.account_change_password,
                 icon: Icons.lock,
                 textColor: Colors.red,
                 onPress: () {

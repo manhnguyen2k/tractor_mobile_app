@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../values/app_colors.dart';
-import '../../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 class GridItem extends StatelessWidget {
   GridItem(
       {required this.title,
@@ -47,7 +47,7 @@ class GridItem extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Text(value == 0 ? AppStrings1.tractor_sensor_off :AppStrings1.tractor_sensor_on,
+              Text(value == 0 ? AppStrings.tractor_sensor_off :AppStrings.tractor_sensor_on,
                   style: const TextStyle(
                       color: AppColors.text_dark, fontWeight: FontWeight.bold))
             ],

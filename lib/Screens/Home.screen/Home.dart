@@ -41,7 +41,6 @@ class _Home extends State<Home> {
                 title: 'Cameras',
                 subtitle: '8 Devices',
                 onTap: () {
-                  //  print('Card tapped!');
                 },
               ),
               FloatButton(
@@ -51,7 +50,6 @@ class _Home extends State<Home> {
                 title: 'Lights',
                 subtitle: '8 Devices',
                 onTap: () {
-                  // print('Card tapped!');
                 },
               ),
             ],
@@ -67,7 +65,6 @@ class _Home extends State<Home> {
                 title: 'Speakers',
                 subtitle: '2 Devices',
                 onTap: () {
-                  // print('Card tapped!');
                 },
               ),
               FloatButton(
@@ -78,7 +75,6 @@ class _Home extends State<Home> {
                 title: 'Cricket bat',
                 subtitle: '8 Devices',
                 onTap: () {
-                  print('Card tapped!');
                 },
               ),
             ],
@@ -93,7 +89,6 @@ class _Home extends State<Home> {
                 title: 'Sensors',
                 subtitle: '5 Devices',
                 onTap: () {
-                  //print('Card tapped!');
                 },
               ),
               FloatButton(
@@ -103,7 +98,6 @@ class _Home extends State<Home> {
                 title: 'Air Condition',
                 subtitle: '4 Devices',
                 onTap: () {
-                  // print('Card tapped!');
                 },
               ),
             ],
@@ -111,7 +105,5 @@ class _Home extends State<Home> {
         ],
       ),
     );
-    // TODO: implement build
-    throw UnimplementedError();
   }
 }

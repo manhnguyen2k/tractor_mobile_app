@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'Grid_Display.dart';
-import 'Grid_item1.dart';
+import 'Grid_item_1.dart';
+import 'Grid_item_2.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../values/app_colors.dart';
-import '../../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 final url = dotenv.env['BASE_URL'];
 
 class ListGrid extends StatefulWidget {
@@ -100,21 +100,21 @@ class _ListGrid extends State<ListGrid> {
                       GridItem(
                         width: item_width,
                         height: item_height,
-                        title: AppStrings1.sensor_title_power,
+                        title: AppStrings.sensor_title_power,
                         value: nguon,
                         icon: Icons.settings_power_outlined,
                       ),
                       GridItem(
                         width: item_width,
                         height: item_height,
-                        title: AppStrings1.sensor_title_switch,
+                        title: AppStrings.sensor_title_switch,
                         value: chuyen_mach,
                         icon: Icons.cached_sharp,
                       ),
                       GridItem(
                         width: item_width,
                         height: item_height,
-                        title: AppStrings1.sensor_title_starter,
+                        title: AppStrings.sensor_title_starter,
                         value: de,
                         icon: Icons.flash_on_sharp,
                       ),
@@ -126,19 +126,19 @@ class _ListGrid extends State<ListGrid> {
                       GridItem(
                         width: item_width,
                         height: item_height,
-                        title: AppStrings1.sensor_title_front_light,
+                        title: AppStrings.sensor_title_front_light,
                         value: den_truoc,
                         icon: Icons.light,
                       ),
                       GridItem(
                         width: item_width,
                         height: item_height,
-                        title: AppStrings1.sensor_title_back_light,
+                        title: AppStrings.sensor_title_back_light,
                         value: den_sau,
                         icon: Icons.light,
                       ),
                       GridItem1(
-                          title: AppStrings1.sensor_title_temp_engine,
+                          title: AppStrings.sensor_title_temp_engine,
                           width: item_width,
                           height: item_height,
                           value: nhiet_do_dong_co,
@@ -149,19 +149,19 @@ class _ListGrid extends State<ListGrid> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GridItem1(
-                          title: AppStrings1.sensor_title_temp_fuel,
+                          title: AppStrings.sensor_title_temp_fuel,
                           width: item_width,
                           height: item_height,
                           value: nhiet_do_binh_dau,
                           icon: Icons.thermostat_outlined),
                       GridItem1(
-                          title: AppStrings1.sensor_title_asmostphere,
+                          title: AppStrings.sensor_title_asmostphere,
                           width: item_width,
                           height: item_height,
                           value: ap_suat,
                           icon: Icons.thermostat_outlined),
                       GridItem1(
-                          title: AppStrings1.sensor_title_humidity,
+                          title: AppStrings.sensor_title_humidity,
                           width: item_width,
                           height: item_height,
                           value: do_am,

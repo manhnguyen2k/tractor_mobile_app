@@ -1,6 +1,6 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
-import '../../values/app_string1.dart';
+import '../../values/app_strings.dart';
 class ColorPickerPage extends StatefulWidget {
   final ValueChanged<Color> onColorChanged;
 
@@ -51,11 +51,11 @@ class _ColorPickerPageState extends State<ColorPickerPage> {
       runSpacing: 5,
       wheelDiameter: 155,
       heading: Text(
-        AppStrings1.color,
+        AppStrings.color,
         style: Theme.of(context).textTheme.titleMedium,
       ),
       subheading: Text(
-        AppStrings1.color_shade,
+        AppStrings.color_shade,
         style: Theme.of(context).textTheme.titleMedium,
       ),
       wheelSubheading: Text(

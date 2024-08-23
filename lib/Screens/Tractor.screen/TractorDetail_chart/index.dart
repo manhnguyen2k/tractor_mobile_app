@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../values/app_colors.dart';
 import 'Linechart.dart';
-import './wigets/Piechart.dart';
+import 'wigets/Piechart.dart';
 import 'Linechart2.dart';
-import 'Speedometer.dart';
-import 'Fueldisplay.dart';
-import 'List_grid.dart';
+import 'Speedometer_inchart.dart';
+import 'Fueldisplay_inchart.dart';
+import 'index_grid.dart';
 import '../../../utils/common_widgets/appbar.dart';
-import './wigets/youtube.srteam.dart';
-import './wigets/control_online_video.dart';
-import '../../../values/app_string1.dart';
+import 'wigets/youtube.srteam.dart';
+import 'wigets/control_online_video.dart';
+import '../../../values/app_strings.dart';
 
 class TractorDetailChart extends StatefulWidget {
   TractorDetailChart(
@@ -139,9 +139,9 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                       logItemIndex1: 0,
                       logItemIndex2: 1,
                       item1_color: Colors.red,
-                      item1_name: AppStrings1.piechart_timeed_title,
+                      item1_name: AppStrings.piechart_timeed_title,
                       item2_color: Colors.orange,
-                      item2_name: AppStrings1.piechart_time_left_title,
+                      item2_name: AppStrings.piechart_time_left_title,
                       width: 250,
                       height: 250,
                       centerRadius: isTablet ? 50 : 30,

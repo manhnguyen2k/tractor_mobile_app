@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
-import 'Fueldisplay.dart';
-import 'Progress.dart';
-import 'Speedometer.dart';
-import 'Icontractor.dart';
-import 'Battery.dart';
-import 'Control_tractor.dart';
+import 'Fueldisplay_inline.dart';
+import 'Progress_inline.dart';
+import 'Speedom_inline.dart';
+import 'Icontractor_inline.dart';
+import 'Battery_inline.dart';
+import 'Control_tractor_inline.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:ui';

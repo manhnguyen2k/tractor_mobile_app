@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:developer';
-import '../components/app_text_form_field.dart';
-import '../utils/common_widgets/gradient_background.dart';
-import '../utils/helpers/navigation_helper.dart';
-import '../values/app_routes.dart';
-import '../values/app_strings.dart';
-import '../values/app_theme.dart';
-import '../service/Auth.service/Auth.service.dart';
+import '../../components/app_text_form_field.dart';
+import '../../utils/common_widgets/gradient_background.dart';
+import '../../utils/helpers/navigation_helper.dart';
+import '../../values/app_routes.dart';
+import '../../values/app_strings.dart';
+import '../../values/app_theme.dart';
+import '../../service/Auth.service/Auth.service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -142,10 +142,10 @@ class _LoginPageState extends State<LoginPage> {
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const GradientBackground(
+           GradientBackground(
             children: [
               Text(
-                AppStrings.signInToYourNAccount,
+                AppStrings.AccountManageTitle,
                 style: AppTheme.titleLarge,
               ),
               SizedBox(height: 6),
@@ -206,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: const Text(AppStrings.forgotPassword),
+                    child:  Text(AppStrings.forgotPassword),
                   ),
                   const SizedBox(height: 20),
                   ValueListenableBuilder(
@@ -227,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                               alignment: Alignment.center,
                               children: [
                                 if (!_isLoading)
-                                  const Text(
+                                   Text(
                                       AppStrings.login), 
                                 if (_isLoading)
                                   Container(
@@ -251,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+               Text(
                 AppStrings.doNotHaveAnAccount
                 ),
               const SizedBox(width: 4),
@@ -261,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
                     AppRoutes.register,
                   );
                 },
-                child: const Text(AppStrings.register),
+                child:  Text(AppStrings.register),
               ),
             ],
           ),

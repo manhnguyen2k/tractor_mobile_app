@@ -1,12 +1,12 @@
 //import 'package:fl_chart_app/presentation/resources/app_resources.dart';
 import 'package:fl_chart/fl_chart.dart';
-import './indicator.dart';
+import 'indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../../values/app_colors.dart';
-import '../../../../values/app_string1.dart';
+import '../../../../values/app_strings.dart';
 
 final url = dotenv.env['BASE_URL'];
 
@@ -143,7 +143,7 @@ class PieChart2State extends State<PieChartSample2> {
                   Indicator(
                     color: widget.item1_color ?? Colors.blue,
                     text:
-                        widget.item1_name ?? AppStrings1.piechart_roaded_title,
+                        widget.item1_name ?? AppStrings.piechart_roaded_title,
                     isSquare: true,
                     width: 137,
                     fontsize: 12,
@@ -154,7 +154,7 @@ class PieChart2State extends State<PieChartSample2> {
                   Indicator(
                     color: widget.item2_color ?? Colors.green,
                     text: widget.item2_name ??
-                        AppStrings1.piechart_road_left_title,
+                        AppStrings.piechart_road_left_title,
                     isSquare: true,
                     width: 137,
                     fontsize: 12,

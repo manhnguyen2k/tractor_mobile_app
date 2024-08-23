@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tractorapp/values/app_colors.dart';
-import 'Tractor_line.dart';
+import 'index_tractor_inline.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../values/app_string1.dart';
+import '../../values/app_strings.dart';
 import '../../service/Tractor.service/Tractor.service.dart';
 import '../../utils//common_widgets/connection.err.dart';
 import 'dart:developer';
@@ -20,7 +20,8 @@ class ListTractor extends StatefulWidget {
   State<ListTractor> createState() => _ListTractorState();
 }
 
-class _ListTractorState extends State<ListTractor> {
+class _ListTractorState extends State<ListTractor>
+    with AutomaticKeepAliveClientMixin {
   late bool isLoading;
   List isError = [];
   String _token = '';
@@ -120,12 +121,14 @@ class _ListTractorState extends State<ListTractor> {
 
   @override
   void initState() {
+    // log('initttttttttttt');
     super.initState();
     _initialize();
   }
 
   @override
   void dispose() {
+    //log('disposssssssss');
     socket.disconnect();
     socket.dispose();
     super.dispose();
@@ -138,6 +141,7 @@ class _ListTractorState extends State<ListTractor> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final theme = Theme.of(context);
     log('loading: ${isLoading}');
     //final textColor = theme.textTheme.bodyMedium;
@@ -147,7 +151,7 @@ class _ListTractorState extends State<ListTractor> {
             key: _refreshIndicatorKey,
             onRefresh: _refresh,
             child: isLoading
-                ? Center(
+                ?const Center(
                     child: CircularProgressIndicator(),
                   )
                 : Padding(
@@ -159,14 +163,16 @@ class _ListTractorState extends State<ListTractor> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  AppStrings1.err_disconected_server,
+                                  AppStrings.err_disconected_server,
                                 ),
-                                SizedBox(height: 10,),
+                               const SizedBox(
+                                  height: 10,
+                                ),
                                 ElevatedButton(
                                     onPressed: () {
                                       _refreshIndicatorKey.currentState?.show();
                                     },
-                                    child: Text(AppStrings1.reload))
+                                    child: Text(AppStrings.reload))
                               ],
                             ),
                           )
@@ -212,4 +218,7 @@ class _ListTractorState extends State<ListTractor> {
                           ),
                   ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

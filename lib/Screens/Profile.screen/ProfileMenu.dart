@@ -17,14 +17,13 @@ class ProfileMenuWidget extends StatelessWidget {
   final VoidCallback onPress;
   final bool endIcon;
   final Color? textColor;
-  // final void onTa
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final leadingColor = theme.listTileTheme.iconColor;
     final titleStyle = theme.listTileTheme.titleTextStyle;
     final tileColor = theme.listTileTheme.tileColor;
-    //log('colorssss: $leadingColor');
     return Container(
       constraints: const BoxConstraints(
         minHeight: 50.0,
@@ -57,8 +56,7 @@ class ProfileMenuWidget extends StatelessWidget {
                       color: Colors.white.withOpacity(0.1),
                     ),
                     child: const Icon(LineAwesomeIcons.angle_right_solid,
-                        size: 18.0, color: Colors.grey)
-                      )
+                        size: 18.0, color: Colors.grey))
                 : null,
           ),
         ),

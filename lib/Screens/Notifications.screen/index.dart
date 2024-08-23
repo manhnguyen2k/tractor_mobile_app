@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import '../../values/app_colors.dart';
 import 'package:provider/provider.dart';
 import '../../service/Event.service/Event.service.dart';
-import '../../values/app_string1.dart';
+import '../../values/app_strings.dart';
 
 class NotificationDemo extends StatefulWidget {
   @override
@@ -26,7 +26,7 @@ class _NotificationDemoState extends State<NotificationDemo> {
   late bool isLoading;
   List isError = [];
   List<dynamic> notidata = [];
- final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
   Future<void> loadNoti() async {
@@ -44,7 +44,6 @@ class _NotificationDemoState extends State<NotificationDemo> {
     } catch (e) {
       if (mounted) {
         setState(() {
-       
           isError.add(e.toString());
         });
       }
@@ -74,9 +73,7 @@ class _NotificationDemoState extends State<NotificationDemo> {
     setState(() {
       isLoading = true;
     });
-
     await loadNoti();
-
     setState(() {
       isLoading = false;
     });
@@ -92,30 +89,28 @@ class _NotificationDemoState extends State<NotificationDemo> {
     DateTime inputTime = DateTime.parse(isoString);
     DateTime currentTime = DateTime.now();
     Duration difference = currentTime.difference(inputTime);
-
     if (difference.inMinutes < 1) {
-      return AppStrings1.noti_date_justnow;
+      return AppStrings.noti_date_justnow;
     } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes} ${AppStrings1.noti_date_minute_ago}';
+      return '${difference.inMinutes} ${AppStrings.noti_date_minute_ago}';
     } else if (difference.inHours < 24) {
-      return '${difference.inHours} ${AppStrings1.noti_date_hours_ago}';
+      return '${difference.inHours} ${AppStrings.noti_date_hours_ago}';
     } else if (difference.inDays <= 2) {
-      return '${difference.inDays} ${AppStrings1.noti_date_day_ago}';
+      return '${difference.inDays} ${AppStrings.noti_date_day_ago}';
     } else {
       return DateFormat('dd/MM/yyyy').format(inputTime);
     }
   }
 
-
- Future<void> _refresh() async {
-    // await Future.delayed(const Duration(seconds: 2));
+  Future<void> _refresh() async {
     await loadNoti();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          title: AppStrings1.notiTitle,
+          title: AppStrings.notiTitle,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: AppColors.textColor),
             onPressed: () {
@@ -124,35 +119,33 @@ class _NotificationDemoState extends State<NotificationDemo> {
           ),
         ),
         body: isLoading
-            ? const Center(child: CircularProgressIndicator()):
-           
-                RefreshIndicator(
-                  key: _refreshIndicatorKey,
-                    onRefresh: _refresh,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child:
-                        isError.isNotEmpty?
-                        Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              AppStrings1.err_disconected_server,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  _refreshIndicatorKey.currentState?.show();
-                                },
-                                child: Text(AppStrings1.reload))
-                          ],
-                        ),
-                      ):
-                       ListView.builder(
+            ? const Center(child: CircularProgressIndicator())
+            : RefreshIndicator(
+                key: _refreshIndicatorKey,
+                onRefresh: _refresh,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 0),
+                  child: isError.isNotEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                AppStrings.err_disconected_server,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    _refreshIndicatorKey.currentState?.show();
+                                  },
+                                  child: Text(AppStrings.reload))
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
                           itemCount: notidata.length + 1,
                           itemBuilder: (context, index) {
                             if (index < notidata.length) {
@@ -167,7 +160,6 @@ class _NotificationDemoState extends State<NotificationDemo> {
                                         width: 0.5,
                                       ),
                                     ),
-                                    //borderRadius: BorderRadius.circular(15.0),
                                   ),
                                   child: Material(
                                     color: AppColors.bodyColor,
@@ -215,15 +207,14 @@ class _NotificationDemoState extends State<NotificationDemo> {
                                             height: 20,
                                           ),
                                           onSelected: (String result) {
-                                            // Handle menu action here
-                                            log("Selected: ${notidata[index]['_id']}");
+                                           // log("Selected: ${notidata[index]['_id']}");
                                           },
                                           itemBuilder: (BuildContext context) =>
                                               <PopupMenuEntry<String>>[
                                             PopupMenuItem<String>(
                                               value: 'delete',
                                               child: Text(
-                                                  AppStrings1.noti_delete_noti),
+                                                  AppStrings.noti_delete_noti),
                                             ),
                                           ],
                                         ),
@@ -234,7 +225,6 @@ class _NotificationDemoState extends State<NotificationDemo> {
                               );
                             }
                           }),
-                    ))
-              );
+                )));
   }
 }

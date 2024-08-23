@@ -7,7 +7,7 @@ import '../../values/app_routes.dart';
 import 'dart:developer';
 import 'dart:convert';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import '../../values/app_string1.dart';
+import '../../values/app_strings.dart';
 
 class Fields extends StatefulWidget {
   final Function(String, int) onTabChange;
@@ -17,7 +17,7 @@ class Fields extends StatefulWidget {
   State<StatefulWidget> createState() => _Fields();
 }
 
-class _Fields extends State<Fields> {
+class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
   late bool isLoading;
   List error = [];
   List<dynamic> _data = [];
@@ -69,6 +69,7 @@ class _Fields extends State<Fields> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
         key: _refreshIndicatorKey,
         onRefresh: _refresh,
@@ -85,7 +86,7 @@ class _Fields extends State<Fields> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              AppStrings1.err_disconected_server,
+                              AppStrings.err_disconected_server,
                             ),
                             const SizedBox(
                               height: 10,
@@ -94,7 +95,7 @@ class _Fields extends State<Fields> {
                                 onPressed: () {
                                   _refreshIndicatorKey.currentState?.show();
                                 },
-                                child: Text(AppStrings1.reload))
+                                child: Text(AppStrings.reload))
                           ],
                         ),
                       )
@@ -173,7 +174,7 @@ class _Fields extends State<Fields> {
                                 NavigationHelper.pushNamed(AppRoutes.add_field);
                               },
                               icon: const Icon(Icons.add),
-                              label: Text(AppStrings1.addFieldTitle),
+                              label: Text(AppStrings.addFieldTitle),
                             ),
                           ),
                         ],
@@ -185,4 +186,6 @@ class _Fields extends State<Fields> {
               },
      */
   }
+   @override
+  bool get wantKeepAlive => true;
 }

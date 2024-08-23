@@ -2,13 +2,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 //import 'package:tractorapp/values/app_strings.dart';
-import './wigets/indicator.dart';
+import 'wigets/indicator.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../values/app_colors.dart';
-import '../../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 final url = dotenv.env['BASE_URL'];
 final int maxLength = 30;
 
@@ -143,7 +143,7 @@ class _LineChartSample2State extends State<LineChart1> {
             children:  [
               Indicator(
                 color: Colors.blue,
-                text: AppStrings1.linechart_dan_xoi_cacul,
+                text: AppStrings.linechart_dan_xoi_cacul,
                 isSquare: false,
                 width: 270,
               ),
@@ -152,7 +152,7 @@ class _LineChartSample2State extends State<LineChart1> {
               ),
               Indicator(
                 color: Color.fromARGB(255, 227, 224, 159),
-                text:AppStrings1.linechart_dan_xoi_real,
+                text:AppStrings.linechart_dan_xoi_real,
                 isSquare: false,
                 width: 270,
               ),

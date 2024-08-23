@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:tractorapp/values/app_colors.dart';
-//import 'package:tractorapp/values/app_strings.dart';
 import '../Tractor.screen/index.dart';
 import '../Map.screen/Map.dart';
-import 'Home.dart';
-import '../Profile.screen/Profile.dart';
+import '../Home.screen/Home.dart';
+import '../Profile.screen/index.dart';
 import 'dart:developer';
 import '../Field.screen/Field.screen.dart';
 import '../../utils/common_widgets/appbar.dart';
@@ -16,8 +15,8 @@ import '../../service/Event.service/Event.service.dart';
 import 'dart:async';
 import '../../service/firebase.service/firebase.dart';
 import 'package:provider/provider.dart';
-import '../../values/app_string1.dart';
-import '../../values/app_string1.dart';
+import '../../values/app_strings.dart';
+
 class AnimatedBarExample extends StatefulWidget {
   const AnimatedBarExample({super.key});
 
@@ -30,14 +29,16 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
   int type = 0;
   bool isSetcenterMap = false;
   String _selected_center = 'None';
+  final PageController _pageController = PageController();
+
   final List<String> _titles = [
-    AppStrings1.homeTitleAppbarr,
-    AppStrings1.tractorTitleAppbarr,
-    AppStrings1.FieldTitle,
-    AppStrings1.mapTitleAppbarr,
-    AppStrings1.ProfileTitle,
+    AppStrings.homeTitleAppbarr,
+    AppStrings.tractorTitleAppbarr,
+    AppStrings.FieldTitle,
+    AppStrings.mapTitleAppbarr,
+    AppStrings.ProfileTitle,
   ];
-  
+
   void _firebase() async {
     await FirebaseApi().initNotification(context);
   }
@@ -47,17 +48,21 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
       isSetcenterMap = true;
       _selected_center = selected_center;
       selected = 3;
+      _pageController.jumpToPage(3);
       type = _type;
     });
   }
-
 
   @override
   void initState() {
     super.initState();
     _firebase();
-     // _loadLanguageStrings();
-  
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,11 +73,12 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
         onWillPop: () async {
           if (selected != 0) {
             setState(() {
-              selected = 0; 
+              selected = 0;
+              _pageController.jumpToPage(0);
             });
-            return false; 
+            return false;
           }
-          return true; 
+          return true;
         },
         child: Scaffold(
             appBar: CustomAppBar(
@@ -105,7 +111,7 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
                   selectedIcon: const Icon(Icons.house_rounded),
                   selectedColor: AppColors.primaryColor,
                   unSelectedColor: AppColors.textColor,
-                  title:  Text(AppStrings1.BottombarHome),
+                  title: Text(AppStrings.BottombarHome),
                 ),
                 BottomBarItem(
                   icon: const ImageIcon(
@@ -116,7 +122,7 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
                     AssetImage('assets/image/tractor-icon.png'),
                   ),
                   selectedColor: AppColors.primaryColor,
-                  title:  Text(AppStrings1.BottombarTractor),
+                  title: Text(AppStrings.BottombarTractor),
                 ),
                 BottomBarItem(
                   icon: const ImageIcon(
@@ -127,7 +133,7 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
                   ),
                   selectedColor: AppColors.primaryColor,
                   unSelectedColor: AppColors.textColor,
-                  title:  Text(AppStrings1.FieldBottomTitle),
+                  title: Text(AppStrings.FieldBottomTitle),
                 ),
                 BottomBarItem(
                   icon: const Icon(
@@ -138,7 +144,7 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
                   ),
                   selectedColor: AppColors.primaryColor,
                   unSelectedColor: AppColors.textColor,
-                  title:  Text(AppStrings1.mapTitleAppbarr),
+                  title: Text(AppStrings.mapTitleAppbarr),
                 ),
                 BottomBarItem(
                   icon: const Icon(
@@ -149,7 +155,7 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
                   ),
                   selectedColor: AppColors.primaryColor,
                   unSelectedColor: AppColors.textColor,
-                  title:  Text(AppStrings1.BottombarProfile),
+                  title: Text(AppStrings.BottombarProfile),
                 ),
               ],
               hasNotch: true,
@@ -158,38 +164,36 @@ class _AnimatedBarExampleState extends State<AnimatedBarExample> {
               onTap: (index) {
                 setState(() {
                   selected = index;
+                  if ((index - _pageController.page!.toInt()).abs() == 1) {
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.linear,
+                    );
+                  } else {
+                    _pageController.jumpToPage(index);
+                  }
                 });
               },
             ),
             body: SafeArea(
-              child: Stack(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    selected = index;
+                  });
+                },
                 children: [
-                  Offstage(
-                    offstage: selected != 0,
-                    child: const Home(),
+                  const Home(),
+                  ListTractor(onTabChange: _changeCenterMapTab),
+                  Fields(onTabChange: _changeCenterMapTab),
+                  MapScreen(
+                    center: _selected_center,
+                    type: type,
+                    onTabChange: _changeCenterMapTab,
                   ),
-                  Offstage(
-                    offstage: selected != 1,
-                    child: ListTractor(
-                      onTabChange: _changeCenterMapTab,
-                    ),
-                  ),
-                  Offstage(
-                    offstage: selected != 2,
-                    child: Fields(onTabChange: _changeCenterMapTab),
-                  ),
-                  Offstage(
-                    offstage: selected != 3,
-                    child: MapScreen(
-                      center: _selected_center,
-                      type: type,
-                      onTabChange: _changeCenterMapTab,
-                    ),
-                  ),
-                  Offstage(
-                    offstage: selected != 4,
-                    child: const ProfileScreen(),
-                  ),
+                  const ProfileScreen(),
                 ],
               ),
             )));

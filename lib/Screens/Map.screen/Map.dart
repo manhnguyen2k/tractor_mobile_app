@@ -7,7 +7,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:tractorapp/values/app_colors.dart';
 import '../../service/Filed.service/Field.service.dart';
-import '../../values/app_string1.dart';
+import '../../values/app_strings.dart';
+
 final url = dotenv.env['BASE_URL'];
 
 class MapScreen extends StatefulWidget {
@@ -24,7 +25,8 @@ class MapScreen extends StatefulWidget {
   _MapScreenState createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapScreenState extends State<MapScreen>
+    with AutomaticKeepAliveClientMixin {
   late GoogleMapController mapController;
   late double rotate;
   bool _isMounted = false;
@@ -213,6 +215,7 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (widget.center != 'None') {
       if (widget.type == 1) {
         _value = widget.center;
@@ -247,9 +250,7 @@ class _MapScreenState extends State<MapScreen> {
     }
     if (!(_value == 'None')) {
       Marker? selectedMarker = _markers.firstWhere(
-        (marker) => marker.markerId.value == _value,
-        // orElse: () => null, // Trả về null nếu không tìm thấy
-      );
+        (marker) => marker.markerId.value == _value );
       _center = selectedMarker.position;
       mapController.animateCamera(
         CameraUpdate.newLatLngZoom(_center, 25),
@@ -291,7 +292,6 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ],
               onChanged: _onDropdownChanged,
-             
             ),
           ),
           Positioned(
@@ -302,7 +302,6 @@ class _MapScreenState extends State<MapScreen> {
               style: const TextStyle(color: Color.fromARGB(255, 10, 9, 10)),
               items: [
                 ..._polygons.map((Polygon poly) {
-                  log('poly: ${poly.polygonId.value}');
                   return DropdownMenuItem<String>(
                     value: poly.polygonId.value.toString(),
                     child: Text(poly.polygonId.value.toString()),
@@ -314,7 +313,6 @@ class _MapScreenState extends State<MapScreen> {
                 ),
               ],
               onChanged: _onPolyDropdownChanged,
-              
             ),
           ),
           Positioned(
@@ -323,11 +321,10 @@ class _MapScreenState extends State<MapScreen> {
             child: FloatingActionButton.extended(
               heroTag: "btn1",
               onPressed: () {
-                // Show refresh indicator programmatically on button tap.
                 _refreshIndicatorKey.currentState?.show();
               },
               icon: const Icon(Icons.refresh),
-              label:  Text(AppStrings1.reload),
+              label: Text(AppStrings.reload),
             ),
           ),
         ],
@@ -339,4 +336,7 @@ class _MapScreenState extends State<MapScreen> {
         },
      */
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

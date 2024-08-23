@@ -10,8 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import './values/App_theme1.dart';
 import './provider/theme_provider.dart'; 
 
-class LoginRegisterApp extends StatelessWidget {
-  const LoginRegisterApp({super.key});
+class TractorApp extends StatelessWidget {
+  const TractorApp({super.key});
 
   Future<String> _getInitialRoute() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,9 +50,9 @@ class LoginRegisterApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: AppStrings.loginAndRegister,
-              theme: AppTheme1.lightTheme, // Light theme
-              darkTheme: AppTheme1.darkTheme, // Dark theme
-              themeMode: themeProvider.themeMode, // Dynamic theme
+              theme: AppTheme1.lightTheme, 
+              darkTheme: AppTheme1.darkTheme, 
+              themeMode: themeProvider.themeMode, 
               initialRoute: snapshot.data,
               scaffoldMessengerKey: SnackbarHelper.key,
               navigatorKey: NavigationHelper.key,

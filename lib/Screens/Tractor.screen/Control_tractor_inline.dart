@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:developer';
 import '../../service/MQTT.service/mqtt.service.dart';
-import 'TractorDetail/index.dart';
+import 'TractorDetail_chart/index.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../../values/app_string1.dart';
+import '../../values/app_strings.dart';
 import '../../values/app_colors.dart';
 
 final topic = dotenv.env['MQTT_CHANNEL'] ?? '';
@@ -16,9 +16,9 @@ class TrangThai {
   const TrangThai._(this.label, this.value);
   static TrangThai no = TrangThai._('No', 0);
   static TrangThai pause =
-      TrangThai._(AppStrings1.enum_trangthaimaycay_pause, 1);
+      TrangThai._(AppStrings.enum_trangthaimaycay_pause, 1);
   static TrangThai continueDriving =
-      TrangThai._(AppStrings1.enum_trangthaimaycay_continue, 2);
+      TrangThai._(AppStrings.enum_trangthaimaycay_continue, 2);
 
   static List<TrangThai> get values => [pause, continueDriving];
 }
@@ -29,8 +29,8 @@ class TrangThaiDen {
 
   const TrangThaiDen._(this.label, this.value);
   static TrangThaiDen no = TrangThaiDen._('No', 0);
-  static TrangThaiDen on = TrangThaiDen._(AppStrings1.enum_trangthaiden_on, 1);
-  static TrangThaiDen off = TrangThaiDen._(AppStrings1.enum_trangthaiden_on, 2);
+  static TrangThaiDen on = TrangThaiDen._(AppStrings.enum_trangthaiden_on, 1);
+  static TrangThaiDen off = TrangThaiDen._(AppStrings.enum_trangthaiden_on, 2);
 
   static List<TrangThaiDen> get values => [on, off];
 }
@@ -42,9 +42,9 @@ class TrangThaiSoPhu {
   const TrangThaiSoPhu._(this.label, this.value);
   static TrangThaiSoPhu no = TrangThaiSoPhu._('No', 0);
   static TrangThaiSoPhu nomal =
-      TrangThaiSoPhu._(AppStrings1.enum_trangthaisophu_nomal, 1);
+      TrangThaiSoPhu._(AppStrings.enum_trangthaisophu_nomal, 1);
   static TrangThaiSoPhu fast =
-      TrangThaiSoPhu._(AppStrings1.enum_trangthaisophu_fast, 2);
+      TrangThaiSoPhu._(AppStrings.enum_trangthaisophu_fast, 2);
 
   static List<TrangThaiSoPhu> get values => [nomal, fast];
 }
@@ -55,7 +55,7 @@ class ReserError {
 
   const ReserError._(this.label, this.value);
   static ReserError no = ReserError._('No', 0);
-  static ReserError reset = ReserError._(AppStrings1.enum_reseterr_reset, 1);
+  static ReserError reset = ReserError._(AppStrings.enum_reseterr_reset, 1);
 
   static List<ReserError> get values => [reset];
 }
@@ -67,12 +67,12 @@ class TrangThaiDoNghieng {
   const TrangThaiDoNghieng._(this.label, this.value);
   static TrangThaiDoNghieng no = TrangThaiDoNghieng._('No', 0);
   static TrangThaiDoNghieng nghieng1 =
-      TrangThaiDoNghieng._(AppStrings1.enum_donghieng_1, 1);
+      TrangThaiDoNghieng._(AppStrings.enum_donghieng_1, 1);
   static TrangThaiDoNghieng nghieng2 =
-      TrangThaiDoNghieng._(AppStrings1.enum_donghieng_2, 2);
+      TrangThaiDoNghieng._(AppStrings.enum_donghieng_2, 2);
 
   static TrangThaiDoNghieng nghieng3 =
-      TrangThaiDoNghieng._(AppStrings1.enum_donghieng_3, 3);
+      TrangThaiDoNghieng._(AppStrings.enum_donghieng_3, 3);
 
   static List<TrangThaiDoNghieng> get values => [nghieng1, nghieng2, nghieng3];
 }
@@ -218,7 +218,7 @@ class _StateControlTractor extends State<ControlTractor> {
               controller: trang_thai_may_cay_controller,
               requestFocusOnTap: true,
               textStyle: const TextStyle(color: AppColors.text_dark),
-              label: Text(AppStrings1.tractor_state_state,
+              label: Text(AppStrings.tractor_state_state,
                   style: TextStyle(color: AppColors.text_dark)),
               onSelected: (TrangThai? trangthai) {
                 Xu_ly_input(input_trangthaimay, trangthai?.value);
@@ -361,7 +361,7 @@ class _StateControlTractor extends State<ControlTractor> {
               controller: trang_thai_den_controller,
               requestFocusOnTap: true,
               textStyle: const TextStyle(color: AppColors.text_dark),
-              label: Text(AppStrings1.tractor_state_light,
+              label: Text(AppStrings.tractor_state_light,
                   style: TextStyle(color: AppColors.text_dark)),
               onSelected: (TrangThaiDen? trangthai) {
                 Xu_ly_input(input_trangthaiden, trangthai?.value);
@@ -389,7 +389,7 @@ class _StateControlTractor extends State<ControlTractor> {
               controller: trang_thai_so_phu_controller,
               requestFocusOnTap: true,
               textStyle: const TextStyle(color: AppColors.text_dark),
-              label: Text(AppStrings1.tractor_state_so_phu,
+              label: Text(AppStrings.tractor_state_so_phu,
                   style: TextStyle(color: AppColors.text_dark)),
               onSelected: (TrangThaiSoPhu? trangthai) {
                 Xu_ly_input(input_trangthaisophu, trangthai?.value);
@@ -409,7 +409,7 @@ class _StateControlTractor extends State<ControlTractor> {
               controller: reset_err_controller,
               requestFocusOnTap: true,
               textStyle: const TextStyle(color: AppColors.text_dark),
-              label: Text(AppStrings1.tractor_state_reseterr,
+              label: Text(AppStrings.tractor_state_reseterr,
                   style: TextStyle(color: AppColors.text_dark)),
               onSelected: (ReserError? trangthai) {
                 Xu_ly_input(input_reseterr, trangthai?.value);
@@ -428,7 +428,7 @@ class _StateControlTractor extends State<ControlTractor> {
               controller: do_nghieng_controller,
               requestFocusOnTap: true,
               textStyle: const TextStyle(color: AppColors.text_dark),
-              label: Text(AppStrings1.tractor_state_do_nghieng,
+              label: Text(AppStrings.tractor_state_do_nghieng,
                   style: TextStyle(color: AppColors.text_dark)),
               onSelected: (TrangThaiDoNghieng? trangthai) {
                 Xu_ly_input(input_reseterr, trangthai?.value);

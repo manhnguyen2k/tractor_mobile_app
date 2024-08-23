@@ -2,11 +2,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import './wigets/indicator.dart';
+import 'wigets/indicator.dart';
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../../values/app_colors.dart';
-import '../../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 final url = dotenv.env['BASE_URL'];
 
 class LineChart2 extends StatefulWidget {
@@ -116,7 +116,7 @@ class _LineChartState extends State<LineChart2> {
             children:  [
               Indicator(
                 color: Colors.green,
-                text: AppStrings1.linechart_yaw,
+                text: AppStrings.linechart_yaw,
                 isSquare: false,
                 width: 200,
               ),
@@ -125,7 +125,7 @@ class _LineChartState extends State<LineChart2> {
               ),
               Indicator(
                 color: Colors.pink,
-                text: AppStrings1.linechart_pitch,
+                text: AppStrings.linechart_pitch,
                 isSquare: false,
                 width: 200,
               ),
@@ -134,7 +134,7 @@ class _LineChartState extends State<LineChart2> {
               ),
               Indicator(
                 color: Colors.orange,
-                text: AppStrings1.linechar_roll,
+                text: AppStrings.linechar_roll,
                 isSquare: false,
                 width: 200,
               ),

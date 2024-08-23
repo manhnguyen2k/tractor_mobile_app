@@ -8,7 +8,6 @@ class ThemeProvider with ChangeNotifier {
   ThemeProvider() {
     _loadTheme();
   }
-
   ThemeMode get themeMode => _themeMode;
 
   void toggleTheme() async {
@@ -25,7 +24,6 @@ class ThemeProvider with ChangeNotifier {
   void _loadTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedTheme = prefs.getString(themeKey);
-   // log('themeeeee: $savedTheme');
     if (savedTheme != null) {
       _themeMode = savedTheme == 'light' ? ThemeMode.light : ThemeMode.dark;
       notifyListeners();

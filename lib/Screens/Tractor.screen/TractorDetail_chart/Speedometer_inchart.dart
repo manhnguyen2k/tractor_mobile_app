@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../values/app_colors.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 
 final url = dotenv.env['BASE_URL'];
 
@@ -164,7 +164,7 @@ class _SpeedState extends State<Speedometer1> {
                           fontWeight: FontWeight.bold,
                           color: AppColors.text_dark)),
                   const SizedBox(height: 10),
-                  Text('${AppStrings1.tractor_speed} (km/h)',
+                  Text('${AppStrings.tractor_speed} (km/h)',
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:tractorapp/Screens/Tractor.screen/TractorDetail/index.dart';
+import 'package:tractorapp/Screens/Tractor.screen/TractorDetail_chart/index.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
-import 'Screens/Home.screen/BottomBar.dart';
+import 'Screens/App.main.screen/BottomBar.dart';
 import 'utils/common_widgets/invalid_route.dart';
 import 'values/app_routes.dart';
-import 'Screens/Profile.screen/Setting.screen.dart';
-import 'Screens/Profile.screen/ManageAccount.dart';
-import 'Screens/Profile.screen/InfomationScreen.dart';
+import 'Screens/Profile.screen/Setting.csreen/Setting.screen.dart';
+import 'Screens/Profile.screen/Account_information.screen/index.dart';
+import 'Screens/Profile.screen/App_infomation.screen/InfomationScreen.dart';
 import './Screens/Field.screen/AddField.screens.dart';
 import './Screens/Notifications.screen/index.dart';
-import './Screens/Tractor.screen/TractorDetail/wigets/youtube.srteam.dart';
+import 'Screens/Tractor.screen/TractorDetail_chart/wigets/youtube.srteam.dart';
 import './Screens/Profile.screen/Account_information.screen/Change_password.dart';
-import './Screens/Profile.screen/Account_information.screen/image.picker.dart';
 
 class Routes {
   const Routes._();
@@ -57,9 +56,7 @@ class Routes {
       case AppRoutes.changepw:
         return getRoute(widget: ChangePassword());
 
-        case AppRoutes.imgpicker:
-        return getRoute(widget: ImgPicker());
-
+   
 
    
       default:

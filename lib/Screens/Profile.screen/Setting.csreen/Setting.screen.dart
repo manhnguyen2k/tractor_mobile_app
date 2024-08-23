@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../values/app_colors.dart';
-//import '../../values/app_strings.dart';
-import 'dart:io'; // Needed for exit function
+import '../../../values/app_colors.dart';
+import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
-import '../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 import 'package:flutter/services.dart';
-import '../../provider/theme_provider.dart';
+import '../../../provider/theme_provider.dart';
 import 'package:provider/provider.dart';
-
+import '../../../utils/common_widgets/appbar.dart';
 class SettingScreen extends StatefulWidget {
   @override
   State<SettingScreen> createState() => SettingScreenState();
@@ -21,7 +20,6 @@ class SettingScreenState extends State<SettingScreen> {
   Future<void> loadLanguage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final selected = prefs.getString('selected_language');
-    log('selected language: $selected');
     setState(() {
       _selectedLanguage = selected ?? 'Vietnamese';
     });
@@ -40,33 +38,23 @@ class SettingScreenState extends State<SettingScreen> {
     final titleColor = theme.textTheme.bodyMedium;
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.darkBlue,
+        appBar: CustomAppBar(
+         
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: AppColors.textColor),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          title:
-          Center(
-            child:  Text(
-            AppStrings1.SettingTitle,
-            style: const TextStyle(
-                color: AppColors.textColor, // Set the text color here
-                fontSize: 24.0, // Set the font size here
-                fontWeight: FontWeight.normal),
-          ),
-          )
-          ,
+          title:  AppStrings.SettingTitle,
+          
         ),
         body:
-            //    color: AppColors.bodyColor,
             Column(
-          children: [
-            ListTile(
+            children: [
+              ListTile(
                 title: Text(
-                  AppStrings1.setting_language,
+                  AppStrings.setting_language,
                   style: titleColor,
                 ),
                 trailing: SizedBox(
@@ -86,13 +74,12 @@ class SettingScreenState extends State<SettingScreen> {
                 )),
             ListTile(
                 title: Text(
-                  AppStrings1.settings_darkmode,
+                  AppStrings.settings_darkmode,
                   style: titleColor,
                 ),
                 trailing: SizedBox(
                   width: 70,
                   child: Switch(
-                    // This bool value toggles the switch.
                     value: themeProvider.themeMode == ThemeMode.dark,
                     activeColor: AppColors.primaryColor,
                     onChanged: (value) {
@@ -108,7 +95,7 @@ class SettingScreenState extends State<SettingScreen> {
     showMenu(
       context: context,
       position: const RelativeRect.fromLTRB(100, 100, 0, 0),
-      initialValue: _selectedLanguage, // Adjust position as needed
+      initialValue: _selectedLanguage,
       items: const [
         PopupMenuItem<String>(
           value: 'Vietnamese',
@@ -131,14 +118,14 @@ class SettingScreenState extends State<SettingScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(AppStrings1.language_dialog_title),
-          content: Text(AppStrings1.language_dialog_body),
+          title: Text(AppStrings.language_dialog_title),
+          content: Text(AppStrings.language_dialog_body),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text(AppStrings1.language_dialog_notclose),
+              child: Text(AppStrings.language_dialog_notclose),
             ),
             TextButton(
               onPressed: () async {
@@ -150,7 +137,7 @@ class SettingScreenState extends State<SettingScreen> {
                 SystemNavigator.pop();
                 // exit(0);
               },
-              child: Text(AppStrings1.language_dialog_close),
+              child: Text(AppStrings.language_dialog_close),
             ),
           ],
         );

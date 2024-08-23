@@ -4,7 +4,7 @@ import '../../../values/app_colors.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 
 final url = dotenv.env['BASE_URL'];
 
@@ -152,7 +152,7 @@ class _FuelDiaplayState extends State<FuelDisplay> {
                           fontWeight: FontWeight.bold,
                           color: AppColors.text_dark)),
                   const SizedBox(height: 20),
-                  Text(AppStrings1.tractor_fuel,
+                  Text(AppStrings.tractor_fuel,
                       style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,

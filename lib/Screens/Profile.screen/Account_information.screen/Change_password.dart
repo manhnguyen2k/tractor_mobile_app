@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../values/app_colors.dart';
-import '../../../values/app_string1.dart';
+import '../../../values/app_strings.dart';
 import '../../../components/app_text_form_field.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -39,7 +39,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           },
         ),
         title: Text(
-          AppStrings1.account_change_password,
+          AppStrings.account_change_password,
           style: const TextStyle(
               color: AppColors.textColor,
               fontSize: 24.0,
@@ -57,7 +57,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 builder: (_, passwordObscure, __) {
                   return AppTextFormField(
                     autofocus: true,
-                    labelText: AppStrings1.old_password,
+                    labelText: AppStrings.old_password,
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: passwordObscure,
@@ -84,7 +84,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 builder: (_, passwordObscure, __) {
                   return AppTextFormField(
                     autofocus: true,
-                    labelText: AppStrings1.new_password,
+                    labelText: AppStrings.new_password,
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.next,
                     obscureText: passwordObscure,
@@ -111,7 +111,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 builder: (_, passwordObscure, __) {
                   return AppTextFormField(
                     autofocus: true,
-                    labelText: AppStrings1.confirm_new_password,
+                    labelText: AppStrings.confirm_new_password,
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.next,
                     obscureText: passwordObscure,
@@ -143,7 +143,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       newpw_controller.clear();
                       confirm_newpw_controller.clear();
                     },
-                    child: Text(AppStrings1.account_change_password),
+                    child: Text(AppStrings.account_change_password),
                   );
                 },
               ),
