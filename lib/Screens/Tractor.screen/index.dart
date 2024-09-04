@@ -143,7 +143,19 @@ class _ListTractorState extends State<ListTractor>
   Widget build(BuildContext context) {
     super.build(context);
     final theme = Theme.of(context);
-    log('loading: ${isLoading}');
+   
+     final Color background;
+   
+    switch (theme.brightness) {
+      case Brightness.light:
+          background = AppColors.cardBackgroundColor_light;
+      case Brightness.dark:
+          background = AppColors.cardBackgroundColor;
+        
+        break;
+      default:  background = Colors.white;
+    }
+    //log('loading2222: ${card_color}');
     //final textColor = theme.textTheme.bodyMedium;
     return
         // isError? ConnectionFailed():
@@ -151,12 +163,12 @@ class _ListTractorState extends State<ListTractor>
             key: _refreshIndicatorKey,
             onRefresh: _refresh,
             child: isLoading
-                ?const Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : Padding(
                     padding: const EdgeInsets.only(top: 5),
-                    child: isError.isNotEmpty
+                    child: isError.isEmpty//isError.isNotEmpty
                         ? Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +177,7 @@ class _ListTractorState extends State<ListTractor>
                                 Text(
                                   AppStrings.err_disconected_server,
                                 ),
-                               const SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ElevatedButton(
@@ -177,10 +189,9 @@ class _ListTractorState extends State<ListTractor>
                             ),
                           )
                         : ListView.builder(
-                            itemCount: all_tractor.length,
+                            itemCount: 6,//all_tractor.length
                             itemBuilder: (context, index) {
-                              bool isOnline =
-                                  online_tractor.contains(all_tractor[index]);
+                              //bool isOnline = online_tractor.contains(all_tractor[index]);
                               return Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Container(
@@ -188,12 +199,13 @@ class _ListTractorState extends State<ListTractor>
                                     minHeight: 100.0,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: background,
                                     border: Border.all(
-                                      color: Colors.white,
+                                     
                                       width: 0.0,
                                     ),
                                     borderRadius: BorderRadius.circular(15.0),
+                                 /*
                                     boxShadow: isOnline
                                         ? [
                                             BoxShadow(
@@ -205,10 +217,11 @@ class _ListTractorState extends State<ListTractor>
                                             ),
                                           ]
                                         : [],
+                                        */
                                   ),
                                   child: Tractor_line(
-                                    isOnline: isOnline,
-                                    tractorId: all_tractor[index],
+                                    isOnline: true,
+                                    tractorId: 'all_tractor[index]',
                                     token: _token,
                                     onTabChange: widget.onTabChange,
                                   ),

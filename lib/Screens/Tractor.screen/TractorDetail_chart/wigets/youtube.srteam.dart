@@ -15,11 +15,10 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
   void initState() {
      _controller = YoutubePlayerController(
     initialVideoId: widget.videoId,
-     flags: YoutubePlayerFlags(
+     flags:  YoutubePlayerFlags(
       isLive: true
      )
     );
-  
     super.initState();
   }
 

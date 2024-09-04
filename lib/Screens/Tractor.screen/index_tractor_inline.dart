@@ -216,17 +216,22 @@ class _Tractor_lineState extends State<Tractor_line> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+              
                 Offstage(
                   offstage: !isExpand,
-                  child: ControlTractor(
+                  child:
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                         ControlTractor(
                     tractorId: widget.tractorId,
                     tractorName: tractorname,
                     token: widget.token,
                     onTabChange: widget.onTabChange,
-                  ),
+                  ),])
+                  
                 )
               ],
             )),

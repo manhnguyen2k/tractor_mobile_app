@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tractorapp/utils/helpers/snackbar_helper.dart';
-
 import '../../components/app_text_form_field.dart';
 import '../../utils/common_widgets/gradient_background.dart';
 import '../../utils/helpers/navigation_helper.dart';

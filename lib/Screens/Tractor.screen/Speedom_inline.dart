@@ -54,7 +54,7 @@ class _SpeedometerState extends State<Speedometer> {
               needleStartWidth: 1,
               needleEndWidth: 2,
               needleColor: Colors.red,
-              knobStyle:const KnobStyle(knobRadius: 0.09))
+              knobStyle:const KnobStyle(color: Colors.grey, knobRadius: 0.09))
         ],
       ),
     ]),

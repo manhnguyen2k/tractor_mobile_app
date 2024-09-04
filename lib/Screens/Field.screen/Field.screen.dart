@@ -70,6 +70,19 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
+     final theme = Theme.of(context);
+    
+     final Color background;
+   
+    switch (theme.brightness) {
+      case Brightness.light:
+          background = AppColors.cardBackgroundColor_light;
+      case Brightness.dark:
+          background = AppColors.cardBackgroundColor;
+        
+        break;
+      default:  background = Colors.white;
+    }
     return RefreshIndicator(
         key: _refreshIndicatorKey,
         onRefresh: _refresh,
@@ -78,8 +91,8 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
                 child: CircularProgressIndicator(),
               )
             : Padding(
-                padding: EdgeInsets.only(top: 5),
-                child: error.isNotEmpty
+                padding: const EdgeInsets.only(top: 5),
+                child: error.isEmpty//isNotEmpty
                     ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -102,9 +115,9 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
                     : Stack(
                         children: [
                           ListView.builder(
-                            itemCount: _data.length,
+                            itemCount: 6, //_data.length,
                             itemBuilder: (context, index) {
-                              final item = _data[index];
+                              // final item = _data[index];
                               return Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Container(
@@ -113,9 +126,9 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
                                   ),
                                   height: 60,
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: background,
                                     border: Border.all(
-                                      color: Colors.white,
+                                     // color: Colors.white,
                                       width: 0.0,
                                     ),
                                     borderRadius: BorderRadius.circular(15.0),
@@ -132,8 +145,9 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
                                       color: Colors.transparent,
                                       child: InkWell(
                                           onTap: () {
-                                            widget.onTabChange(
-                                                item['name'] ?? 'None', 2);
+                                            widget.onTabChange('None', 2
+                                                // item['name'] ?? 'None', 2
+                                                );
                                           },
                                           child: ListTile(
                                               leading: Container(
@@ -145,7 +159,8 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
                                                   color: Colors.red,
                                                 ),
                                               ),
-                                              title: Text(item['name']),
+                                              title: Text('name'),
+                                              //Text(item['name']),
                                               trailing: Container(
                                                   width: 30,
                                                   height: 30,
@@ -186,6 +201,7 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
               },
      */
   }
-   @override
+
+  @override
   bool get wantKeepAlive => true;
 }

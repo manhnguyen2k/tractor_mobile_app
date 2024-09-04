@@ -20,7 +20,7 @@ class TrangThai {
   static TrangThai continueDriving =
       TrangThai._(AppStrings.enum_trangthaimaycay_continue, 2);
 
-  static List<TrangThai> get values => [pause, continueDriving];
+  static List<TrangThai> get values => [no, pause, continueDriving];
 }
 
 class TrangThaiDen {
@@ -30,9 +30,9 @@ class TrangThaiDen {
   const TrangThaiDen._(this.label, this.value);
   static TrangThaiDen no = TrangThaiDen._('No', 0);
   static TrangThaiDen on = TrangThaiDen._(AppStrings.enum_trangthaiden_on, 1);
-  static TrangThaiDen off = TrangThaiDen._(AppStrings.enum_trangthaiden_on, 2);
+  static TrangThaiDen off = TrangThaiDen._(AppStrings.enum_trangthaiden_off, 2);
 
-  static List<TrangThaiDen> get values => [on, off];
+  static List<TrangThaiDen> get values => [no, on, off];
 }
 
 class TrangThaiSoPhu {
@@ -46,7 +46,7 @@ class TrangThaiSoPhu {
   static TrangThaiSoPhu fast =
       TrangThaiSoPhu._(AppStrings.enum_trangthaisophu_fast, 2);
 
-  static List<TrangThaiSoPhu> get values => [nomal, fast];
+  static List<TrangThaiSoPhu> get values => [no, nomal, fast];
 }
 
 class ReserError {
@@ -57,7 +57,21 @@ class ReserError {
   static ReserError no = ReserError._('No', 0);
   static ReserError reset = ReserError._(AppStrings.enum_reseterr_reset, 1);
 
-  static List<ReserError> get values => [reset];
+  static List<ReserError> get values => [no, reset];
+}
+
+class MaxRpm {
+  final int value;
+
+  const MaxRpm._(this.value);
+  static MaxRpm no = MaxRpm._(0);
+  static List<MaxRpm> get values {
+    List<MaxRpm> rpms = [];
+    for (int i = 0; i <= 2700; i += 100) {
+      rpms.add(MaxRpm._(i));
+    }
+    return rpms;
+  }
 }
 
 class TrangThaiDoNghieng {
@@ -74,7 +88,8 @@ class TrangThaiDoNghieng {
   static TrangThaiDoNghieng nghieng3 =
       TrangThaiDoNghieng._(AppStrings.enum_donghieng_3, 3);
 
-  static List<TrangThaiDoNghieng> get values => [nghieng1, nghieng2, nghieng3];
+  static List<TrangThaiDoNghieng> get values =>
+      [no, nghieng1, nghieng2, nghieng3];
 }
 
 class ControlTractor extends StatefulWidget {
@@ -92,8 +107,20 @@ class ControlTractor extends StatefulWidget {
 }
 
 class _StateControlTractor extends State<ControlTractor> {
+  List<int> generateValues(int min,int max,int step) {
+    List<int> values = [];
+    for (int i = min; i <= max; i += step) {
+      values.add(i);
+    }
+    return values;
+  }
+
   final TextEditingController trang_thai_may_cay_controller =
       TextEditingController();
+  final TextEditingController max_rpm_controller = TextEditingController();
+  final TextEditingController min_rpm_controller = TextEditingController();
+  final TextEditingController trang_thai_tam_de_controller = TextEditingController();
+  final TextEditingController trang_thai_so_cang_controller = TextEditingController();
   final TextEditingController trang_thai_den_controller =
       TextEditingController();
   final TextEditingController trang_thai_so_phu_controller =
@@ -145,6 +172,7 @@ class _StateControlTractor extends State<ControlTractor> {
         trang_thai_may_cay = value;
       });
     } else if (loai_input == input_maxrpm) {
+      log('value: $value');
       setState(() {
         trang_thai_max_rpm = value;
       });
@@ -206,6 +234,11 @@ class _StateControlTractor extends State<ControlTractor> {
 
   @override
   Widget build(BuildContext context) {
+    MaxRpm? selectedRpm = MaxRpm.values[0];
+    log('tttttt: ${selectedRpm.value}');
+    List<int> rpm = generateValues(0, 2700, 100);
+    List<int> so_cang = generateValues(0, 49, 1);
+    List<int> tam_de = generateValues(0, 49, 1);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -216,7 +249,7 @@ class _StateControlTractor extends State<ControlTractor> {
               width: 100,
               initialSelection: TrangThai.no,
               controller: trang_thai_may_cay_controller,
-              requestFocusOnTap: true,
+              requestFocusOnTap: false,
               textStyle: const TextStyle(color: AppColors.text_dark),
               label: Text(AppStrings.tractor_state_state,
                   style: TextStyle(color: AppColors.text_dark)),
@@ -231,8 +264,53 @@ class _StateControlTractor extends State<ControlTractor> {
                 );
               }).toList(),
             ),
+            DropdownMenu<int>(
+              menuHeight: 200,
+              width: 100,
+              initialSelection: rpm[0],
+              controller: max_rpm_controller,
+              requestFocusOnTap: false,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings.tractor_state_maxrpm,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (int? max_rpm) {
+                Xu_ly_input(input_maxrpm, max_rpm);
+              },
+              dropdownMenuEntries:
+                  rpm.map<DropdownMenuEntry<int>>((int maxrpm) {
+                return DropdownMenuEntry<int>(
+                  value: maxrpm,
+                  label: maxrpm.toString(),
+                );
+              }).toList(),
+            ),
+
+
+              DropdownMenu<int>(
+              menuHeight: 200,
+              width: 100,
+              initialSelection: rpm[0],
+              controller: min_rpm_controller,
+              requestFocusOnTap: false,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings.tractor_state_minrpm,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (int? min_rpm) {
+                Xu_ly_input(input_minrpm, min_rpm);
+              },
+              dropdownMenuEntries:
+                  rpm.map<DropdownMenuEntry<int>>((int minrpm) {
+                return DropdownMenuEntry<int>(
+                  value: minrpm,
+                  label: minrpm.toString(),
+                );
+              }).toList(),
+            ),
+
+
+            /*
             SizedBox(
-              width: 120,
+              width: 100,
               child: TextField(
                 controller: _controller_maxrpm,
                 keyboardType: TextInputType.number,
@@ -260,8 +338,10 @@ class _StateControlTractor extends State<ControlTractor> {
                 },
               ),
             ),
+            */
+            /*
             SizedBox(
-              width: 120,
+              width: 100,
               child: TextField(
                 controller: _controller_minrpm,
                 keyboardType: TextInputType.number,
@@ -289,6 +369,7 @@ class _StateControlTractor extends State<ControlTractor> {
                     Xu_ly_input(input_minrpm, trang_thai_min_rpm),
               ),
             ),
+            */
           ],
         ),
         const SizedBox(
@@ -297,8 +378,49 @@ class _StateControlTractor extends State<ControlTractor> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+              DropdownMenu<int>(
+              menuHeight: 200,
+              width: 100,
+              initialSelection: tam_de[0],
+              controller: trang_thai_tam_de_controller,
+              requestFocusOnTap: false,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings.tractor_state_tam_de,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (int? tam_de) {
+                Xu_ly_input(input_tamde, tam_de);
+              },
+              dropdownMenuEntries:
+                  tam_de.map<DropdownMenuEntry<int>>((int tamde) {
+                return DropdownMenuEntry<int>(
+                  value: tamde,
+                  label: tamde.toString(),
+                );
+              }).toList(),
+            ),
+            DropdownMenu<int>(
+              menuHeight: 200,
+              width: 100,
+              initialSelection: so_cang[0],
+              controller: trang_thai_so_cang_controller,
+              requestFocusOnTap: false,
+              textStyle: const TextStyle(color: AppColors.text_dark),
+              label: Text(AppStrings.tractor_state_so_cang,
+                  style: TextStyle(color: AppColors.text_dark)),
+              onSelected: (int? so_cang) {
+                Xu_ly_input(input_socang, so_cang);
+              },
+              dropdownMenuEntries:
+                so_cang.map<DropdownMenuEntry<int>>((int socang) {
+                return DropdownMenuEntry<int>(
+                  value: socang,
+                  label: socang.toString(),
+                );
+              }).toList(),
+            ),
+            /*
             SizedBox(
-              width: 120,
+              width: 100,
               child: TextField(
                 controller: _controller_so_cang,
                 keyboardType: TextInputType.number,
@@ -326,8 +448,10 @@ class _StateControlTractor extends State<ControlTractor> {
                     Xu_ly_input(input_socang, trang_thai_so_cang),
               ),
             ),
+            */
+            /*
             SizedBox(
-              width: 120,
+              width: 100,
               child: TextField(
                 controller: _controller_tam_de,
                 keyboardType: TextInputType.number,
@@ -355,11 +479,12 @@ class _StateControlTractor extends State<ControlTractor> {
                     Xu_ly_input(input_tamde, trang_thai_tam_de),
               ),
             ),
+            */
             DropdownMenu<TrangThaiDen>(
               width: 100,
               initialSelection: TrangThaiDen.no,
               controller: trang_thai_den_controller,
-              requestFocusOnTap: true,
+              requestFocusOnTap: false,
               textStyle: const TextStyle(color: AppColors.text_dark),
               label: Text(AppStrings.tractor_state_light,
                   style: TextStyle(color: AppColors.text_dark)),
@@ -387,7 +512,7 @@ class _StateControlTractor extends State<ControlTractor> {
               width: 100,
               initialSelection: TrangThaiSoPhu.no,
               controller: trang_thai_so_phu_controller,
-              requestFocusOnTap: true,
+              requestFocusOnTap: false,
               textStyle: const TextStyle(color: AppColors.text_dark),
               label: Text(AppStrings.tractor_state_so_phu,
                   style: TextStyle(color: AppColors.text_dark)),
@@ -407,7 +532,7 @@ class _StateControlTractor extends State<ControlTractor> {
               width: 100,
               initialSelection: ReserError.no,
               controller: reset_err_controller,
-              requestFocusOnTap: true,
+              requestFocusOnTap: false,
               textStyle: const TextStyle(color: AppColors.text_dark),
               label: Text(AppStrings.tractor_state_reseterr,
                   style: TextStyle(color: AppColors.text_dark)),
@@ -426,7 +551,7 @@ class _StateControlTractor extends State<ControlTractor> {
               width: 100,
               initialSelection: TrangThaiDoNghieng.no,
               controller: do_nghieng_controller,
-              requestFocusOnTap: true,
+              requestFocusOnTap: false,
               textStyle: const TextStyle(color: AppColors.text_dark),
               label: Text(AppStrings.tractor_state_do_nghieng,
                   style: TextStyle(color: AppColors.text_dark)),
@@ -452,7 +577,7 @@ class _StateControlTractor extends State<ControlTractor> {
           children: [
             SizedBox(
               width: 160,
-              child: FilledButton(
+              child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -475,7 +600,7 @@ class _StateControlTractor extends State<ControlTractor> {
             ),
             SizedBox(
               width: 160,
-              child: FilledButton(
+              child: ElevatedButton(
                 onPressed: () {
                   widget.onTabChange(widget.tractorName ?? 'None', 1);
                 },

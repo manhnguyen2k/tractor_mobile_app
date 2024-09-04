@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tractorapp/Screens/Tractor.screen/TractorDetail_chart/index.dart';
-import 'screens/login_screen.dart';
-import 'screens/register_screen.dart';
+import './Screens/Auth.screen/login_screen.dart';
+import './Screens/Auth.screen/register_screen.dart';
 import 'Screens/App.main.screen/BottomBar.dart';
 import 'utils/common_widgets/invalid_route.dart';
 import 'values/app_routes.dart';
@@ -44,8 +44,6 @@ class Routes {
         return getRoute(widget: const AddField());
       case AppRoutes.noti:
         return getRoute(widget: NotificationDemo());
-      // case AppRoutes.stream:
-      //  return getRoute(widget: YouTubePlayerScreen());
       case AppRoutes.detail:
         return getRoute(
             widget: TractorDetailChart(

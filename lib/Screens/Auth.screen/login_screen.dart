@@ -230,14 +230,13 @@ class _LoginPageState extends State<LoginPage> {
                                    Text(
                                       AppStrings.login), 
                                 if (_isLoading)
-                                  Container(
-                                    child: Center(
+                                 const Center(
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2.0,
                                         color: Colors.white,
                                       ),
                                     ),
-                                  ),
+                                  
                               ],
                             ),
                           ));

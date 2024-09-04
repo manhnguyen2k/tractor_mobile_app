@@ -19,6 +19,7 @@ class AppTheme1 {
       titleTextStyle: TextStyle(color: Colors.black),
       tileColor: Colors.transparent,
     ),
+    
     colorSchemeSeed: AppColors.primaryColor,
     scaffoldBackgroundColor: Colors.white,
     textTheme: const TextTheme(
@@ -70,7 +71,7 @@ class AppTheme1 {
         textStyle: const TextStyle(fontWeight: FontWeight.bold),
       ),
     ),
-    cardColor: Colors.white,
+   // cardColor: Colors.white,
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.primaryColor,
@@ -97,7 +98,7 @@ class AppTheme1 {
 
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
-    //brightness: Brightness.dark,
+    brightness: Brightness.dark,
     colorSchemeSeed: AppColors.primaryColor,
     scaffoldBackgroundColor: const Color(0xFF15131C),
     //appBarTheme: AppBarTheme(),
@@ -128,7 +129,7 @@ class AppTheme1 {
       bodyColor: Colors.white,
       displayColor: Colors.white,
     ),
-    cardColor: Colors.white,
+    //cardColor: AppColors.cardBackgroundColor,
     inputDecorationTheme: const InputDecorationTheme(
       filled: true,
       fillColor: Colors.transparent,

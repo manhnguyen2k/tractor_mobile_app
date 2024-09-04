@@ -14,12 +14,12 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../utils/common_widgets/appbar.dart';
 import '../../values/app_strings.dart';
+
 const kGoogleApiKey = "AIzaSyDL9J82iDhcUWdQiuIvBYa0t5asrtz3Swk";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
 class AddField extends StatefulWidget {
   const AddField({super.key});
-
   @override
   State<AddField> createState() => MapSampleState();
 }
@@ -42,6 +42,8 @@ class MapSampleState extends State<AddField> {
     mapController = controller;
   }
 
+
+
   void _onTap(LatLng position) {
     final MarkerId markerId = MarkerId(position.toString());
     final Marker marker = Marker(
@@ -57,7 +59,6 @@ class MapSampleState extends State<AddField> {
         _updateMarker(markerId, newPosition);
       },
     );
-
     setState(() {
       _markers.add(marker);
       _updatePolygon();
@@ -103,7 +104,6 @@ class MapSampleState extends State<AddField> {
   List<LatLng> _getLatLngFromMarkers() {
     return _markers.map((marker) => marker.position).toList();
   }
-
   List<Map<String, double>> _getLatLngMapFromList() {
     return _getLatLngFromMarkers().map((latLng) {
       return {'lat': latLng.latitude, 'lng': latLng.longitude};
@@ -128,8 +128,8 @@ class MapSampleState extends State<AddField> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title:  Text(AppStrings.dialog_errorTitle),
-            content:  Text(AppStrings.dialog_err_field_name),
+            title: Text(AppStrings.dialog_errorTitle),
+            content: Text(AppStrings.dialog_err_field_name),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -142,8 +142,6 @@ class MapSampleState extends State<AddField> {
         },
       );
     } else {
-      // Thực hiện hành động lưu dữ liệu ở đâyư
-
       Map<String, dynamic> payload = {
         'coordinate': _getLatLngMapFromList(),
         'strokeColor': colorToHexString(stroke_selectedColor),
@@ -161,8 +159,8 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title:  Text(AppStrings.dialog_noti_title),
-                content:  Text(AppStrings.dialog_addfiled_success),
+                title: Text(AppStrings.dialog_noti_title),
+                content: Text(AppStrings.dialog_addfiled_success),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
@@ -192,14 +190,14 @@ class MapSampleState extends State<AddField> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title:  Text(AppStrings.dialog_noti_title),
-                content:  Text(AppStrings.dialog_has_error),
+                title: Text(AppStrings.dialog_noti_title),
+                content: Text(AppStrings.dialog_has_error),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child:  Text(AppStrings.dialog_close),
+                    child: Text(AppStrings.dialog_close),
                   ),
                 ],
               );
@@ -266,7 +264,7 @@ class MapSampleState extends State<AddField> {
                     radius: 1000,
                     strictbounds: false,
                     region: "vn",
-                    mode: Mode.overlay, // Mode.fullscreen
+                    mode: Mode.overlay, 
                     language: "vn",
                     components: [Component(Component.country, "vn")],
                     context: context,
@@ -290,7 +288,7 @@ class MapSampleState extends State<AddField> {
                         log('stroke: $color');
                       },
                     ),
-                     Text(AppStrings.addfiled_color_border)
+                    Text(AppStrings.addfiled_color_border)
                   ],
                 )),
           if (_getLatLngFromMarkers().isNotEmpty)
@@ -308,7 +306,7 @@ class MapSampleState extends State<AddField> {
                         _updatePolygon();
                       },
                     ),
-                     Text(AppStrings.addfiled_color_fill)
+                    Text(AppStrings.addfiled_color_fill)
                   ],
                 )),
           if (_getLatLngFromMarkers().isNotEmpty)
@@ -323,7 +321,7 @@ class MapSampleState extends State<AddField> {
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
                   ],
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: AppStrings.addfiled_border_width,
                   ),
@@ -353,7 +351,7 @@ class MapSampleState extends State<AddField> {
                     FilteringTextInputFormatter.allow(
                         RegExp(r'^\d+\.?\d{0,2}')),
                   ],
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: AppStrings.addfiled_opacity,
                   ),
@@ -377,7 +375,7 @@ class MapSampleState extends State<AddField> {
                 width: 120,
                 child: TextField(
                   controller: _name,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: AppStrings.addfiled_fieldname,
                   ),
@@ -398,7 +396,7 @@ class MapSampleState extends State<AddField> {
                   width: 120,
                   child: FilledButton(
                       onPressed: () => handleDelete(),
-                      child:  Text(AppStrings.addfield_delete))),
+                      child: Text(AppStrings.addfield_delete))),
             ),
           if (_getLatLngFromMarkers().length > 2)
             Positioned(
@@ -407,7 +405,8 @@ class MapSampleState extends State<AddField> {
               child: SizedBox(
                   width: 120,
                   child: FilledButton(
-                      onPressed: () => handleSave(), child:  Text(AppStrings.addfield_save))),
+                      onPressed: () => handleSave(),
+                      child: Text(AppStrings.addfield_save))),
             ),
         ],
       ),

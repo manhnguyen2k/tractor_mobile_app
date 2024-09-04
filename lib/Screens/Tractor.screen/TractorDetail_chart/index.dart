@@ -10,6 +10,7 @@ import '../../../utils/common_widgets/appbar.dart';
 import 'wigets/youtube.srteam.dart';
 import 'wigets/control_online_video.dart';
 import '../../../values/app_strings.dart';
+import '../../Map.screen/Map.dart';
 
 class TractorDetailChart extends StatefulWidget {
   TractorDetailChart(
@@ -24,6 +25,11 @@ class TractorDetailChart extends StatefulWidget {
 }
 
 class _TractorDetailChart extends State<TractorDetailChart> {
+   String _selected_center = 'None';
+   int type = 0;
+     void _changeCenterMapTab(String selected_center, int _type) {
+
+  }
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -55,7 +61,29 @@ class _TractorDetailChart extends State<TractorDetailChart> {
             );
           }
 
-          if (index == 1) {
+           if (index == 1) {
+            return Padding(
+              padding:
+                  const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+              child: Container(
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: AppColors.cardBackgroundColor,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: 
+                    Container(
+                      
+                      child: MapScreen(
+                        center: _selected_center,
+                        type: type,
+                        onTabChange: _changeCenterMapTab,
+                      ),
+                    ),
+                  ),
+            );
+          }
+          if (index == 2) {
             return Padding(
               padding:
                   const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
@@ -77,7 +105,9 @@ class _TractorDetailChart extends State<TractorDetailChart> {
             );
           }
 
-          if (index == 2) {
+         
+
+          if (index == 3) {
             return Padding(
               padding:
                   const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
@@ -99,7 +129,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
             );
           }
 
-          if (index == 3) {
+          if (index == 4) {
             return Padding(
               padding:
                   const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
@@ -124,7 +154,6 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                       centerRadius: isTablet ? 50 : 30,
                     ),
                   ),
-
                   Container(
                     height: 300,
                     width: itemWidth,
@@ -152,7 +181,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
             );
           }
 
-          if (index == 4) {
+          if (index == 5) {
             return Padding(
                 padding: const EdgeInsets.only(
                     top: 5, bottom: 5, left: 15, right: 15),
@@ -186,8 +215,8 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                   ],
                 ));
           }
-          
-          if (index == 5) {
+
+          if (index == 6) {
             return Padding(
                 padding: const EdgeInsets.only(
                     top: 5, bottom: 5, left: 15, right: 15),

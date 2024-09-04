@@ -15,6 +15,7 @@ class AppColors {
   static const Color bodyColor =  Color.fromARGB(255, 236, 235, 235);
   static const Color text_dark =  Colors.grey;
   static const cardBackgroundColor = Color(0xFF21222D);
+  static const cardBackgroundColor_light = Colors.white;
   static const backgroundColor = Color(0xFF15131C);
 
 
