@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../../../../values/app_colors.dart';
 import 'dart:developer';
 import '../../../../values/app_strings.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 //const string  = AppStrings1.enum_trangthaimaycay_pause;
 class TrangThai {
   final String label;
@@ -17,7 +17,7 @@ class TrangThai {
   static TrangThai continueDriving =
       TrangThai._(AppStrings.enum_trangthaimaycay_continue, 2);
 
-  static List<TrangThai> get values => [no,pause, continueDriving];
+  static List<TrangThai> get values => [no, pause, continueDriving];
 }
 
 class TrangThaiDen {
@@ -27,9 +27,9 @@ class TrangThaiDen {
   const TrangThaiDen._(this.label, this.value);
   static TrangThaiDen no = TrangThaiDen._('No', 0);
   static TrangThaiDen on = TrangThaiDen._(AppStrings.enum_trangthaiden_on, 1);
-  static TrangThaiDen off = TrangThaiDen._(AppStrings.enum_trangthaiden_on, 2);
+  static TrangThaiDen off = TrangThaiDen._(AppStrings.enum_trangthaiden_off, 2);
 
-  static List<TrangThaiDen> get values => [no,on, off];
+  static List<TrangThaiDen> get values => [no, on, off];
 }
 
 class TrangThaiSoPhu {
@@ -43,7 +43,7 @@ class TrangThaiSoPhu {
   static TrangThaiSoPhu fast =
       TrangThaiSoPhu._(AppStrings.enum_trangthaisophu_fast, 2);
 
-  static List<TrangThaiSoPhu> get values => [no,nomal, fast];
+  static List<TrangThaiSoPhu> get values => [no, nomal, fast];
 }
 
 class ReserError {
@@ -54,7 +54,7 @@ class ReserError {
   static ReserError no = ReserError._('No', 0);
   static ReserError reset = ReserError._(AppStrings.enum_reseterr_reset, 1);
 
-  static List<ReserError> get values => [no,reset];
+  static List<ReserError> get values => [no, reset];
 }
 
 class TrangThaiDoNghieng {
@@ -71,7 +71,8 @@ class TrangThaiDoNghieng {
   static TrangThaiDoNghieng nghieng3 =
       TrangThaiDoNghieng._(AppStrings.enum_donghieng_3, 3);
 
-  static List<TrangThaiDoNghieng> get values => [no,nghieng1, nghieng2, nghieng3];
+  static List<TrangThaiDoNghieng> get values =>
+      [no, nghieng1, nghieng2, nghieng3];
 }
 
 class ControlOnlineTractor extends StatefulWidget {
@@ -79,12 +80,27 @@ class ControlOnlineTractor extends StatefulWidget {
   State<ControlOnlineTractor> createState() => _StateControl();
 }
 
-class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAliveClientMixin {
+class _StateControl extends State<ControlOnlineTractor>
+    with AutomaticKeepAliveClientMixin {
+  List<int> generateValues(int min, int max, int step) {
+    List<int> values = [];
+    for (int i = min; i <= max; i += step) {
+      values.add(i);
+    }
+    return values;
+  }
+
   final TextEditingController trang_thai_may_cay_controller =
       TextEditingController();
   final TextEditingController trang_thai_den_controller =
       TextEditingController();
   final TextEditingController trang_thai_so_phu_controller =
+      TextEditingController();
+  final TextEditingController max_rpm_controller = TextEditingController();
+  final TextEditingController min_rpm_controller = TextEditingController();
+  final TextEditingController trang_thai_tam_de_controller =
+      TextEditingController();
+  final TextEditingController trang_thai_so_cang_controller =
       TextEditingController();
   final TextEditingController reset_err_controller = TextEditingController();
   final TextEditingController do_nghieng_controller = TextEditingController();
@@ -121,7 +137,8 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
   final int input_trangthaisophu = 6;
   final int input_reseterr = 7;
   final int input_donghieng = 8;
-  String videoId = 'hz5zjKJBVxk';
+   String videoId = dotenv.env['VIDEO_YOUTUBE_ID_TEST'] ?? '';
+//  String videoId = 'hz5zjKJBVxk';
 
   void Xu_ly_input(int loai_input, value) {
     if (loai_input == input_trangthaimay) {
@@ -164,7 +181,7 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
   }
 
   void doi_video(value) {
-    log('aaaaaaa$value');
+   // log('aaaaaaa$value');
     setState(() {
       videoId = value;
     });
@@ -172,7 +189,10 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
 
   @override
   Widget build(BuildContext context) {
-     super.build(context);
+    super.build(context);
+    List<int> rpm = generateValues(0, 2700, 100);
+    List<int> so_cang = generateValues(0, 49, 1);
+    List<int> tam_de = generateValues(0, 49, 1);
     return Stack(
       children: [
         YouTubePlayerScreen(
@@ -184,11 +204,11 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0, left: 5, right: 5),
               child: Wrap(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 spacing:
-                    8.0, // Khoảng cách giữa các phần tử trong cùng một dòng
-                runSpacing: 12.0, // Khoảng cách giữa các dòng
+                    8.0, 
+                runSpacing: 12.0, 
                 children: [
+
                   DropdownMenu<TrangThai>(
                     width: 100,
                     initialSelection: TrangThai.no,
@@ -209,126 +229,89 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
                       );
                     }).toList(),
                   ),
-                  SizedBox(
+
+                  DropdownMenu<int>(
+                    menuHeight: 200,
                     width: 100,
-                    child: TextField(
-                      style: const TextStyle(color: AppColors.text_dark),
-                      controller: _controller_maxrpm,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Max rpm',
-                        //  hintStyle: TextStyle(color: AppColors.textColor)
-                      ),
-                      onEditingComplete: () =>
-                          Xu_ly_input(input_maxrpm, trang_thai_max_rpm),
-                      onChanged: (value) {
-                        int newValue = int.tryParse(value) ?? _min;
-                        if (newValue < _min) {
-                          newValue = _min;
-                          _controller_maxrpm.text = newValue.toString();
-                        } else if (newValue > _max_rpm) {
-                          newValue = _max_rpm;
-                          _controller_maxrpm.text = newValue.toString();
-                        }
-                        setState(() {
-                          trang_thai_max_rpm = newValue;
-                        });
-                      },
-                    ),
+                    initialSelection: rpm[0],
+                    controller: max_rpm_controller,
+                    requestFocusOnTap: false,
+                    textStyle: const TextStyle(color: AppColors.text_dark),
+                    label: Text(AppStrings.tractor_state_maxrpm,
+                        style: TextStyle(color: AppColors.text_dark)),
+                    onSelected: (int? max_rpm) {
+                      Xu_ly_input(input_maxrpm, max_rpm);
+                    },
+                    dropdownMenuEntries:
+                        rpm.map<DropdownMenuEntry<int>>((int maxrpm) {
+                      return DropdownMenuEntry<int>(
+                        value: maxrpm,
+                        label: maxrpm.toString(),
+                      );
+                    }).toList(),
                   ),
-                  SizedBox(
+
+                  DropdownMenu<int>(
+                    menuHeight: 200,
                     width: 100,
-                    child: TextField(
-                      controller: _controller_minrpm,
-                      keyboardType: TextInputType.number,
-                      style: const TextStyle(color: AppColors.text_dark),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Min rpm',
-                      ),
-                      onChanged: (value) {
-                        int newValue = int.tryParse(value) ?? _min;
-                        if (newValue < _min) {
-                          newValue = _min;
-                          _controller_minrpm.text = newValue.toString();
-                        } else if (newValue > _max_rpm) {
-                          newValue = _max_rpm;
-                          _controller_minrpm.text = newValue.toString();
-                        }
-                        setState(() {
-                          trang_thai_min_rpm = newValue;
-                        });
-                      },
-                      onEditingComplete: () =>
-                          Xu_ly_input(input_minrpm, trang_thai_min_rpm),
-                    ),
+                    initialSelection: rpm[0],
+                    controller: min_rpm_controller,
+                    requestFocusOnTap: false,
+                    textStyle: const TextStyle(color: AppColors.text_dark),
+                    label: Text(AppStrings.tractor_state_minrpm,
+                        style: TextStyle(color: AppColors.text_dark)),
+                    onSelected: (int? min_rpm) {
+                      Xu_ly_input(input_minrpm, min_rpm);
+                    },
+                    dropdownMenuEntries:
+                        rpm.map<DropdownMenuEntry<int>>((int minrpm) {
+                      return DropdownMenuEntry<int>(
+                        value: minrpm,
+                        label: minrpm.toString(),
+                      );
+                    }).toList(),
                   ),
-                  SizedBox(
+
+                  DropdownMenu<int>(
+                    menuHeight: 200,
                     width: 100,
-                    child: TextField(
-                      controller: _controller_so_cang,
-                      style: const TextStyle(color: AppColors.text_dark),
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Số càng',
-                      ),
-                      onChanged: (value) {
-                        int newValue = int.tryParse(value) ?? _min;
-                        if (newValue < _min) {
-                          newValue = _min;
-                          _controller_so_cang.text = newValue.toString();
-                        } else if (newValue > _max_so_cang) {
-                          newValue = _max_so_cang;
-                          _controller_so_cang.text = newValue.toString();
-                        }
-                        setState(() {
-                          trang_thai_so_cang = newValue;
-                        });
-                      },
-                      onEditingComplete: () =>
-                          Xu_ly_input(input_socang, trang_thai_so_cang),
-                    ),
+                    initialSelection: tam_de[0],
+                    controller: trang_thai_tam_de_controller,
+                    requestFocusOnTap: false,
+                    textStyle: const TextStyle(color: AppColors.text_dark),
+                    label: Text(AppStrings.tractor_state_tam_de,
+                        style: TextStyle(color: AppColors.text_dark)),
+                    onSelected: (int? tam_de) {
+                      Xu_ly_input(input_tamde, tam_de);
+                    },
+                    dropdownMenuEntries:
+                        tam_de.map<DropdownMenuEntry<int>>((int tamde) {
+                      return DropdownMenuEntry<int>(
+                        value: tamde,
+                        label: tamde.toString(),
+                      );
+                    }).toList(),
                   ),
-                  SizedBox(
+
+                  DropdownMenu<int>(
+                    menuHeight: 200,
                     width: 100,
-                    child: TextField(
-                      controller: _controller_tam_de,
-                      keyboardType: TextInputType.number,
-                      style: const TextStyle(color: AppColors.text_dark),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Tấm dè',
-                      ),
-                      onChanged: (value) {
-                        int newValue = int.tryParse(value) ?? _min;
-                        if (newValue < _min) {
-                          newValue = _min;
-                          _controller_tam_de.text = newValue.toString();
-                        } else if (newValue > _max_so_cang) {
-                          newValue = _max_so_cang;
-                          _controller_tam_de.text = newValue.toString();
-                        }
-                        setState(() {
-                          trang_thai_tam_de = newValue;
-                        });
-                      },
-                      onEditingComplete: () =>
-                          Xu_ly_input(input_tamde, trang_thai_tam_de),
-                    ),
+                    initialSelection: so_cang[0],
+                    controller: trang_thai_so_cang_controller,
+                    requestFocusOnTap: false,
+                    textStyle: const TextStyle(color: AppColors.text_dark),
+                    label: Text(AppStrings.tractor_state_so_cang,
+                        style: TextStyle(color: AppColors.text_dark)),
+                    onSelected: (int? so_cang) {
+                      Xu_ly_input(input_socang, so_cang);
+                    },
+                    dropdownMenuEntries:
+                        so_cang.map<DropdownMenuEntry<int>>((int socang) {
+                      return DropdownMenuEntry<int>(
+                        value: socang,
+                        label: socang.toString(),
+                      );
+                    }).toList(),
                   ),
 
                   DropdownMenu<TrangThaiDen>(
@@ -351,6 +334,7 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
                       );
                     }).toList(),
                   ),
+
                   DropdownMenu<TrangThaiSoPhu>(
                     width: 100,
                     initialSelection: TrangThaiSoPhu.no,
@@ -371,7 +355,7 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
                       );
                     }).toList(),
                   ),
-               
+
                   DropdownMenu<ReserError>(
                     width: 100,
                     initialSelection: ReserError.no,
@@ -392,6 +376,7 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
                       );
                     }).toList(),
                   ),
+
                   DropdownMenu<TrangThaiDoNghieng>(
                     width: 100,
                     initialSelection: TrangThaiDoNghieng.no,
@@ -417,12 +402,10 @@ class _StateControl extends State<ControlOnlineTractor>  with AutomaticKeepAlive
             ),
           ),
         ),
-        
       ],
     );
   }
 
-  
-     @override
-       bool get wantKeepAlive => true;
+  @override
+  bool get wantKeepAlive => true;
 }

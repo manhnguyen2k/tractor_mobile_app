@@ -18,7 +18,7 @@ class TractorApp extends StatelessWidget {
     bool isLogin = prefs.getBool('isLogin') ?? false;
     return 
     //isLogin ? 
-    AppRoutes.home ;
+    AppRoutes.home; ;
   //  : AppRoutes.login; // Choose the route based on login status
   }
 

@@ -315,7 +315,7 @@ class AppStrings {
         logout = 'Đăng xuất';
         createYourAccount = 'Tạo tài khoản';
         doNotHaveAnAccount = 'Bạn chưa có tài khoản?';
-        signInToYourAccount = 'Đăng nhập vào tài khaonr của bạn';
+        signInToYourAccount = 'Đăng nhập vào tài khoản của bạn';
         iHaveAnAccount = 'Đã có tài khoản';
         forgotPassword = 'Quên mật khẩu?';
         loggedIn = 'Đăng nhập thành công!';

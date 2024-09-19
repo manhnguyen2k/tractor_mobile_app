@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tractorapp/values/app_strings.dart';
 import 'dart:developer';
 import 'Fueldisplay_inline.dart';
 import 'Progress_inline.dart';
@@ -108,7 +109,6 @@ class _Tractor_lineState extends State<Tractor_line> {
       'force new connection': true,
       'extraHeaders': extraHeaders,
     });
-
     connect(socket3);
   }
 
@@ -153,12 +153,10 @@ class _Tractor_lineState extends State<Tractor_line> {
                             Progress(
                               progress: progress,
                             ),
-                            const Text('Tiến độ')
+                            Text(AppStrings.tractor_progress)
                           ],
                         )),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10,),
                     SizedBox(
                         width: 70,
                         height: 70,
@@ -167,7 +165,7 @@ class _Tractor_lineState extends State<Tractor_line> {
                             Fueldisplay(
                               fuelvalue: feulpercent,
                             ),
-                            const Text('Nhiên liệu')
+                            Text(AppStrings.tractor_fuel)
                           ],
                         )),
                     const SizedBox(width: 10),
@@ -182,7 +180,7 @@ class _Tractor_lineState extends State<Tractor_line> {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text('Pin')
+                          Text(AppStrings.tractor_batterry)
                         ],
                       ),
                     ),
@@ -197,13 +195,11 @@ class _Tractor_lineState extends State<Tractor_line> {
                           Speedometer(
                             speed: speed,
                           ),
-                          const Text('Tốc độ')
+                          Text(AppStrings.tractor_speed)
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    const SizedBox(width: 8,),
                     InkWell(
                       onTap: () => setState(() {
                         isExpand = !isExpand;
@@ -216,23 +212,19 @@ class _Tractor_lineState extends State<Tractor_line> {
                     )
                   ],
                 ),
-              
                 Offstage(
-                  offstage: !isExpand,
-                  child:
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                         ControlTractor(
-                    tractorId: widget.tractorId,
-                    tractorName: tractorname,
-                    token: widget.token,
-                    onTabChange: widget.onTabChange,
-                  ),])
-                  
-                )
+                    offstage: !isExpand,
+                    child: Column(children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ControlTractor(
+                        tractorId: widget.tractorId,
+                        tractorName: tractorname,
+                        token: widget.token,
+                        onTabChange: widget.onTabChange,
+                      ),
+                    ]))
               ],
             )),
         if (!widget.isOnline)
@@ -240,7 +232,7 @@ class _Tractor_lineState extends State<Tractor_line> {
             child: Center(
               child: ClipRect(
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), 
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.3),
@@ -257,8 +249,7 @@ class _Tractor_lineState extends State<Tractor_line> {
                           color: Colors.red,
                           fontSize: 30,
                           fontWeight: FontWeight.bold),
-                        ) 
-                    ),
+                    )),
                   ),
                 ),
               ),

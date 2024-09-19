@@ -32,48 +32,52 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isSubmit = true;
     });
-    final String username = emailController.text;
-    final String password = passwordController.text;
-    try {
-      setState(() {
-        _isLoading = true;
-      });
-      final response = await AuthService.logIn(username, password);
-      setState(() {
-        _isLoading = false;
-      });
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        final Map<String, dynamic> userData = (responseData['data']);
-        if (responseData['code'] == 200) {
-          Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
-          _sprefs.then((prefs) {
-            prefs.setString('accesstoken', userData['accessToken']);
-            prefs.setString('uid', userData['_id']);
-            prefs.setBool('isLogin', true);
-            prefs.setBool('isNoti', false);
-            //  Firebase.initializeApp();
-            NavigationHelper.pushReplacementNamed(
-              AppRoutes.home,
-            );
-            emailController.clear();
-            passwordController.clear();
-          }, onError: (error) {
-            log("SharedPreferences ERROR = $error");
-          });
+    if (fieldValidNotifier.value) {
+      final String username = emailController.text;
+      final String password = passwordController.text;
+      try {
+        setState(() {
+          _isLoading = true;
+        });
+        final response = await AuthService.logIn(username, password);
+        setState(() {
+          _isLoading = false;
+        });
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> responseData = json.decode(response.body);
+          final Map<String, dynamic> userData = (responseData['data']);
+          if (responseData['code'] == 200) {
+            Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
+            _sprefs.then((prefs) {
+              prefs.setString('accesstoken', userData['accessToken']);
+              prefs.setString('uid', userData['_id']);
+              prefs.setBool('isLogin', true);
+              prefs.setBool('isNoti', false);
+              //  Firebase.initializeApp();
+              NavigationHelper.pushReplacementNamed(
+                AppRoutes.home,
+              );
+              emailController.clear();
+              passwordController.clear();
+            }, onError: (error) {
+              log("SharedPreferences ERROR = $error");
+            });
+          } else {
+            _showError(responseData['message']);
+          }
         } else {
-          _showError(responseData['message']);
+          _showError('Server error: ${response.statusCode}');
         }
-      } else {
-        _showError('Server error: ${response.statusCode}');
-      }
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        isSubmit = false;
-      });
+      } catch (e) {
+        setState(() {
+          _isLoading = false;
+          isSubmit = false;
+        });
 
-      _showError('Error: $e');
+        _showError('Error: $e');
+      }
+    } else {
+      return;
     }
   }
 
@@ -142,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
-           GradientBackground(
+          GradientBackground(
             children: [
               Text(
                 AppStrings.AccountManageTitle,
@@ -184,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                         onChanged: (_) => _formKey.currentState?.validate(),
                         validator: (value) {
                           if (value!.isEmpty && isSubmit == true) {
-                            return AppStrings.pleaseEnterUsername;
+                            return AppStrings.pleaseEnterPassword;
                           }
                         },
                         suffixIcon: IconButton(
@@ -198,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ? Icons.visibility_off_outlined
                                 : Icons.visibility_outlined,
                             size: 20,
-                            color: Colors.black,
+                            //  color: Colors.black,
                           ),
                         ),
                       );
@@ -206,42 +210,42 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextButton(
                     onPressed: () {},
-                    child:  Text(AppStrings.forgotPassword),
+                    child: Text(AppStrings.forgotPassword),
                   ),
                   const SizedBox(height: 20),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 52), // Set this
+                        padding: EdgeInsets.zero, // and this
+                      ),
+                      onPressed: _isLoading ? null : _login,
+                      child: Positioned(
+                        top: 0,
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            if (!_isLoading) Text(AppStrings.login),
+                            if (_isLoading)
+                              const Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                          ],
+                        ),
+                      )),
+                  /*
                   ValueListenableBuilder(
                     valueListenable: fieldValidNotifier,
                     builder: (_, isValid, __) {
-                      return ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 52), // Set this
-                            padding: EdgeInsets.zero, // and this
-                          ),
-                          onPressed: isValid && !_isLoading ? _login : null,
-                          child: Positioned(
-                            top: 0,
-                            bottom: 0,
-                            right: 0,
-                            left: 0,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                if (!_isLoading)
-                                   Text(
-                                      AppStrings.login), 
-                                if (_isLoading)
-                                 const Center(
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2.0,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  
-                              ],
-                            ),
-                          ));
+                      return
                     },
                   ),
+                  */
                   const SizedBox(height: 20),
                 ],
               ),
@@ -250,9 +254,7 @@ class _LoginPageState extends State<LoginPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-               Text(
-                AppStrings.doNotHaveAnAccount
-                ),
+              Text(AppStrings.doNotHaveAnAccount),
               const SizedBox(width: 4),
               TextButton(
                 onPressed: () {
@@ -260,7 +262,7 @@ class _LoginPageState extends State<LoginPage> {
                     AppRoutes.register,
                   );
                 },
-                child:  Text(AppStrings.register),
+                child: Text(AppStrings.register),
               ),
             ],
           ),

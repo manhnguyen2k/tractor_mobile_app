@@ -12,7 +12,7 @@ import './Screens/Field.screen/AddField.screens.dart';
 import './Screens/Notifications.screen/index.dart';
 import 'Screens/Tractor.screen/TractorDetail_chart/wigets/youtube.srteam.dart';
 import './Screens/Profile.screen/Account_information.screen/Change_password.dart';
-
+import 'Screens/Tractor.screen/TractorDetail_chart/test.dart';
 class Routes {
   const Routes._();
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -53,6 +53,8 @@ class Routes {
         ));
       case AppRoutes.changepw:
         return getRoute(widget: ChangePassword());
+case AppRoutes.test:
+        return getRoute(widget:const OrientationList(title: 'test',));
 
    
 

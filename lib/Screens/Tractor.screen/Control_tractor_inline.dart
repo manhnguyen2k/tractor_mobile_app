@@ -12,7 +12,6 @@ final topic = dotenv.env['MQTT_CHANNEL'] ?? '';
 class TrangThai {
   final String label;
   final int value;
-
   const TrangThai._(this.label, this.value);
   static TrangThai no = TrangThai._('No', 0);
   static TrangThai pause =
@@ -38,46 +37,27 @@ class TrangThaiDen {
 class TrangThaiSoPhu {
   final String label;
   final int value;
-
   const TrangThaiSoPhu._(this.label, this.value);
   static TrangThaiSoPhu no = TrangThaiSoPhu._('No', 0);
   static TrangThaiSoPhu nomal =
       TrangThaiSoPhu._(AppStrings.enum_trangthaisophu_nomal, 1);
   static TrangThaiSoPhu fast =
       TrangThaiSoPhu._(AppStrings.enum_trangthaisophu_fast, 2);
-
   static List<TrangThaiSoPhu> get values => [no, nomal, fast];
 }
 
 class ReserError {
   final String label;
   final int value;
-
   const ReserError._(this.label, this.value);
   static ReserError no = ReserError._('No', 0);
   static ReserError reset = ReserError._(AppStrings.enum_reseterr_reset, 1);
-
   static List<ReserError> get values => [no, reset];
-}
-
-class MaxRpm {
-  final int value;
-
-  const MaxRpm._(this.value);
-  static MaxRpm no = MaxRpm._(0);
-  static List<MaxRpm> get values {
-    List<MaxRpm> rpms = [];
-    for (int i = 0; i <= 2700; i += 100) {
-      rpms.add(MaxRpm._(i));
-    }
-    return rpms;
-  }
 }
 
 class TrangThaiDoNghieng {
   final String label;
   final int value;
-
   const TrangThaiDoNghieng._(this.label, this.value);
   static TrangThaiDoNghieng no = TrangThaiDoNghieng._('No', 0);
   static TrangThaiDoNghieng nghieng1 =
@@ -102,12 +82,13 @@ class ControlTractor extends StatefulWidget {
   final String? tractorName;
   final String token;
   final Function(String, int) onTabChange;
+
   @override
   State<ControlTractor> createState() => _StateControlTractor();
 }
 
 class _StateControlTractor extends State<ControlTractor> {
-  List<int> generateValues(int min,int max,int step) {
+  List<int> generateValues(int min, int max, int step) {
     List<int> values = [];
     for (int i = min; i <= max; i += step) {
       values.add(i);
@@ -119,8 +100,10 @@ class _StateControlTractor extends State<ControlTractor> {
       TextEditingController();
   final TextEditingController max_rpm_controller = TextEditingController();
   final TextEditingController min_rpm_controller = TextEditingController();
-  final TextEditingController trang_thai_tam_de_controller = TextEditingController();
-  final TextEditingController trang_thai_so_cang_controller = TextEditingController();
+  final TextEditingController trang_thai_tam_de_controller =
+      TextEditingController();
+  final TextEditingController trang_thai_so_cang_controller =
+      TextEditingController();
   final TextEditingController trang_thai_den_controller =
       TextEditingController();
   final TextEditingController trang_thai_so_phu_controller =
@@ -172,7 +155,7 @@ class _StateControlTractor extends State<ControlTractor> {
         trang_thai_may_cay = value;
       });
     } else if (loai_input == input_maxrpm) {
-      log('value: $value');
+      //  log('value: $value');
       setState(() {
         trang_thai_max_rpm = value;
       });
@@ -229,13 +212,11 @@ class _StateControlTractor extends State<ControlTractor> {
       topic,
       string,
     );
-    log('bbb: $string');
+    //log('bbb: $string');
   }
 
   @override
   Widget build(BuildContext context) {
-    MaxRpm? selectedRpm = MaxRpm.values[0];
-    log('tttttt: ${selectedRpm.value}');
     List<int> rpm = generateValues(0, 2700, 100);
     List<int> so_cang = generateValues(0, 49, 1);
     List<int> tam_de = generateValues(0, 49, 1);
@@ -264,6 +245,9 @@ class _StateControlTractor extends State<ControlTractor> {
                 );
               }).toList(),
             ),
+            const SizedBox(
+              width: 10,
+            ),
             DropdownMenu<int>(
               menuHeight: 200,
               width: 100,
@@ -284,9 +268,10 @@ class _StateControlTractor extends State<ControlTractor> {
                 );
               }).toList(),
             ),
-
-
-              DropdownMenu<int>(
+            const SizedBox(
+              width: 10,
+            ),
+            DropdownMenu<int>(
               menuHeight: 200,
               width: 100,
               initialSelection: rpm[0],
@@ -306,7 +291,6 @@ class _StateControlTractor extends State<ControlTractor> {
                 );
               }).toList(),
             ),
-
 
             /*
             SizedBox(
@@ -378,7 +362,7 @@ class _StateControlTractor extends State<ControlTractor> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-              DropdownMenu<int>(
+            DropdownMenu<int>(
               menuHeight: 200,
               width: 100,
               initialSelection: tam_de[0],
@@ -398,6 +382,9 @@ class _StateControlTractor extends State<ControlTractor> {
                 );
               }).toList(),
             ),
+             const SizedBox(
+              width: 10,
+            ),
             DropdownMenu<int>(
               menuHeight: 200,
               width: 100,
@@ -411,12 +398,16 @@ class _StateControlTractor extends State<ControlTractor> {
                 Xu_ly_input(input_socang, so_cang);
               },
               dropdownMenuEntries:
-                so_cang.map<DropdownMenuEntry<int>>((int socang) {
+                  so_cang.map<DropdownMenuEntry<int>>((int socang) {
                 return DropdownMenuEntry<int>(
                   value: socang,
                   label: socang.toString(),
                 );
               }).toList(),
+            ),
+
+ const SizedBox(
+              width: 10,
             ),
             /*
             SizedBox(
@@ -480,6 +471,7 @@ class _StateControlTractor extends State<ControlTractor> {
               ),
             ),
             */
+
             DropdownMenu<TrangThaiDen>(
               width: 100,
               initialSelection: TrangThaiDen.no,
@@ -528,6 +520,9 @@ class _StateControlTractor extends State<ControlTractor> {
                 );
               }).toList(),
             ),
+             const SizedBox(
+              width: 10,
+            ),
             DropdownMenu<ReserError>(
               width: 100,
               initialSelection: ReserError.no,
@@ -546,6 +541,9 @@ class _StateControlTractor extends State<ControlTractor> {
                   label: trangthai.label,
                 );
               }).toList(),
+            ),
+             const SizedBox(
+              width: 10,
             ),
             DropdownMenu<TrangThaiDoNghieng>(
               width: 100,
@@ -589,8 +587,8 @@ class _StateControlTractor extends State<ControlTractor> {
                             )),
                   );
                 },
-                child: const Text(
-                  'Xem chi tiết',
+                child: Text(
+                  AppStrings.tractor_btn_detail,
                   style: TextStyle(fontSize: 14),
                 ),
               ),
@@ -604,7 +602,7 @@ class _StateControlTractor extends State<ControlTractor> {
                 onPressed: () {
                   widget.onTabChange(widget.tractorName ?? 'None', 1);
                 },
-                child: const Text('Xem trên bản đồ',
+                child: Text(AppStrings.tractor_btn_see_on_map,
                     style: TextStyle(fontSize: 14)),
               ),
             )

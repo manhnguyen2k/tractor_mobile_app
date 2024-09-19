@@ -25,8 +25,7 @@ class _ListTractorState extends State<ListTractor>
   late bool isLoading;
   List isError = [];
   String _token = '';
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =GlobalKey<RefreshIndicatorState>();
 
   String getToken() {
     String token = '';
@@ -97,7 +96,7 @@ class _ListTractorState extends State<ListTractor>
     setState(() {
       isLoading = false;
     });
-
+    
     Future<SharedPreferences> _sprefs = SharedPreferences.getInstance();
     _sprefs.then(
       (prefs) {

@@ -70,18 +70,19 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-     final theme = Theme.of(context);
-    
-     final Color background;
-   
+    final theme = Theme.of(context);
+
+    final Color background;
+
     switch (theme.brightness) {
       case Brightness.light:
-          background = AppColors.cardBackgroundColor_light;
+        background = AppColors.cardBackgroundColor_light;
       case Brightness.dark:
-          background = AppColors.cardBackgroundColor;
-        
+        background = AppColors.cardBackgroundColor;
+
         break;
-      default:  background = Colors.white;
+      default:
+        background = Colors.white;
     }
     return RefreshIndicator(
         key: _refreshIndicatorKey,
@@ -92,7 +93,7 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
               )
             : Padding(
                 padding: const EdgeInsets.only(top: 5),
-                child: error.isEmpty//isNotEmpty
+                child: error.isEmpty //isNotEmpty
                     ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +129,7 @@ class _Fields extends State<Fields> with AutomaticKeepAliveClientMixin {
                                   decoration: BoxDecoration(
                                     color: background,
                                     border: Border.all(
-                                     // color: Colors.white,
+                                      // color: Colors.white,
                                       width: 0.0,
                                     ),
                                     borderRadius: BorderRadius.circular(15.0),

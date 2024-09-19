@@ -25,11 +25,9 @@ class TractorDetailChart extends StatefulWidget {
 }
 
 class _TractorDetailChart extends State<TractorDetailChart> {
-   String _selected_center = 'None';
-   int type = 0;
-     void _changeCenterMapTab(String selected_center, int _type) {
-
-  }
+  String _selected_center = 'None';
+  int type = 0;
+  void _changeCenterMapTab(String selected_center, int _type) {}
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -61,26 +59,24 @@ class _TractorDetailChart extends State<TractorDetailChart> {
             );
           }
 
-           if (index == 1) {
+          if (index == 1) {
             return Padding(
               padding:
                   const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
               child: Container(
-                  height: 300,
-                  decoration: BoxDecoration(
-                    color: AppColors.cardBackgroundColor,
-                    borderRadius: BorderRadius.circular(8.0),
+                height: 300,
+                decoration: BoxDecoration(
+                  color: AppColors.cardBackgroundColor,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Container(
+                  child: MapScreen(
+                    center: _selected_center,
+                    type: type,
+                    onTabChange: _changeCenterMapTab,
                   ),
-                  child: 
-                    Container(
-                      
-                      child: MapScreen(
-                        center: _selected_center,
-                        type: type,
-                        onTabChange: _changeCenterMapTab,
-                      ),
-                    ),
-                  ),
+                ),
+              ),
             );
           }
           if (index == 2) {
@@ -104,8 +100,6 @@ class _TractorDetailChart extends State<TractorDetailChart> {
                   )),
             );
           }
-
-         
 
           if (index == 3) {
             return Padding(
@@ -180,7 +174,6 @@ class _TractorDetailChart extends State<TractorDetailChart> {
               ),
             );
           }
-
           if (index == 5) {
             return Padding(
                 padding: const EdgeInsets.only(
@@ -218,8 +211,7 @@ class _TractorDetailChart extends State<TractorDetailChart> {
 
           if (index == 6) {
             return Padding(
-                padding: const EdgeInsets.only(
-                    top: 5, bottom: 5, left: 15, right: 15),
+                padding: const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
                 child: Container(
                     height: screenWidth,
                     decoration: BoxDecoration(

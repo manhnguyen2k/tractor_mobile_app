@@ -50,6 +50,7 @@ class AppTheme1 {
         horizontal: 24,
         vertical: 14,
       ),
+      suffixIconColor: Colors.black,
       border: textFormFieldBorder,
       errorBorder: textFormFieldBorder,
       focusedBorder: textFormFieldBorder,
@@ -104,9 +105,9 @@ class AppTheme1 {
     //appBarTheme: AppBarTheme(),
     listTileTheme: ListTileThemeData(
      
-      iconColor: Colors.white,
-      textColor: Colors.white,
-      titleTextStyle: TextStyle(color: Colors.white),
+      iconColor: Colors.grey,
+      textColor: Colors.grey,
+      titleTextStyle: TextStyle(color: Colors.grey),
       tileColor: Colors.transparent,
     ),
     textTheme: const TextTheme(
@@ -126,8 +127,8 @@ class AppTheme1 {
       displayMedium: textStyle,
       displayLarge: textStyle,
     ).apply(
-      bodyColor: Colors.white,
-      displayColor: Colors.white,
+      bodyColor: Colors.grey,
+      displayColor: Colors.grey,
     ),
     //cardColor: AppColors.cardBackgroundColor,
     inputDecorationTheme: const InputDecorationTheme(
@@ -138,6 +139,7 @@ class AppTheme1 {
         horizontal: 24,
         vertical: 14,
       ),
+      suffixIconColor: Colors.grey,
       border: textFormFieldBorder,
       errorBorder: textFormFieldBorder,
       focusedBorder: textFormFieldBorder,
@@ -173,13 +175,17 @@ class AppTheme1 {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.black,
         backgroundColor: AppColors.primaryColor,
-        disabledBackgroundColor: Colors.grey.shade300,
+        disabledBackgroundColor: Colors.grey.shade900,
         // minimumSize: const Size(double.infinity, 52),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
       ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primaryColor,
+      foregroundColor: Colors.black,
     ),
   );
 }
